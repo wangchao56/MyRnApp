@@ -1,5 +1,13 @@
 import {Platform} from 'react-native';
 
+// 为 web 环境添加 localStorage 类型声明
+declare const localStorage: {
+  getItem: (key: string) => string | null;
+  setItem: (key: string, value: string) => void;
+  removeItem: (key: string) => void;
+  clear: () => void;
+} | undefined;
+
 type StorageValue = string | number | boolean | object | null;
 
 interface StorageAdapter {
