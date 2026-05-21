@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
 import { observer } from 'mobx-react-lite';
-import { useTheme, colors, spacing } from '../../';
+import { useTheme } from '../../hooks';
+import { colors, spacing } from '../../theme';
 
 interface CardProps {
   children: React.ReactNode;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { HomePage } from '../pages/HomePage';
 import { ProfilePage } from '../pages/ProfilePage';
@@ -21,11 +22,9 @@ export const Router: React.FC = () => {
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   content: {
-    flex: 1 as const,
-    padding: 16 as const,
+    flex: 1,
+    padding: 16,
   },
-};
-
-import { View } from 'react-native';
+});
