@@ -1,79 +1,131 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# MyRnApp
 
-# Getting Started
+这是一个使用 React Native 构建的跨平台移动应用项目，支持 Android、iOS 和 Web。
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## 技术栈
 
-## Step 1: Start the Metro Server
+- **React Native**: 0.74.7
+- **React Navigation**: 导航方案
+- **MobX State Tree**: 状态管理
+- **TypeScript**: 类型支持
+- **pnpm**: 包管理工具
+- **Turbo**: 构建工具
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## 项目结构
 
-To start Metro, run the following command from the _root_ of your React Native project:
-
-```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+```
+MyRnApp/
+├── packages/
+│   ├── app/          # React Native 移动端应用
+│   ├── shared/       # 共享代码库（组件、工具、状态管理等）
+│   └── web/          # Web 端应用
+└── docs/             # 项目文档
 ```
 
-## Step 2: Start your Application
+## 前置条件
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+确保你已经完成以下环境配置：
 
-### For Android
+- **Node.js**: >= 18
+- **pnpm**: 8.15.0
+- **Android Studio**: 用于 Android 开发（需配置 ANDROID_HOME 环境变量）
+- **Xcode**: 用于 iOS 开发（仅 macOS）
+- **React Native 环境**: 参考 [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup)
 
-```bash
-# using npm
-npm run android
+## 快速开始
 
-# OR using Yarn
-yarn android
-```
-
-### For iOS
+### 安装依赖
 
 ```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+pnpm install
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### 启动开发模式
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+#### Android 开发模式
 
-## Step 3: Modifying your App
+```bash
+pnpm android
+```
 
-Now that you have successfully run the app, let's modify it.
+这个命令会：
+1. 启动 Metro 打包服务器
+2. 构建 Android 应用
+3. 在模拟器或真机上安装并启动应用
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+#### iOS 开发模式（macOS）
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+```bash
+pnpm ios
+```
 
-## Congratulations! :tada:
+#### Web 开发模式
 
-You've successfully run and modified your React Native App. :partying_face:
+```bash
+pnpm dev:web
+```
 
-### Now what?
+#### 同时启动 App 和 Web
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+```bash
+pnpm dev:all
+```
 
-# Troubleshooting
+### 仅启动 Metro 服务器
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+```bash
+pnpm dev:app
+```
 
-# Learn More
+## 可用命令
 
-To learn more about React Native, take a look at the following resources:
+| 命令 | 说明 |
+|------|------|
+| `pnpm android` | 启动 Android 开发模式 |
+| `pnpm ios` | 启动 iOS 开发模式 |
+| `pnpm dev:app` | 仅启动 Metro 服务器 |
+| `pnpm dev:web` | 启动 Web 开发模式 |
+| `pnpm dev:all` | 同时启动 App 和 Web |
+| `pnpm build:app:android` | 构建 Android 生产版本 |
+| `pnpm build:app:ios` | 构建 iOS 生产版本 |
+| `pnpm build:web` | 构建 Web 生产版本 |
+| `pnpm lint` | 运行代码检查 |
+| `pnpm test` | 运行测试 |
+| `pnpm typecheck` | 运行 TypeScript 类型检查 |
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## 调试技巧
+
+### Android 调试
+
+在 Android 设备/模拟器上：
+- 按 `Ctrl + M` 或摇一摇设备打开开发者菜单
+- 选择 "Reload" 重新加载应用
+- 选择 "Debug" 开启远程调试
+- 选择 "Show Inspector" 查看组件树
+
+### iOS 调试
+
+在 iOS 模拟器上：
+- 按 `Cmd ⌘ + D` 打开开发者菜单
+- 按 `Cmd ⌘ + R` 重新加载应用
+
+## 文档
+
+更多详细文档请参考 [docs/](file:///e:\workspace\MyRnApp\docs) 目录：
+
+- [项目架构](file:///e:\workspace\MyRnApp\docs\A01-项目架构.md)
+- [安装命令](file:///e:\workspace\MyRnApp\docs\B01-安装命令.md)
+- [开发调试](file:///e:\workspace\MyRnApp\docs\B02-开发调试.md)
+- [打包构建](file:///e:\workspace\MyRnApp\docs\A02-打包构建.md)
+
+## 故障排除
+
+如果遇到问题，请查看：
+- React Native [官方故障排除指南](https://reactnative.dev/docs/troubleshooting)
+- 项目 [开发调试文档](file:///e:\workspace\MyRnApp\docs\B02-开发调试.md)
+
+## 学习更多
+
+- [React Native 官网](https://reactnative.dev)
+- [React Navigation](https://reactnavigation.org/)
+- [MobX State Tree](https://mobx-state-tree.js.org/)

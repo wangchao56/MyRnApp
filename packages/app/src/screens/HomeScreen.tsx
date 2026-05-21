@@ -32,7 +32,7 @@ export const HomeScreenCom: React.FC = () => {
         <Text style={styles.title}>
           Welcome to MyRnApp - Testing Hot Reload!
         </Text>
-        <Text style={styles.subtitle}>Monorepo Architecture Demo</Text>
+        <Text style={styles.subtitle}>我的开发项目demo</Text>
 
         <Card style={styles.card}>
           <Text style={styles.cardTitle}>Status</Text>
