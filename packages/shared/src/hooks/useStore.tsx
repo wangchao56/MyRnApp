@@ -1,6 +1,6 @@
-import { useEffect, useState, useContext, createContext } from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { RootStore, RootStoreType, createRootStore } from '../models';
+import {useEffect, useState, useContext, createContext} from 'react';
+import {View, ActivityIndicator, StyleSheet} from 'react-native';
+import {RootStore, RootStoreType, createRootStore} from '../models';
 
 const StoreContext = createContext<RootStoreType | null>(null);
 
@@ -8,7 +8,7 @@ interface StoreProviderProps {
   children: React.ReactNode;
 }
 
-export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
+export const StoreProvider: React.FC<StoreProviderProps> = ({children}) => {
   const [store, setStore] = useState<RootStoreType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -34,7 +34,9 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
     );
   }
 
-  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
+  return (
+    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+  );
 };
 
 const styles = StyleSheet.create({

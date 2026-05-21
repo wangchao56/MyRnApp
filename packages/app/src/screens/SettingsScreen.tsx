@@ -1,21 +1,16 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Switch,
-  useColorScheme,
-} from 'react-native';
+import {View, Text, StyleSheet, Switch} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, Button, useTheme, colors} from '@myapp/shared';
+import {observer} from 'mobx-react-lite';
 
-export const SettingsScreen: React.FC = () => {
-  const {theme, isDarkMode, toggleTheme} = useTheme();
-  const systemColorScheme = useColorScheme();
+const SettingsScreenCom: React.FC = () => {
+  const {isDarkMode, toggleTheme} = useTheme();
+
+  const backgroundColor = isDarkMode ? colors.darkGray : colors.background;
 
   return (
-    <SafeAreaView
-      style={[styles.container, {backgroundColor: colors.background}]}>
+    <SafeAreaView style={[styles.container, {backgroundColor}]}>
       <View style={styles.content}>
         <Text style={styles.title}>设置页</Text>
 
@@ -35,15 +30,6 @@ export const SettingsScreen: React.FC = () => {
               trackColor={{false: colors.lightGray, true: colors.primary}}
               thumbColor={colors.white}
             />
-          </View>
-
-          <View style={styles.settingRow}>
-            <View>
-              <Text style={styles.settingLabel}>System Theme</Text>
-              <Text style={styles.settingDescription}>
-                {systemColorScheme === 'dark' ? 'Dark' : 'Light'}
-              </Text>
-            </View>
           </View>
         </Card>
 
@@ -119,3 +105,5 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
 });
+
+export const SettingsScreen = observer(SettingsScreenCom);

@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 type StorageValue = string | number | boolean | object | null;
 
@@ -10,7 +10,7 @@ interface StorageAdapter {
 }
 
 const webStorage: StorageAdapter = {
-  getItem: async (key) => {
+  getItem: async key => {
     if (typeof localStorage !== 'undefined') {
       return localStorage.getItem(key);
     }
@@ -21,7 +21,7 @@ const webStorage: StorageAdapter = {
       localStorage.setItem(key, value);
     }
   },
-  removeItem: async (key) => {
+  removeItem: async key => {
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem(key);
     }
@@ -38,11 +38,12 @@ let nativeStorage: StorageAdapter | null = null;
 const getNativeStorage = async (): Promise<StorageAdapter> => {
   if (!nativeStorage) {
     try {
-      const AsyncStorage = require('@react-native-async-storage/async-storage').default;
+      const AsyncStorage =
+        require('@react-native-async-storage/async-storage').default;
       nativeStorage = {
-        getItem: (key) => AsyncStorage.getItem(key),
+        getItem: key => AsyncStorage.getItem(key),
         setItem: (key, value) => AsyncStorage.setItem(key, value),
-        removeItem: (key) => AsyncStorage.removeItem(key),
+        removeItem: key => AsyncStorage.removeItem(key),
         clear: () => AsyncStorage.clear(),
       };
     } catch (error) {
@@ -68,7 +69,8 @@ export const Storage = {
   },
 
   async setItem(key: string, value: StorageValue): Promise<void> {
-    const stringValue = typeof value === 'string' ? value : JSON.stringify(value);
+    const stringValue =
+      typeof value === 'string' ? value : JSON.stringify(value);
     if (Platform.OS === 'web') {
       return webStorage.setItem(key, stringValue);
     }

@@ -1,21 +1,17 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  useColorScheme,
-} from 'react-native';
-import { Card, useAuth, colors } from '@myapp/shared';
+import {View, Text, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Card, useAuth, useTheme, colors} from '@myapp/shared';
+import {observer} from 'mobx-react-lite';
 
-export const ProfileScreen: React.FC = () => {
-  const { user, isLoggedIn, displayName, userEmail, userAvatar } = useAuth();
-  const isDarkMode = useColorScheme() === 'dark';
+const ProfileScreenCom: React.FC = () => {
+  const {user, isLoggedIn, displayName, userEmail, userAvatar} = useAuth();
+  const {isDarkMode} = useTheme();
 
   const backgroundColor = isDarkMode ? colors.darkGray : colors.background;
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]}>
+    <SafeAreaView style={[styles.container, {backgroundColor}]}>
       <View style={styles.content}>
         <Text style={styles.title}>Profile</Text>
 
@@ -146,3 +142,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+
+export const ProfileScreen = observer(ProfileScreenCom);

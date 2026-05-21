@@ -1,13 +1,16 @@
-import { types, Instance, onSnapshot, flow } from 'mobx-state-tree';
-import { UserStore } from './UserStore';
-import { Storage } from '../utils/storage';
+import {types, Instance, onSnapshot, flow} from 'mobx-state-tree';
+import {UserStore} from './UserStore';
+import {Storage} from '../utils/storage';
 
 export const RootStore = types
   .model('RootStore', {
     userStore: types.optional(UserStore, {}),
-    theme: types.optional(types.union(types.literal('light'), types.literal('dark')), 'light'),
+    theme: types.optional(
+      types.union(types.literal('light'), types.literal('dark')),
+      'light',
+    ),
   })
-  .actions((self) => ({
+  .actions(self => ({
     setTheme(theme: 'light' | 'dark') {
       self.theme = theme;
       Storage.setItem('theme', theme);
@@ -24,16 +27,20 @@ export const RootStore = types
       }
     }),
 
-    toggleTheme() {
-      self.setTheme(self.theme === 'light' ? 'dark' : 'light');
-    },
-
     reset() {
       self.theme = 'light';
       self.userStore.logout();
     },
   }))
-  .views((self) => ({
+  .actions(self => ({
+    afterCreate() {
+      self.loadTheme();
+    },
+    toggleTheme() {
+      self.setTheme(self.theme === 'light' ? 'dark' : 'light');
+    },
+  }))
+  .views(self => ({
     get isDarkMode() {
       return self.theme === 'dark';
     },
@@ -45,8 +52,8 @@ export const RootStore = types
 export type RootStoreType = Instance<typeof RootStore>;
 
 export const setupSnapshotListener = (store: RootStoreType) => {
-  onSnapshot(store, (snapshot) => {
-    Storage.setItem('rootStore', snapshot).catch((err) => {
+  onSnapshot(store, snapshot => {
+    Storage.setItem('rootStore', snapshot).catch(err => {
       console.error('Failed to save rootStore:', err);
     });
   });

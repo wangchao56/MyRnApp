@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  useColorScheme,
-} from 'react-native';
-import { Button, Card, useAuth, colors } from '@myapp/shared';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Button, Card, useAuth, useTheme, colors} from '@myapp/shared';
+import {observer} from 'mobx-react-lite';
 
-export const HomeScreen: React.FC = () => {
-  const { user, isLoggedIn, displayName, logout, login } = useAuth();
-  const isDarkMode = useColorScheme() === 'dark';
+export const HomeScreenCom: React.FC = () => {
+  const {user, isLoggedIn, displayName, logout, login} = useAuth();
+  const {isDarkMode} = useTheme();
 
   const backgroundColor = isDarkMode ? colors.darkGray : colors.background;
 
@@ -32,9 +27,11 @@ export const HomeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]}>
+    <SafeAreaView style={[styles.container, {backgroundColor}]}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Welcome to MyRnApp - Testing Hot Reload!</Text>
+        <Text style={styles.title}>
+          Welcome to MyRnApp - Testing Hot Reload!
+        </Text>
         <Text style={styles.subtitle}>Monorepo Architecture Demo</Text>
 
         <Card style={styles.card}>
@@ -42,19 +39,13 @@ export const HomeScreen: React.FC = () => {
           <Text style={styles.cardText}>
             {isLoggedIn ? `Logged in as: ${displayName}` : 'Not logged in'}
           </Text>
-          {user && (
-            <Text style={styles.cardText}>Email: {user.email}</Text>
-          )}
+          {user && <Text style={styles.cardText}>Email: {user.email}</Text>}
         </Card>
 
         <Card style={styles.card}>
           <Text style={styles.cardTitle}>Actions</Text>
           {isLoggedIn ? (
-            <Button
-              title="Logout"
-              onPress={handleLogout}
-              variant="secondary"
-            />
+            <Button title="Logout" onPress={handleLogout} variant="secondary" />
           ) : (
             <Button
               title="Demo Login"
@@ -69,7 +60,9 @@ export const HomeScreen: React.FC = () => {
           <Text style={styles.cardText}>
             This app demonstrates the Monorepo architecture with:
           </Text>
-          <Text style={styles.bulletPoint}>• Shared state management (MST + MobX)</Text>
+          <Text style={styles.bulletPoint}>
+            • Shared state management (MST + MobX)
+          </Text>
           <Text style={styles.bulletPoint}>• Cross-platform components</Text>
           <Text style={styles.bulletPoint}>• TypeScript throughout</Text>
           <Text style={styles.bulletPoint}>• React Navigation</Text>
@@ -118,3 +111,4 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 });
+export const HomeScreen = observer(HomeScreenCom);

@@ -8,7 +8,8 @@
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "experimentalDecorators": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

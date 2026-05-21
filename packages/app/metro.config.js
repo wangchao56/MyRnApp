@@ -6,11 +6,12 @@ const workspaceRoot = path.resolve(projectRoot, '../..');
 const sharedRoot = path.resolve(workspaceRoot, 'packages/shared');
 
 const config = {
-  watchFolders: [projectRoot, sharedRoot],
+  watchFolders: [projectRoot, sharedRoot, workspaceRoot],
   resolver: {
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(workspaceRoot, 'node_modules'),
+      path.resolve(workspaceRoot, 'node_modules/.pnpm/node_modules'),
     ],
     extraNodeModules: {
       '@myapp/shared': path.resolve(workspaceRoot, 'packages/shared/src'),
@@ -31,6 +32,7 @@ const defaultConfig = getDefaultConfig(__dirname);
 console.log('Metro config loaded:', {
   watchFolders: config.watchFolders,
   projectRoot,
+  nodeModulesPaths: config.resolver.nodeModulesPaths,
 });
 
 module.exports = mergeConfig(defaultConfig, config);
