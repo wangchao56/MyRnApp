@@ -34,7 +34,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Welcome to MyRnApp</Text>
+        <Text style={styles.title}>Welcome to MyRnApp - Testing Hot Reload!</Text>
         <Text style={styles.subtitle}>Monorepo Architecture Demo</Text>
 
         <Card style={styles.card}>

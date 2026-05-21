@@ -7,23 +7,24 @@ import {
   Switch,
   useColorScheme,
 } from 'react-native';
-import { Card, Button, useTheme, colors } from '@myapp/shared';
+import {Card, Button, useTheme, colors} from '@myapp/shared';
 
 export const SettingsScreen: React.FC = () => {
-  const { theme, isDarkMode, toggleTheme } = useTheme();
+  const {theme, isDarkMode, toggleTheme} = useTheme();
   const systemColorScheme = useColorScheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, {backgroundColor: colors.background}]}>
       <View style={styles.content}>
-        <Text style={styles.title}>Settings</Text>
+        <Text style={styles.title}>设置页</Text>
 
         <Card style={styles.card}>
           <Text style={styles.cardTitle}>Appearance</Text>
-          
+
           <View style={styles.settingRow}>
             <View>
-              <Text style={styles.settingLabel}>Dark Mode</Text>
+              <Text style={styles.settingLabel}>暗黑主题</Text>
               <Text style={styles.settingDescription}>
                 {isDarkMode ? 'On' : 'Off'}
               </Text>
@@ -31,7 +32,7 @@ export const SettingsScreen: React.FC = () => {
             <Switch
               value={isDarkMode}
               onValueChange={toggleTheme}
-              trackColor={{ false: colors.lightGray, true: colors.primary }}
+              trackColor={{false: colors.lightGray, true: colors.primary}}
               thumbColor={colors.white}
             />
           </View>
@@ -48,7 +49,7 @@ export const SettingsScreen: React.FC = () => {
 
         <Card style={styles.card}>
           <Text style={styles.cardTitle}>About</Text>
-          
+
           <View style={styles.settingRow}>
             <Text style={styles.settingLabel}>Version</Text>
             <Text style={styles.settingValue}>1.0.0</Text>
@@ -67,11 +68,7 @@ export const SettingsScreen: React.FC = () => {
 
         <Card style={styles.card}>
           <Text style={styles.cardTitle}>Actions</Text>
-          <Button
-            title="Reset App Data"
-            onPress={() => {}}
-            variant="danger"
-          />
+          <Button title="Reset App Data" onPress={() => {}} variant="danger" />
         </Card>
       </View>
     </SafeAreaView>

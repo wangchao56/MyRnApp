@@ -3,10 +3,8 @@ const path = require('path');
 
 const projectRoot = __dirname;
 const workspaceRoot = path.resolve(projectRoot, '../..');
-const sharedRoot = path.resolve(workspaceRoot, 'packages/shared');
 
 const config = {
-  watchFolders: [projectRoot, sharedRoot],
   resolver: {
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
@@ -17,20 +15,6 @@ const config = {
     },
     sourceExts: ['js', 'jsx', 'json', 'ts', 'tsx'],
   },
-  server: {
-    enhanceMiddleware: (middleware) => {
-      return (req, res, next) => {
-        console.log(`Request: ${req.url}`);
-        return middleware(req, res, next);
-      };
-    },
-  },
 };
 
-const defaultConfig = getDefaultConfig(__dirname);
-console.log('Metro config loaded:', {
-  watchFolders: config.watchFolders,
-  projectRoot,
-});
-
-module.exports = mergeConfig(defaultConfig, config);
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

@@ -1,4 +1,4 @@
-import { types, Instance, onSnapshot } from 'mobx-state-tree';
+import { types, Instance, onSnapshot, flow } from 'mobx-state-tree';
 import { UserStore } from './UserStore';
 import { Storage } from '../utils/storage';
 
@@ -13,16 +13,16 @@ export const RootStore = types
       Storage.setItem('theme', theme);
     },
 
-    async loadTheme() {
+    loadTheme: flow(function* () {
       try {
-        const savedTheme = await Storage.getItem('theme');
+        const savedTheme = yield Storage.getItem('theme');
         if (savedTheme === 'dark' || savedTheme === 'light') {
           self.theme = savedTheme;
         }
       } catch (error) {
         console.error('Failed to load theme:', error);
       }
-    },
+    }),
 
     toggleTheme() {
       self.setTheme(self.theme === 'light' ? 'dark' : 'light');
