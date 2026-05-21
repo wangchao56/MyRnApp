@@ -1,0 +1,51 @@
+import { types, Instance, onSnapshot } from 'mobx-state-tree';
+import { UserStore } from './UserStore';
+import { Storage } from '../utils/storage';
+
+export const RootStore = types
+  .model('RootStore', {
+    userStore: types.optional(UserStore, {}),
+    theme: types.union(types.literal('light'), types.literal('dark')),
+  })
+  .actions((self) => ({
+    setTheme(theme: 'light' | 'dark') {
+      self.theme = theme;
+      Storage.setItem('theme', theme);
+    },
+
+    async loadTheme() {
+      try {
+        const savedTheme = await Storage.getItem('theme');
+        if (savedTheme === 'dark' || savedTheme === 'light') {
+          self.theme = savedTheme;
+        }
+      } catch (error) {
+        console.error('Failed to load theme:', error);
+      }
+    },
+
+    toggleTheme() {
+      self.setTheme(self.theme === 'light' ? 'dark' : 'light');
+    },
+
+    reset() {
+      self.theme = 'light';
+      self.userStore.logout();
+    },
+  }))
+  .views((self) => ({
+    get isDarkMode() {
+      return self.theme === 'dark';
+    },
+    get isAuthenticated() {
+      return self.userStore.isLoggedIn;
+    },
+  }));
+
+export type RootStoreType = Instance<typeof RootStore>;
+
+onSnapshot(RootStore, (snapshot) => {
+  Storage.setItem('rootStore', snapshot).catch((err) => {
+    console.error('Failed to save rootStore:', err);
+  });
+});

@@ -1,0 +1,16 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@myapp/shared": ["../shared/src"],
+      "@myapp/shared/*": ["../shared/src/*"]
+    },
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*", "index.js"],
+  "exclude": ["node_modules", "android", "ios"]
+}
