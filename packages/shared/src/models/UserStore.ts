@@ -5,8 +5,8 @@ import { Storage } from '../utils/storage';
 export const UserStore = types
   .model('UserStore', {
     user: types.maybe(UserModel),
-    isLoggedIn: types.boolean,
-    isLoading: types.boolean,
+    isLoggedIn: types.optional(types.boolean, false),
+    isLoading: types.optional(types.boolean, false),
     error: types.maybe(types.string),
   })
   .actions((self) => ({

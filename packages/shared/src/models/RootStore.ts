@@ -5,7 +5,7 @@ import { Storage } from '../utils/storage';
 export const RootStore = types
   .model('RootStore', {
     userStore: types.optional(UserStore, {}),
-    theme: types.union(types.literal('light'), types.literal('dark')),
+    theme: types.optional(types.union(types.literal('light'), types.literal('dark')), 'light'),
   })
   .actions((self) => ({
     setTheme(theme: 'light' | 'dark') {
@@ -44,8 +44,10 @@ export const RootStore = types
 
 export type RootStoreType = Instance<typeof RootStore>;
 
-onSnapshot(RootStore, (snapshot) => {
-  Storage.setItem('rootStore', snapshot).catch((err) => {
-    console.error('Failed to save rootStore:', err);
+export const setupSnapshotListener = (store: RootStoreType) => {
+  onSnapshot(store, (snapshot) => {
+    Storage.setItem('rootStore', snapshot).catch((err) => {
+      console.error('Failed to save rootStore:', err);
+    });
   });
-});
+};

@@ -14,6 +14,7 @@ const config = {
     extraNodeModules: {
       '@myapp/shared': path.resolve(workspaceRoot, 'packages/shared/src'),
     },
+    sourceExts: ['js', 'jsx', 'json', 'ts', 'tsx'],
   },
 };
 

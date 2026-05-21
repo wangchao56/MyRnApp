@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext, createContext } from 'react';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { RootStore, RootStoreType, createRootStore } from '../models';
 
 const StoreContext = createContext<RootStoreType | null>(null);
@@ -25,12 +26,24 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
     init();
   }, []);
 
-  if (isLoading) {
-    return null;
+  if (isLoading || !store) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
   }
 
   return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export const useStore = (): RootStoreType => {
   const store = useContext(StoreContext);
