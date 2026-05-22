@@ -1,44 +1,21 @@
 import React from 'react';
-import {View, StyleSheet, TextStyle, Platform, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import {View, TextStyle, Platform, TouchableOpacity} from 'react-native';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
 import {createStyleSheet, useStyles} from '../../theme';
 
-// 图标家族类型
-export type IconFamily =
-  | 'AntDesign'
-  | 'Entypo'
-  | 'EvilIcons'
-  | 'Feather'
-  | 'FontAwesome'
-  | 'FontAwesome5'
-  | 'Ionicons'
-  | 'MaterialCommunityIcons'
-  | 'MaterialIcons'
-  | 'Octicons'
-  | 'SimpleLineIcons';
-
-// 图标大小预设
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type MaterialIconName = React.ComponentProps<typeof MaterialIcons>['name'];
+export type IconFamily = 'material';
 
-// 图标属性
 export interface SvgIconProps {
-  /** 图标名称 */
   name: string;
-  /** 图标家族 */
-  family?: IconFamily;
-  /** 图标大小 */
   size?: number | IconSize;
-  /** 图标颜色 */
   color?: string;
-  /** 点击事件 */
   onPress?: () => void;
-  /** 容器样式 */
   style?: TextStyle;
-  /** 是否禁用 */
   disabled?: boolean;
 }
 
-// 图标大小映射
 const SIZE_MAP: Record<IconSize, number> = {
   xs: 12,
   sm: 16,
@@ -57,113 +34,79 @@ const iconStyles = createStyleSheet({
   },
 });
 
-export const SvgIcon: React.FC<SvgIconProps> = ({
-  name,
-  family = 'AntDesign',
-  size = 'md',
-  color,
-  onPress,
-  style,
-  disabled = false,
-}) => {
+export const SvgIcon: React.FC<SvgIconProps> = ({name, size = 'md', color, onPress, style, disabled = false}) => {
   const iconSize = typeof size === 'number' ? size : SIZE_MAP[size];
   const iconColor = color || '#000';
   const isDisabled = disabled || !name;
   const styles = useStyles(iconStyles);
 
-  // Native 端使用 react-native-vector-icons
-  if (Platform.OS !== 'web') {
-    const content = (
-      <View style={[styles.container, isDisabled && styles.disabled, style]}>
-        <Icon name={name} size={iconSize} color={iconColor} />
-      </View>
-    );
-
-    if (onPress) {
-      return (
-        <TouchableOpacity onPress={onPress} disabled={isDisabled} activeOpacity={0.7}>
-          {content}
-        </TouchableOpacity>
-      );
-    }
-
-    return content;
-  }
-
-  // Web 端：react-native-vector-icons 会自动加载字体
-  // 使用 Text 组件配合字体
-  const webContent = (
-    <View style={[styles.container, isDisabled && styles.disabled, style]}>
-      <Icon name={name} size={iconSize} color={iconColor} />
-    </View>
+  const icon = (
+    <MaterialIcons
+      name={name as MaterialIconName}
+      size={iconSize}
+      color={iconColor}
+      style={[isDisabled && styles.disabled, style] as any}
+    />
   );
+
+  const content = Platform.OS === 'web' ? icon : <View style={styles.container}>{icon}</View>;
 
   if (onPress) {
     return (
       <TouchableOpacity onPress={onPress} disabled={isDisabled} activeOpacity={0.7}>
-        {webContent}
+        {content}
       </TouchableOpacity>
     );
   }
 
-  return webContent;
+  return content;
 };
 
-/** 常用图标名称集合 */
 export const ICONS = {
-  // 箭头类
-  arrowLeft: 'left',
-  arrowRight: 'right',
-  arrowUp: 'up',
-  arrowDown: 'down',
-  chevronLeft: 'chevronleft',
-  chevronRight: 'chevronright',
+  arrowLeft: 'arrow-back',
+  arrowRight: 'arrow-forward',
+  arrowUp: 'arrow-upward',
+  arrowDown: 'arrow-downward',
+  chevronLeft: 'chevron-left',
+  chevronRight: 'chevron-right',
 
-  // 操作类
-  add: 'plus',
-  remove: 'minus',
+  add: 'add',
+  remove: 'remove',
   close: 'close',
   check: 'check',
   edit: 'edit',
   delete: 'delete',
-  copy: 'copy',
-  share: 'sharealt',
-  download: 'download',
-  upload: 'upload',
+  copy: 'content-copy',
+  share: 'share',
+  download: 'file-download',
+  upload: 'file-upload',
 
-  // 媒体类
-  image: 'picture',
-  camera: 'camera',
-  video: 'playcircleo',
-  mic: 'mic',
+  image: 'image',
+  camera: 'camera-alt',
+  video: 'play-circle-filled',
 
-  // 社交类
-  user: 'user',
-  users: 'users',
-  heart: 'heart',
-  star: 'staro',
-  message: 'message1',
+  user: 'person',
+  users: 'group',
+  heart: 'favorite',
+  star: 'star-border',
+  message: 'message',
   mail: 'mail',
 
-  // UI 类
   search: 'search',
-  setting: 'setting',
-  menu: 'menuunfold',
-  more: 'ellipsis',
-  refresh: 'reload1',
-  filter: 'filter',
-  sort: 'sort1',
-  cart: 'shoppingcart',
-  bell: 'bells',
-  eye: 'eye',
-  eyeOff: 'eyeoff',
+  setting: 'settings',
+  menu: 'menu',
+  more: 'more-vert',
+  refresh: 'refresh',
+  filter: 'filter-list',
+  cart: 'shopping-cart',
+  bell: 'notifications',
+  eye: 'visibility',
 
-  // 状态类
-  success: 'checkcircle',
+  success: 'check-circle',
   warning: 'warning',
-  error: 'closecircle',
-  info: 'infocirlce',
-  loading: 'loading1',
+  error: 'error',
+  info: 'info',
+  loading: 'refresh',
 };
 
 export default SvgIcon;

@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch } from 'react-native';
-import { Card, Button, useTheme, colors } from '@myapp/shared';
+import {View, Text, StyleSheet, ScrollView, Switch} from 'react-native';
+import {Card, Button, useTheme, colors} from '@myapp/shared';
+import {observer} from 'mobx-react-lite';
 
-export const SettingsPage: React.FC = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+const SettingsPageCom: React.FC = () => {
+  const {isDarkMode, toggleTheme} = useTheme();
 
   return (
     <ScrollView style={styles.container}>
@@ -11,7 +12,7 @@ export const SettingsPage: React.FC = () => {
 
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Appearance</Text>
-        
+
         <View style={styles.settingRow}>
           <View>
             <Text style={styles.settingLabel}>Dark Mode</Text>
@@ -22,7 +23,7 @@ export const SettingsPage: React.FC = () => {
           <Switch
             value={isDarkMode}
             onValueChange={toggleTheme}
-            trackColor={{ false: colors.lightGray, true: colors.primary }}
+            trackColor={{false: colors.lightGray, true: colors.primary}}
             thumbColor={colors.white}
           />
         </View>
@@ -30,7 +31,7 @@ export const SettingsPage: React.FC = () => {
 
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>About</Text>
-        
+
         <View style={styles.settingRow}>
           <Text style={styles.settingLabel}>Version</Text>
           <Text style={styles.settingValue}>1.0.0</Text>
@@ -54,11 +55,7 @@ export const SettingsPage: React.FC = () => {
 
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Actions</Text>
-        <Button
-          title="Reset App Data"
-          onPress={() => {}}
-          variant="danger"
-        />
+        <Button title="Reset App Data" onPress={() => {}} variant="danger" />
       </Card>
     </ScrollView>
   );
@@ -106,3 +103,5 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
 });
+
+export const SettingsPage = observer(SettingsPageCom);

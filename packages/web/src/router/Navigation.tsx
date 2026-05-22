@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Link, useLocation } from 'react-router-dom';
-import { colors } from '@myapp/shared';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Link, useLocation} from 'react-router-dom';
+import {colors} from '@myapp/shared';
 
 export const Navigation: React.FC = () => {
   const location = useLocation();
@@ -11,33 +11,57 @@ export const Navigation: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.nav}>
-        <Link to="/" style={styles.brand}>
+        <Link to="/" style={{textDecoration: 'none'}}>
           <Text style={styles.brandText}>MyRnApp</Text>
         </Link>
         <View style={styles.links}>
           <Link
             to="/"
-            style={[styles.link, isActive('/') && styles.linkActive]}
-          >
-            <Text style={[styles.linkText, isActive('/') && styles.linkTextActive]}>
-              Home
-            </Text>
+            style={{
+              textDecoration: 'none',
+              ...(isActive('/') ? styles.linkActive : {}),
+            }}>
+            <View style={styles.linkContent}>
+              <Text
+                style={[
+                  styles.linkText,
+                  isActive('/') && styles.linkTextActive,
+                ]}>
+                Home
+              </Text>
+            </View>
           </Link>
           <Link
             to="/profile"
-            style={[styles.link, isActive('/profile') && styles.linkActive]}
-          >
-            <Text style={[styles.linkText, isActive('/profile') && styles.linkTextActive]}>
-              Profile
-            </Text>
+            style={{
+              textDecoration: 'none',
+              ...(isActive('/profile') ? styles.linkActive : {}),
+            }}>
+            <View style={styles.linkContent}>
+              <Text
+                style={[
+                  styles.linkText,
+                  isActive('/profile') && styles.linkTextActive,
+                ]}>
+                Profile
+              </Text>
+            </View>
           </Link>
           <Link
             to="/settings"
-            style={[styles.link, isActive('/settings') && styles.linkActive]}
-          >
-            <Text style={[styles.linkText, isActive('/settings') && styles.linkTextActive]}>
-              Settings
-            </Text>
+            style={{
+              textDecoration: 'none',
+              ...(isActive('/settings') ? styles.linkActive : {}),
+            }}>
+            <View style={styles.linkContent}>
+              <Text
+                style={[
+                  styles.linkText,
+                  isActive('/settings') && styles.linkTextActive,
+                ]}>
+                Settings
+              </Text>
+            </View>
           </Link>
         </View>
       </View>
@@ -58,9 +82,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  brand: {
-    textDecoration: 'none',
-  },
   brandText: {
     fontSize: 20,
     fontWeight: '700',
@@ -70,8 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
   },
-  link: {
-    textDecoration: 'none',
+  linkContent: {
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,

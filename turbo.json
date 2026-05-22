@@ -3,10 +3,13 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**"],
+      "outputs": ["dist/**", "build/**", "android/app/build/**", "android/build/**"],
       "env": ["NODE_ENV"]
     },
     "dev": {
+      "cache": false
+    },
+    "clean": {
       "cache": false
     },
     "lint": {

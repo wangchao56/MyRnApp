@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import { observer } from 'mobx-react-lite';
-import { useTheme } from '../../hooks';
-import { colors, spacing } from '../../theme';
+import { createStyleSheet, useStyles } from '../../theme';
 
 interface CardProps {
   children: React.ReactNode;
@@ -10,40 +9,41 @@ interface CardProps {
   padding?: 'none' | 'small' | 'medium' | 'large';
 }
 
+const cardStyles = createStyleSheet((theme) => ({
+  card: {
+    borderRadius: theme.borderRadius.lg,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    backgroundColor: theme.colors.surface,
+    shadowColor: theme.colors.black,
+  },
+  paddingNone: {},
+  paddingSmall: { padding: theme.spacing.sm },
+  paddingMedium: { padding: theme.spacing.md },
+  paddingLarge: { padding: theme.spacing.lg },
+}));
+
 const CardComponent: React.FC<CardProps> = ({
   children,
   style,
   padding = 'medium',
 }) => {
-  const { isDarkMode } = useTheme();
+  const styles = useStyles(cardStyles);
   
-  const paddingStyles = {
-    none: {},
-    small: { padding: spacing.sm },
-    medium: { padding: spacing.md },
-    large: { padding: spacing.lg },
-  };
-
-  const cardStyle = {
-    backgroundColor: isDarkMode ? colors.surfaceDark : colors.white,
-    shadowColor: isDarkMode ? colors.white : colors.black,
+  const paddingMap = {
+    none: styles.paddingNone,
+    small: styles.paddingSmall,
+    medium: styles.paddingMedium,
+    large: styles.paddingLarge,
   };
 
   return (
-    <View style={[styles.card, cardStyle, paddingStyles[padding], style]}>
+    <View style={[styles.card, paddingMap[padding], style]}>
       {children}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: 12,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-});
 
 export const Card = observer(CardComponent);

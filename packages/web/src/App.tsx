@@ -13,7 +13,7 @@ const App: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    minHeight: '100vh',
+    minHeight: '100vh' as any,
     backgroundColor: '#FFFFFF',
   },
 });

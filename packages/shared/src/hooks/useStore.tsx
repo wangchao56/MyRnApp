@@ -1,4 +1,4 @@
-import {useEffect, useState, useContext, createContext} from 'react';
+import React, {useEffect, useState, useContext, createContext} from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 import {RootStore, RootStoreType, createRootStore} from '../models';
 

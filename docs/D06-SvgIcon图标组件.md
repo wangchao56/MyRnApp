@@ -1,11 +1,60 @@
 # SvgIcon 图标组件
 
-基于 `react-native-vector-icons` 封装的多端图标组件，支持 iOS、Android 和 Web 端。
+基于 `@react-native-vector-icons/material-icons` 封装的多端图标组件，支持 iOS、Android 和 Web 端。
 
 ## 安装依赖
 
+### 基础依赖（已安装）
+
 ```bash
-pnpm add react-native-vector-icons
+# Material Icons 已默认安装
+pnpm add @react-native-vector-icons/material-icons
+```
+
+### 添加其他图标库（可选）
+
+如果需要使用其他图标库，可以按需安装：
+
+```bash
+# AntDesign 图标
+pnpm add @react-native-vector-icons/ant-design
+
+# Entypo 图标
+pnpm add @react-native-vector-icons/entypo
+
+# EvilIcons 图标
+pnpm add @react-native-vector-icons/evil-icons
+
+# Feather 图标
+pnpm add @react-native-vector-icons/feather
+
+# FontAwesome 图标
+pnpm add @react-native-vector-icons/font-awesome
+
+# FontAwesome5 图标
+pnpm add @react-native-vector-icons/font-awesome5
+
+# Ionicons 图标
+pnpm add @react-native-vector-icons/ionicons
+
+# MaterialCommunityIcons 图标
+pnpm add @react-native-vector-icons/material-community-icons
+
+# Octicons 图标
+pnpm add @react-native-vector-icons/octicons
+
+# SimpleLineIcons 图标
+pnpm add @react-native-vector-icons/simple-line-icons
+```
+
+### Android 配置
+
+安装新图标库后，需要在 `android/app/build.gradle` 中添加字体配置：
+
+```groovy
+apply from: file("../../../../node_modules/@react-native-vector-icons/material-icons/fonts.gradle")
+apply from: file("../../../../node_modules/@react-native-vector-icons/ant-design/fonts.gradle")
+// 添加其他图标库的字体文件...
 ```
 
 ## 基础用法
@@ -23,7 +72,6 @@ import { SvgIcon } from '@myapp/shared';
 | 属性 | 类型 | 默认值 | 说明 |
 |-----|------|--------|-----|
 | `name` | `string` | - | 图标名称 |
-| `family` | `IconFamily` | `'AntDesign'` | 图标家族 |
 | `size` | `number \| IconSize` | `'md'` | 图标大小 |
 | `color` | `string` | `'#000'` | 图标颜色 |
 | `onPress` | `() => void` | - | 点击事件 |
@@ -39,22 +87,6 @@ import { SvgIcon } from '@myapp/shared';
 | `md` | 20px |
 | `lg` | 24px |
 | `xl` | 32px |
-
-### IconFamily 图标家族
-
-| 值 | 说明 |
-|---|------|
-| `AntDesign` | AntDesign 图标集（默认） |
-| `Entypo` | Entypo+ 图标集 |
-| `EvilIcons` | Evil Icons 图标集 |
-| `Feather` | Feather 图标集 |
-| `FontAwesome` | Font Awesome 图标集 |
-| `FontAwesome5` | Font Awesome 5 图标集 |
-| `Ionicons` | Ionicons 图标集 |
-| `MaterialCommunityIcons` | Material Community Icons |
-| `MaterialIcons` | Material Icons |
-| `Octicons` | Octicons 图标集 |
-| `SimpleLineIcons` | Simple Line Icons |
 
 ## 使用示例
 
@@ -89,20 +121,7 @@ import { SvgIcon } from '@myapp/shared';
 />
 ```
 
-### 4. 使用图标家族
-
-```tsx
-// 使用 Ionicons
-<SvgIcon name="logo-github" family="Ionicons" size={24} />
-
-// 使用 MaterialIcons
-<SvgIcon name="menu" family="MaterialIcons" size={24} />
-
-// 使用 FontAwesome
-<SvgIcon name="github" family="FontAwesome" size={24} />
-```
-
-### 5. 使用 ICONS 常量
+### 4. 使用 ICONS 常量
 
 ```tsx
 import { SvgIcon, ICONS } from '@myapp/shared';
@@ -126,7 +145,7 @@ import { SvgIcon, ICONS } from '@myapp/shared';
 <SvgIcon name={ICONS.error} color="red" />
 ```
 
-### 6. 实际应用场景
+### 5. 实际应用场景
 
 ```tsx
 // 导航栏图标
@@ -156,80 +175,78 @@ import { SvgIcon, ICONS } from '@myapp/shared';
 
 ### 箭头类
 ```tsx
-ICONS.arrowLeft    // 'left'
-ICONS.arrowRight   // 'right'
-ICONS.arrowUp      // 'up'
-ICONS.arrowDown    // 'down'
-ICONS.chevronLeft  // 'chevronleft'
-ICONS.chevronRight // 'chevronright'
+ICONS.arrowLeft    // 'arrow-back'
+ICONS.arrowRight   // 'arrow-forward'
+ICONS.arrowUp      // 'arrow-upward'
+ICONS.arrowDown    // 'arrow-downward'
+ICONS.chevronLeft  // 'chevron-left'
+ICONS.chevronRight // 'chevron-right'
 ```
 
 ### 操作类
 ```tsx
-ICONS.add      // 'plus'
-ICONS.remove   // 'minus'
+ICONS.add      // 'add'
+ICONS.remove   // 'remove'
 ICONS.close    // 'close'
 ICONS.check    // 'check'
 ICONS.edit     // 'edit'
 ICONS.delete   // 'delete'
-ICONS.copy     // 'copy'
-ICONS.share    // 'sharealt'
-ICONS.download // 'download'
-ICONS.upload   // 'upload'
+ICONS.copy     // 'content-copy'
+ICONS.share    // 'share'
+ICONS.download // 'file-download'
+ICONS.upload   // 'file-upload'
 ```
 
 ### 媒体类
 ```tsx
-ICONS.image  // 'picture'
-ICONS.camera // 'camera'
-ICONS.video  // 'playcircleo'
-ICONS.mic    // 'mic'
+ICONS.image  // 'image'
+ICONS.camera // 'camera-alt'
+ICONS.video  // 'play-circle-filled'
 ```
 
 ### 社交类
 ```tsx
-ICONS.user     // 'user'
-ICONS.users    // 'users'
-ICONS.heart    // 'heart'
-ICONS.star     // 'staro'
-ICONS.message  // 'message1'
+ICONS.user     // 'person'
+ICONS.users    // 'group'
+ICONS.heart    // 'favorite'
+ICONS.star     // 'star-border'
+ICONS.message  // 'message'
 ICONS.mail     // 'mail'
 ```
 
 ### UI 类
 ```tsx
 ICONS.search   // 'search'
-ICONS.setting  // 'setting'
-ICONS.menu     // 'menuunfold'
-ICONS.more     // 'ellipsis'
-ICONS.refresh  // 'reload1'
-ICONS.filter   // 'filter'
-ICONS.sort     // 'sort1'
-ICONS.cart     // 'shoppingcart'
-ICONS.bell     // 'bells'
-ICONS.eye      // 'eye'
-ICONS.eyeOff   // 'eyeoff'
+ICONS.setting  // 'settings'
+ICONS.menu     // 'menu'
+ICONS.more     // 'more-vert'
+ICONS.refresh  // 'refresh'
+ICONS.filter   // 'filter-list'
+ICONS.cart     // 'shopping-cart'
+ICONS.bell     // 'notifications'
+ICONS.eye      // 'visibility'
 ```
 
 ### 状态类
 ```tsx
-ICONS.success  // 'checkcircle'
+ICONS.success  // 'check-circle'
 ICONS.warning  // 'warning'
-ICONS.error    // 'closecircle'
-ICONS.info     // 'infocirlce'
-ICONS.loading  // 'loading1'
+ICONS.error    // 'error'
+ICONS.info     // 'info'
+ICONS.loading  // 'refresh'
 ```
 
 ## 注意事项
 
-1. **字体加载**：Web 端需要确保 vector-icons 字体已正确加载
-2. **图标名称**：不同图标家族的图标名称可能不同，需查阅对应图标库文档
-3. **平台差异**：Web 端和 Native 端的渲染方式略有不同，但 API 保持一致
-4. **颜色格式**：支持十六进制、RGB、RGBA 等颜色格式
+1. **按需安装**：默认只安装 Material Icons，如需其他图标库请按需安装
+2. **Android 字体配置**：新增图标库后需要在 Android build.gradle 中添加字体配置
+3. **图标名称**：不同图标库的图标名称可能不同，需查阅对应图标库文档
+4. **平台差异**：Web 端和 Native 端的渲染方式略有不同，但 API 保持一致
+5. **颜色格式**：支持十六进制、RGB、RGBA 等颜色格式
 
 ## 图标库文档
 
+- [Material Icons](https://fonts.google.com/icons) - 默认图标库
 - [AntDesign Icons](https://ant.design/components/icon)
 - [Font Awesome](https://fontawesome.com/icons)
 - [Ionicons](https://ionicons.com/)
-- [Material Icons](https://fonts.google.com/icons)

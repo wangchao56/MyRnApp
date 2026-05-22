@@ -22,6 +22,26 @@ export const COLORS = {
   error: '#FF3B30',
 };
 
+export const getThemedColors = (isDarkMode: boolean) => ({
+  primary: COLORS.primary,
+  primaryDark: COLORS.primaryDark,
+  secondary: COLORS.secondary,
+  background: isDarkMode ? COLORS.backgroundDark : COLORS.background,
+  surface: isDarkMode ? COLORS.surfaceDark : COLORS.surface,
+  text: isDarkMode ? COLORS.white : COLORS.text,
+  textLight: COLORS.textLight,
+  textSecondary: isDarkMode ? COLORS.textDark : COLORS.textSecondary,
+  border: isDarkMode ? COLORS.borderDark : COLORS.border,
+  gray: COLORS.gray,
+  lightGray: COLORS.lightGray,
+  darkGray: COLORS.darkGray,
+  white: COLORS.white,
+  black: COLORS.black,
+  success: COLORS.success,
+  warning: COLORS.warning,
+  error: COLORS.error,
+});
+
 export const SPACING = {
   none: 0,
   xs: 4,
@@ -65,3 +85,5 @@ export const SHADOWS = {
   lg: '0 8px 16px rgba(0,0,0,0.12)',
   xl: '0 16px 24px rgba(0,0,0,0.14)',
 };
+
+export type ThemedColors = ReturnType<typeof getThemedColors>;
