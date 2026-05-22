@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -23,9 +24,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.[jt]sx?$/,
         use: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: modulePath =>
+          /node_modules/.test(modulePath) &&
+          !/react-native-vector-icons/.test(modulePath),
       },
       {
         test: /\.css$/,
@@ -34,6 +37,18 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.NormalModuleReplacementPlugin(
+      /^\.\/NativeRNVectorIcons$/,
+      resource => {
+        const context = resource.context.replace(/\\/g, '/');
+        if (context.endsWith('/react-native-vector-icons/lib')) {
+          resource.request = path.resolve(
+            __dirname,
+            'src/shims/NativeRNVectorIcons.js'
+          );
+        }
+      }
+    ),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
       filename: 'index.html',

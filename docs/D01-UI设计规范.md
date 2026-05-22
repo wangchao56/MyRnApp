@@ -21,9 +21,9 @@
 
 ## 2. 响应式尺寸转换方案
 
-### 2.1 创建尺寸适配工具
+### 2.1 尺寸适配工具
 
-创建 `packages/shared/src/utils/responsive.ts` 文件：
+`packages/shared/src/utils/responsive.ts` 提供以下函数：
 
 ```typescript
 import { Dimensions } from 'react-native';
@@ -35,71 +35,88 @@ const DESIGN_WIDTH = 375;
 const DESIGN_HEIGHT = 812;
 
 /**
- * 将设计稿像素转换为响应式尺寸
- * @param size 设计稿中的像素值
- * @returns 响应式尺寸（dp）
+ * 根据屏幕宽度进行适配（设置尺寸时使用）
+ * @param val 设计稿中的尺寸
+ * @returns 实际渲染尺寸
  */
-export const scale = (size: number): number => {
-  return (size / DESIGN_WIDTH) * SCREEN_WIDTH;
+export const fitSize = (val: number): number => {
+  return (val / DESIGN_WIDTH) * SCREEN_WIDTH;
 };
 
+export const fz = fitSize; // 字体适配函数别名
+
 /**
- * 将设计稿高度像素转换为响应式尺寸
- * @param size 设计稿中的像素值
- * @returns 响应式尺寸（dp）
+ * 根据屏幕高度进行适配
+ * @param size 设计稿中的尺寸
+ * @returns 实际渲染尺寸
  */
 export const scaleHeight = (size: number): number => {
   return (size / DESIGN_HEIGHT) * SCREEN_HEIGHT;
 };
 
 /**
- * 字体缩放（限制最小/最大值）
- * @param size 设计稿中的字体像素值
- * @returns 响应式字体大小（sp）
- */
-export const scaleFont = (size: number): number => {
-  const scaled = scale(size);
-  return Math.min(Math.max(scaled, 10), 48);
-};
-
-/**
- * 获取屏幕宽高
+ * 屏幕相关常量
  */
 export const SCREEN = {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
-  isSmallScreen: SCREEN_WIDTH < 375,
-  isLargeScreen: SCREEN_WIDTH >= 414,
+  isSmallScreen: SCREEN_WIDTH < 375, // 小屏幕设备（如 iPhone SE）
+  isLargeScreen: SCREEN_WIDTH >= 414, // 大屏幕设备（如 iPhone Max/Plus）
 };
 ```
 
-### 2.2 使用示例
+### 2.2 createStyleSheet 自动适配
 
-假设设计稿中元素尺寸为：
-- 按钮宽度：320px
-- 按钮高度：48px
-- 字体大小：16px
-- 间距：16px
-
-代码实现：
+推荐使用 `createStyleSheet`，会自动将数值属性转换为响应式尺寸，无需手动调用 `fitSize`：
 
 ```typescript
-import { scale, scaleFont, SCREEN } from '../utils/responsive';
+import { createStyleSheet } from '../theme/StyleSheet';
 
-const styles = StyleSheet.create({
-  button: {
-    width: scale(320),      // 设计稿 320px → 响应式宽度
-    height: scale(48),      // 设计稿 48px → 响应式高度
-    borderRadius: scale(8), // 设计稿 8px → 响应式圆角
-  },
-  text: {
-    fontSize: scaleFont(16), // 设计稿 16px → 响应式字体
-  },
+const styles = createStyleSheet({
   container: {
-    paddingHorizontal: scale(16),
-    width: SCREEN.width - scale(32), // 屏幕宽度 - 两侧各 16px
+    width: 320,         // 自动适配为响应式尺寸
+    height: 48,
+    padding: 16,
+    margin: 16,
+    fontSize: 14,
+    lineHeight: 20,
+    borderRadius: 8,
+    borderWidth: 1,
   },
 });
+```
+
+**自动处理的属性**：`width`, `height`, `margin`, `padding`, `borderRadius`, `fontSize`, `lineHeight`, `top`, `left`, `right`, `bottom` 等
+
+### 2.3 手动使用 fitSize
+
+在需要动态计算或 ThemeContext 中使用：
+
+```typescript
+import { fitSize, fz } from '../utils/responsive';
+import { createStyleSheet } from '../theme/StyleSheet';
+
+// 方式1：直接使用 fitSize
+const styles = createStyleSheet({
+  button: {
+    width: fitSize(320),
+    height: fitSize(48),
+  },
+});
+
+// 方式2：使用 fz 别名（更简短）
+const styles2 = createStyleSheet({
+  text: {
+    fontSize: fz(16),
+  },
+});
+
+// 方式3：在 ThemeContext 中使用
+const styles3 = createStyleSheet((theme) => ({
+  container: {
+    width: theme.fz(320), // theme.fz 是 fitSize 的别名
+  },
+}));
 ```
 
 ---
@@ -236,7 +253,7 @@ const styles = StyleSheet.create({
 ### 5.1 转换步骤
 
 1. **测量设计稿**：获取元素的像素尺寸
-2. **应用 scale 函数**：使用 `scale()`、`scaleHeight()`、`scaleFont()` 转换
+2. **使用 createStyleSheet**：数值属性会自动转换为响应式尺寸
 3. **使用设计 Token**：颜色、间距等使用预定义的 Token
 4. **平台适配**：根据需要添加平台特定样式
 
@@ -277,8 +294,8 @@ const styles = StyleSheet.create({
 
 ```typescript
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { scale, scaleFont } from '../../utils/responsive';
+import { View } from 'react-native';
+import { createStyleSheet } from '../../theme/StyleSheet';
 import { COLORS, SPACING, FONT_SIZES } from '../../theme/tokens';
 
 interface ComponentNameProps {
@@ -293,9 +310,12 @@ export const ComponentName: React.FC<ComponentNameProps> = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = createStyleSheet({
   container: {
-    // 使用 scale() 和 Token
+    // 数值属性会自动适配，无需手动调用 fitSize
+    width: 320,
+    padding: 16,
+    backgroundColor: COLORS.primary,
   },
 });
 ```
