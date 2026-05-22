@@ -1,22 +1,6 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-} from 'react-native';
-import {
-  Card,
-  Button,
-  useAuth,
-  colors,
-  OssImage,
-  ImagePreview,
-  SmartImage,
-  SvgIcon,
-  ICONS,
-} from '@myapp/shared';
+import {View, Text, StyleSheet, ScrollView, ImageBackground} from 'react-native';
+import {Card, Button, useAuth, colors, OssImage, ImagePreview, SmartImage, SvgIcon, ICONS} from '@myapp/shared';
 import {observer} from 'mobx-react-lite';
 
 const HomePageCom: React.FC = () => {
@@ -37,9 +21,7 @@ const HomePageCom: React.FC = () => {
       <Text style={styles.subtitle}>Web Application</Text>
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Status</Text>
-        <Text style={styles.cardText}>
-          {isLoggedIn ? `Logged in as: ${displayName}` : 'Not logged in'}
-        </Text>
+        <Text style={styles.cardText}>{isLoggedIn ? `Logged in as: ${displayName}` : 'Not logged in'}</Text>
       </Card>
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Actions</Text>
@@ -51,12 +33,8 @@ const HomePageCom: React.FC = () => {
       </Card>
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Architecture</Text>
-        <Text style={styles.cardText}>
-          This web app demonstrates the Monorepo architecture with:
-        </Text>
-        <Text style={styles.bulletPoint}>
-          - Shared state management (MST + MobX)
-        </Text>
+        <Text style={styles.cardText}>This web app demonstrates the Monorepo architecture with:</Text>
+        <Text style={styles.bulletPoint}>- Shared state management (MST + MobX)</Text>
         <Text style={styles.bulletPoint}>- Cross-platform components</Text>
         <Text style={styles.bulletPoint}>- TypeScript throughout</Text>
         <Text style={styles.bulletPoint}>- React Router for navigation</Text>
@@ -80,10 +58,7 @@ const HomePageCom: React.FC = () => {
       </ImageBackground>
       <ImagePreview
         visible={previewVisible}
-        images={[
-          'https://picsum.photos/600/400?random=2',
-          'https://picsum.photos/600/400?random=3',
-        ]}
+        images={['https://picsum.photos/600/400?random=2', 'https://picsum.photos/600/400?random=3']}
         onClose={() => setPreviewVisible(false)}
       />
       <SmartImage
@@ -93,7 +68,7 @@ const HomePageCom: React.FC = () => {
       />
       <SvgIcon name="home" size={24} color="#333" />
       <SvgIcon name="home" size="lg" color="red" />
-      <SvgIcon name="search1" onPress={() => console.log('点击')} />
+      <SvgIcon name="search" />
       <SvgIcon name="lock" disabled />
       <SvgIcon name={ICONS.arrowLeft} />
     </ScrollView>

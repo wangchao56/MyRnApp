@@ -5,3 +5,11 @@
   font-style: normal;
   font-display: block;
 }
+
+@font-face {
+  font-family: 'MaterialIcons-Regular';
+  src: url('@react-native-vector-icons/material-icons/fonts/MaterialIcons.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}

@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const transpileModules = ['react-native', '@react-native', 'react-native-vector-icons', '@react-native-vector-icons'];
 
+const webDir = path.resolve(__dirname, 'packages/web');
+
 const shouldTranspileModule = modulePath => {
   const normalizedPath = modulePath.replace(/\\/g, '/');
   return transpileModules.some(
@@ -16,9 +18,9 @@ const shouldTranspileModule = modulePath => {
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
-  entry: path.resolve(__dirname, 'src/index.tsx'),
+  entry: path.resolve(webDir, 'src/index.tsx'),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(webDir, 'dist'),
     filename: 'bundle.[contenthash].js',
     clean: true,
     publicPath: '/',
@@ -28,12 +30,12 @@ module.exports = {
     extensions: ['.web.tsx', '.web.ts', '.tsx', '.ts', '.js', '.json'],
     alias: {
       'react-native$': 'react-native-web',
-      '@react-native-vector-icons/get-image': path.resolve(__dirname, 'src/shims/ReactNativeVectorIconsGetImage.js'),
+      '@react-native-vector-icons/get-image': path.resolve(webDir, 'src/shims/ReactNativeVectorIconsGetImage.js'),
       'react-native-vector-icons': path.resolve(
         __dirname,
-        '../../node_modules/.pnpm/react-native-vector-icons@10.3.0/node_modules/react-native-vector-icons',
+        'node_modules/.pnpm/react-native-vector-icons@10.3.0/node_modules/react-native-vector-icons',
       ),
-      '@myapp/shared': path.resolve(__dirname, '../shared/src'),
+      '@myapp/shared': path.resolve(__dirname, 'packages/shared/src'),
     },
   },
   module: {
@@ -60,11 +62,11 @@ module.exports = {
     new webpack.NormalModuleReplacementPlugin(/^\.\/NativeRNVectorIcons$/, resource => {
       const context = resource.context.replace(/\\/g, '/');
       if (context.endsWith('/react-native-vector-icons/lib')) {
-        resource.request = path.resolve(__dirname, 'src/shims/NativeRNVectorIcons.js');
+        resource.request = path.resolve(webDir, 'src/shims/NativeRNVectorIcons.js');
       }
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html'),
+      template: path.resolve(webDir, 'public/index.html'),
       filename: 'index.html',
     }),
   ],
@@ -74,7 +76,7 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     static: {
-      directory: path.resolve(__dirname, 'public'),
+      directory: path.resolve(webDir, 'public'),
     },
     headers: {
       'Access-Control-Allow-Origin': '*',

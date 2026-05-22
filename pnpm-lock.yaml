@@ -84,6 +84,9 @@ importers:
       '@react-native/eslint-config':
         specifier: 0.74.89
         version: 0.74.89(eslint@9.39.4)(jest@29.7.0)(prettier@2.8.8)(typescript@5.0.4)
+      '@react-native/gradle-plugin':
+        specifier: 0.74.89
+        version: 0.74.89
       '@react-native/metro-config':
         specifier: 0.74.89
         version: 0.74.89(@babel/core@7.29.0)(@babel/preset-env@7.29.5)
@@ -165,6 +168,27 @@ importers:
       '@myapp/shared':
         specifier: workspace:*
         version: link:../shared
+      '@react-native-async-storage/async-storage':
+        specifier: '*'
+        version: 1.24.0(react-native@0.74.7)
+      '@react-native-camera-roll/camera-roll':
+        specifier: '*'
+        version: 7.10.2(react-native@0.74.7)
+      '@react-native-vector-icons/material-icons':
+        specifier: '*'
+        version: 13.1.1(react-native@0.74.7)(react@18.2.0)
+      react:
+        specifier: '*'
+        version: 18.2.0
+      react-native:
+        specifier: '*'
+        version: 0.74.7(@babel/core@7.29.0)(@babel/preset-env@7.29.5)(@types/react@18.3.29)(react@18.2.0)
+      react-native-safe-area-context:
+        specifier: '*'
+        version: 4.14.1(react-native@0.74.7)(react@18.2.0)
+      react-native-screens:
+        specifier: '*'
+        version: 3.37.0(react-native@0.74.7)(react@18.2.0)
 
   packages/shared:
     dependencies:
@@ -6638,7 +6662,7 @@ packages:
 
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6

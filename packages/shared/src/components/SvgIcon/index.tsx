@@ -11,7 +11,6 @@ export interface SvgIconProps {
   name: string;
   size?: number | IconSize;
   color?: string;
-  onPress?: () => void;
   style?: TextStyle;
   disabled?: boolean;
 }
@@ -34,7 +33,7 @@ const iconStyles = createStyleSheet({
   },
 });
 
-export const SvgIcon: React.FC<SvgIconProps> = ({name, size = 'md', color, onPress, style, disabled = false}) => {
+export const SvgIcon: React.FC<SvgIconProps> = ({name, size = 'md', color, style, disabled = false}) => {
   const iconSize = typeof size === 'number' ? size : SIZE_MAP[size];
   const iconColor = color || '#000';
   const isDisabled = disabled || !name;
@@ -49,15 +48,18 @@ export const SvgIcon: React.FC<SvgIconProps> = ({name, size = 'md', color, onPre
     />
   );
 
-  const content = Platform.OS === 'web' ? icon : <View style={styles.container}>{icon}</View>;
-
-  if (onPress) {
-    return (
-      <TouchableOpacity onPress={onPress} disabled={isDisabled} activeOpacity={0.7}>
-        {content}
-      </TouchableOpacity>
-    );
-  }
+  const content = (
+    <View
+      style={[
+        styles.container,
+        {
+          width: iconSize,
+          height: iconSize,
+        },
+      ]}>
+      {icon}
+    </View>
+  );
 
   return content;
 };
