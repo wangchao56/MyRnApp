@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, useAuth, useTheme, colors} from '@myapp/shared';
 import {observer} from 'mobx-react-lite';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const ProfileScreenCom: React.FC = () => {
   const {user, isLoggedIn, displayName, userEmail, userAvatar} = useAuth();
@@ -21,23 +21,17 @@ const ProfileScreenCom: React.FC = () => {
               <View style={styles.avatarContainer}>
                 {userAvatar ? (
                   <View style={styles.avatar}>
-                    <Text style={styles.avatarText}>
-                      {displayName.charAt(0).toUpperCase()}
-                    </Text>
+                    <Text style={styles.avatarText}>{displayName.charAt(0).toUpperCase()}</Text>
                   </View>
                 ) : (
                   <View style={styles.avatar}>
-                    <Text style={styles.avatarText}>
-                      {displayName.charAt(0).toUpperCase()}
-                    </Text>
+                    <Text style={styles.avatarText}>{displayName.charAt(0).toUpperCase()}</Text>
                   </View>
                 )}
               </View>
               <Text style={styles.name}>{displayName}</Text>
               <Text style={styles.email}>{userEmail}</Text>
-              {user?.id && (
-                <Text style={styles.userId}>User ID: {user.id}</Text>
-              )}
+              {user?.id && <Text style={styles.userId}>User ID: {user.id}</Text>}
             </Card>
 
             <Card style={styles.card}>
@@ -55,9 +49,7 @@ const ProfileScreenCom: React.FC = () => {
         ) : (
           <Card style={styles.card}>
             <Text style={styles.cardTitle}>Not Logged In</Text>
-            <Text style={styles.cardText}>
-              Please log in to view your profile.
-            </Text>
+            <Text style={styles.cardText}>Please log in to view your profile.</Text>
           </Card>
         )}
       </View>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Router } from './router';
+import {View, StyleSheet} from 'react-native';
+import {Router} from './router';
 
 const App: React.FC = () => {
   return (

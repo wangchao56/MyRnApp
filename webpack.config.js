@@ -3,17 +3,26 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const transpileModules = ['react-native', '@react-native', 'react-native-vector-icons', '@react-native-vector-icons'];
+const webBabelConfig = path.resolve(__dirname, 'packages/web/babel.config.js');
+const transpileModules = [
+  'react-native',
+  '@react-native',
+  'react-native-vector-icons',
+  '@react-native-vector-icons',
+  'react-native-swiper-flatlist',
+];
 
 const webDir = path.resolve(__dirname, 'packages/web');
 
 const shouldTranspileModule = modulePath => {
   const normalizedPath = modulePath.replace(/\\/g, '/');
-  return transpileModules.some(
-    moduleName =>
+  return transpileModules.some(moduleName => {
+    const pnpmSegment = moduleName.replace('@', '').replace('/', '+');
+    return (
       normalizedPath.includes(`/node_modules/${moduleName}/`) ||
-      normalizedPath.includes(`/node_modules/.pnpm/${moduleName.replace('/', '+')}@`),
-  );
+      normalizedPath.includes(`/node_modules/.pnpm/${pnpmSegment}@`)
+    );
+  });
 };
 
 module.exports = {
@@ -27,13 +36,18 @@ module.exports = {
   },
   devtool: isDevelopment ? 'source-map' : false,
   resolve: {
-    extensions: ['.web.tsx', '.web.ts', '.tsx', '.ts', '.js', '.json'],
+    extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.tsx', '.ts', '.jsx', '.js', '.json'],
+    mainFields: ['browser', 'module', 'main'],
     alias: {
       'react-native$': 'react-native-web',
       '@react-native-vector-icons/get-image': path.resolve(webDir, 'src/shims/ReactNativeVectorIconsGetImage.js'),
       'react-native-vector-icons': path.resolve(
         __dirname,
         'node_modules/.pnpm/react-native-vector-icons@10.3.0/node_modules/react-native-vector-icons',
+      ),
+      'react-native-swiper-flatlist': path.resolve(
+        __dirname,
+        'node_modules/.pnpm/react-native-swiper-flatlist@3.2.5_react-native@0.74.7/node_modules/react-native-swiper-flatlist',
       ),
       '@myapp/shared': path.resolve(__dirname, 'packages/shared/src'),
     },
@@ -42,7 +56,13 @@ module.exports = {
     rules: [
       {
         test: /\.[jt]sx?$/,
-        use: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            configFile: webBabelConfig,
+          },
+        },
         exclude: modulePath => /node_modules/.test(modulePath) && !shouldTranspileModule(modulePath),
       },
       {
@@ -66,7 +86,7 @@ module.exports = {
       }
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(webDir, 'public/index.html'),
+      template: path.resolve(__dirname, 'public/index.html'),
       filename: 'index.html',
     }),
   ],

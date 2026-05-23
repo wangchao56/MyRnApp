@@ -1,0 +1,4 @@
+
+> @myapp/app@1.0.0 typecheck E:\workspace\MyRnApp\packages\app
+> tsc --noEmit
+

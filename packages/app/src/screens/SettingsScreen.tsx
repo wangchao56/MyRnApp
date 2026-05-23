@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, Switch} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {Card, Button, useTheme, colors} from '@myapp/shared';
 import {observer} from 'mobx-react-lite';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const SettingsScreenCom: React.FC = () => {
   const {isDarkMode, toggleTheme} = useTheme();
@@ -20,9 +20,7 @@ const SettingsScreenCom: React.FC = () => {
           <View style={styles.settingRow}>
             <View>
               <Text style={styles.settingLabel}>暗黑主题</Text>
-              <Text style={styles.settingDescription}>
-                {isDarkMode ? 'On' : 'Off'}
-              </Text>
+              <Text style={styles.settingDescription}>{isDarkMode ? 'On' : 'Off'}</Text>
             </View>
             <Switch
               value={isDarkMode}

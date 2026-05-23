@@ -1,11 +1,37 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView, ImageBackground} from 'react-native';
-import {Card, Button, useAuth, colors, OssImage, ImagePreview, SmartImage, SvgIcon, ICONS} from '@myapp/shared';
+import {Dimensions, ImageBackground, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Button,
+  Card,
+  ICONS,
+  ImagePreview,
+  OssImage,
+  SmartImage,
+  SvgIcon,
+  colors,
+  useAuth,
+  useTheme,
+} from '@myapp/shared';
 import {observer} from 'mobx-react-lite';
+import {SwiperFlatList} from 'react-native-swiper-flatlist';
+import {fz} from '@myapp/shared/utils/responsive';
 
-const HomePageCom: React.FC = () => {
-  const {isLoggedIn, displayName, login, logout} = useAuth();
+const {width} = Dimensions.get('window');
+
+const IMAGE_ONE = 'https://picsum.photos/600/400?random=11';
+const IMAGE_TWO = 'https://picsum.photos/600/400?random=12';
+const IMAGE_THREE = 'https://picsum.photos/600/400?random=13';
+
+const colorsItem = ['tomato', 'thistle', 'skyblue', 'teal'];
+
+export const HomeScreenCom: React.FC = () => {
+  const {user, isLoggedIn, displayName, logout, login} = useAuth();
+  const {isDarkMode} = useTheme();
   const [previewVisible, setPreviewVisible] = useState(false);
+
+  const [swiperWidth, setSwiperWidth] = useState(width - 32); // 初始宽度，考虑到Card的padding
+
+  const backgroundColor = isDarkMode ? colors.darkGray : colors.background;
 
   const handleLogin = async () => {
     try {
@@ -15,62 +41,121 @@ const HomePageCom: React.FC = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.content}>
       <Text style={styles.title}>Welcome to MyRnApp</Text>
-      <Text style={styles.subtitle}>Web Application</Text>
+      <Text style={styles.subtitle}>Native image component examples</Text>
+
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Status</Text>
         <Text style={styles.cardText}>{isLoggedIn ? `Logged in as: ${displayName}` : 'Not logged in'}</Text>
+        {user && <Text style={styles.cardText}>Email: {user.email}</Text>}
       </Card>
+
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Actions</Text>
         {isLoggedIn ? (
-          <Button title="Logout" onPress={logout} variant="secondary" />
+          <Button title="Logout" onPress={handleLogout} variant="secondary" />
         ) : (
           <Button title="Demo Login" onPress={handleLogin} variant="primary" />
         )}
       </Card>
+
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Architecture</Text>
-        <Text style={styles.cardText}>This web app demonstrates the Monorepo architecture with:</Text>
+        <Text style={styles.cardText}>This app demonstrates the Monorepo architecture with:</Text>
         <Text style={styles.bulletPoint}>- Shared state management (MST + MobX)</Text>
         <Text style={styles.bulletPoint}>- Cross-platform components</Text>
         <Text style={styles.bulletPoint}>- TypeScript throughout</Text>
-        <Text style={styles.bulletPoint}>- React Router for navigation</Text>
-        <Text style={styles.bulletPoint}>- React Native Web</Text>
+        <Text style={styles.bulletPoint}>- React Navigation</Text>
       </Card>
+
       <Card style={styles.card}>
+        <Text style={styles.cardTitle}>OssImage preview</Text>
+        <Text style={styles.cardText}>Tap the image to open the shared ImagePreview modal.</Text>
         <OssImage
-          source={{
-            uri: 'https://picsum.photos/600/400?random=1',
-          }}
-          style={{width: '100%', height: 200, borderRadius: 8}}
-          resizeMode="contain"
+          source={{uri: IMAGE_ONE}}
+          containerStyle={{borderRadius: 8}}
+          style={styles.heroImage}
+          resizeMode="cover"
+          placeholder="loading"
           onPress={() => setPreviewVisible(true)}
         />
       </Card>
-      <ImageBackground
-        source={{uri: 'https://picsum.photos/600/400?random=2'}}
-        style={{width: '100%', height: 200, borderRadius: 8}}
-        resizeMode="contain">
-        <Text style={styles.cardText}>北京图片</Text>
-      </ImageBackground>
+
+      <Card style={styles.card}>
+        <Text style={styles.cardTitle}>ImageBackground</Text>
+        <ImageBackground
+          source={{uri: IMAGE_TWO}}
+          style={styles.backgroundImage}
+          imageStyle={styles.backgroundImageRadius}
+          resizeMode="cover">
+          <View style={styles.imageOverlay}>
+            <Text style={styles.overlayTitle}>Native background image</Text>
+            <Text style={styles.overlayText}>Powered by React Native</Text>
+          </View>
+        </ImageBackground>
+      </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.cardTitle}>SmartImage1</Text>
+        <Text style={styles.cardText}>Includes loading state, fade-in, and built-in tap preview.</Text>
+        <SmartImage
+          source={{uri: IMAGE_THREE}}
+          width="100%"
+          height={200}
+          borderRadius={8}
+          resizeMode="cover"
+          placeholder="skeleton"
+          enablePreview
+        />
+      </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.cardTitle}>SvgIcon</Text>
+        <View style={styles.iconRow}>
+          <SvgIcon name="home" size={24} color={colors.text} />
+          <SvgIcon name={ICONS.search} size={24} color={colors.primary} />
+          <SvgIcon name="lock" size={24} color={colors.gray} disabled />
+          <SvgIcon name={ICONS.arrowLeft} size={24} color={colors.text} />
+        </View>
+      </Card>
+
       <ImagePreview
         visible={previewVisible}
-        images={['https://picsum.photos/600/400?random=2', 'https://picsum.photos/600/400?random=3']}
+        images={[IMAGE_ONE, IMAGE_TWO, IMAGE_THREE]}
         onClose={() => setPreviewVisible(false)}
       />
-      <SmartImage
-        source={{uri: 'https://picsum.photos/600/400?random=2'}}
-        style={{width: '100%', height: 200, borderRadius: 8}}
-        resizeMode="cover"
-      />
-      <SvgIcon name="home" size={24} color="#333" />
-      <SvgIcon name="home" size="lg" color="red" />
-      <SvgIcon name="search" />
-      <SvgIcon name="lock" disabled />
-      <SvgIcon name={ICONS.arrowLeft} />
+      <Card
+        style={styles.card}
+        onLayout={e => {
+          const {width: layoutWidth} = e.nativeEvent.layout;
+          setSwiperWidth(layoutWidth);
+        }}>
+        <SwiperFlatList
+          autoplay
+          autoplayDelay={3} // 自动播放间隔（秒）
+          autoplayLoop // 循环播放
+          index={0} // 初始索引
+          showPagination // 显示底部小圆点
+          paginationDefaultColor="rgba(255,255,255,0.5)"
+          paginationActiveColor="white"
+          data={colorsItem}
+          renderItem={({item}) => (
+            <View style={[styles.child, {backgroundColor: item, width: fz(swiperWidth - 32)}]}>
+              <Text style={styles.text}>{item}</Text>
+            </View>
+          )}
+        />
+      </Card>
     </ScrollView>
   );
 };
@@ -78,7 +163,9 @@ const HomePageCom: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+  },
+  content: {
+    padding: 16,
   },
   title: {
     fontSize: 32,
@@ -103,7 +190,7 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 14,
     color: colors.textSecondary,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   bulletPoint: {
     fontSize: 14,
@@ -111,6 +198,40 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginBottom: 4,
   },
+  heroImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+  },
+  backgroundImage: {
+    height: 200,
+    justifyContent: 'flex-end',
+    overflow: 'hidden',
+  },
+  backgroundImageRadius: {
+    borderRadius: 8,
+  },
+  imageOverlay: {
+    padding: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+  },
+  overlayTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  overlayText: {
+    color: '#fff',
+    fontSize: 14,
+    marginTop: 4,
+  },
+  iconRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+  },
+  child: {width: '100%', height: 200, justifyContent: 'center', alignItems: 'center'},
+  text: {fontSize: 30, textAlign: 'center', color: 'white', fontWeight: 'bold'},
 });
 
-export const HomePage = observer(HomePageCom);
+export const HomePage = observer(HomeScreenCom);
