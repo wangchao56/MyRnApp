@@ -6,3 +6,8 @@ export type {
   SaveMediaOptions,
   UseSaveMediaReturn,
 } from './useSaveMedia';
+export {useScanner, useScannerWithPermission} from './useScanner';
+export type {
+  UseScannerOptions,
+  UseScannerReturn,
+} from './useScanner';

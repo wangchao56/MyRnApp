@@ -12,6 +12,7 @@
     "clean": "if (Test-Path dist) { Remove-Item -LiteralPath dist -Recurse -Force }"
   },
   "dependencies": {
-    "@myapp/shared": "workspace:*"
+    "@myapp/shared": "workspace:*",
+    "@myapp/jsbridge": "workspace:*"
   }
 }

@@ -7,6 +7,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {HomeScreen} from '../screens/HomeScreen';
 import {ProfileScreen} from '../screens/ProfileScreen';
 import {SettingsScreen} from '../screens/SettingsScreen';
+import {MediaSaveTestScreen} from '../screens/MediaSaveTestScreen';
 import {colors} from '@myapp/shared';
 import {useTheme} from '@react-navigation/native';
 import {View, Platform, StyleSheet, Text} from 'react-native';
@@ -16,6 +17,7 @@ export type MainTabParamList = {
   Home: undefined;
   Profile: undefined;
   Settings: undefined;
+  MediaTest: undefined;
   MyModal: undefined;
 };
 
@@ -71,6 +73,14 @@ const MainTabsComponent: React.FC = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({focused}) => <TabIcon name="Profile" focused={focused} isDarkMode={isDarkMode} />,
+        }}
+      />
+      <Tab.Screen
+        name="MediaTest"
+        component={MediaSaveTestScreen}
+        options={{
+          tabBarLabel: 'Media',
+          tabBarIcon: ({focused}) => <TabIcon name="Media" focused={focused} isDarkMode={isDarkMode} />,
         }}
       />
       <Tab.Screen

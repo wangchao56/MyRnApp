@@ -26,3 +26,4 @@ export {
   buildOssResizeParams,
   processImageUrlWithResizeOptions,
 } from '../utils/image';
+export {Scanner} from './Scanner';

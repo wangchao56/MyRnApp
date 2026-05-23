@@ -71,6 +71,12 @@ export const HomeScreenCom: React.FC = () => {
           ) : (
             <Button title="Demo Login" onPress={handleLogin} variant="primary" />
           )}
+          <Button
+            title="Bridge Test"
+            onPress={() => navigation.navigate('BridgeTest')}
+            variant="primary"
+            style={{marginTop: 8}}
+          />
         </Card>
 
         <Card style={styles.card}>

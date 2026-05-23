@@ -13,6 +13,12 @@ react {
     cliFile = file("../../node_modules/react-native/cli.js")
     entryFile = file("../../index.js")
 
+    // Use absolute Node path on Windows (Volta shim); avoids "node" not found in Gradle daemon PATH
+    def nodeFromEnv = System.getenv("NODE_BINARY")
+    if (nodeFromEnv != null && !nodeFromEnv.isBlank()) {
+        nodeExecutableAndArgs = [nodeFromEnv]
+    }
+
     /* Folders */
     //   The root of your project, i.e. where "package.json" lives. Default is '..'
     // root = file("../")
@@ -79,7 +85,7 @@ android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
-
+    
     namespace "com.myrnapp"
     defaultConfig {
         applicationId "com.myrnapp"
@@ -87,6 +93,12 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        
+        externalNativeBuild {
+            cmake {
+                arguments "-G", "MinGW Makefiles"
+            }
+        }
     }
     signingConfigs {
         debug {

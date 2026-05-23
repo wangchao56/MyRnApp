@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Dimensions, ImageBackground, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Alert, Dimensions, ImageBackground, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {
   Button,
   Card,
   ICONS,
   ImagePreview,
   OssImage,
+  SaveMediaExample,
   SmartImage,
   SvgIcon,
   colors,
@@ -49,6 +50,11 @@ export const HomeScreenCom: React.FC = () => {
     }
   };
 
+  const handleToast = () => {
+    console.log('handleToast');
+    window.alert('Hello, this is a toast from the app');
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.content}>
       <Text style={styles.title}>Welcome to MyRnApp</Text>
@@ -67,6 +73,7 @@ export const HomeScreenCom: React.FC = () => {
         ) : (
           <Button title="Demo Login" onPress={handleLogin} variant="primary" />
         )}
+        <Button title="Toast" onPress={handleToast} variant="primary" />
       </Card>
 
       <Card style={styles.card}>
@@ -134,6 +141,12 @@ export const HomeScreenCom: React.FC = () => {
         images={[IMAGE_ONE, IMAGE_TWO, IMAGE_THREE]}
         onClose={() => setPreviewVisible(false)}
       />
+      
+      <Card style={styles.card}>
+        <Text style={styles.cardTitle}>Save Media Test</Text>
+        <SaveMediaExample />
+      </Card>
+      
       <Card
         style={styles.card}
         onLayout={e => {

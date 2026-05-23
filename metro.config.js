@@ -11,9 +11,11 @@ const config = {
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(projectRoot, 'node_modules/.pnpm/node_modules'),
+      path.resolve(projectRoot, 'node_modules/@react-native-vector-icons'),
     ],
     extraNodeModules: {
       '@myapp/shared': path.resolve(sharedRoot, 'src'),
+      '@react-native-vector-icons/material-icons': path.resolve(projectRoot, 'node_modules/@react-native-vector-icons/material-icons'),
     },
     sourceExts: ['js', 'jsx', 'json', 'ts', 'tsx'],
   },

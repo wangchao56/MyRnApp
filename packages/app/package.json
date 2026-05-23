@@ -3,20 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cd ../.. && react-native start --no-interactive",
-    "start": "pnpm dev",
-    "android": "cd ../.. && react-native run-android",
-    "android:no-packager": "cd ../.. && react-native run-android --no-packager",
-    "ios": "cd ../.. && react-native run-ios",
-    "build": "pnpm build:android",
-    "build:android": "cd ../.. && cd android && gradlew assembleRelease",
-    "build:ios": "cd ../.. && cd ios && xcodebuild -workspace MyRnApp.xcworkspace -scheme MyRnApp -configuration Release",
     "lint": "eslint .",
+    "format:check": "prettier --check .",
     "test": "jest",
-    "typecheck": "tsc --noEmit",
-    "clean": "if (Test-Path ..\\..\\android\\app\\build) { Remove-Item -LiteralPath ..\\..\\android\\app\\build -Recurse -Force }; if (Test-Path ..\\..\\android\\build) { Remove-Item -LiteralPath ..\\..\\android\\build -Recurse -Force }"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@myapp/shared": "workspace:*"
+    "@myapp/shared": "workspace:*",
+    "@myapp/jsbridge": "workspace:*"
   }
 }

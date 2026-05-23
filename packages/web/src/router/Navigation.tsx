@@ -63,6 +63,22 @@ export const Navigation: React.FC = () => {
               </Text>
             </View>
           </Link>
+          <Link
+            to="/bridge-test"
+            style={{
+              textDecoration: 'none',
+              ...(isActive('/bridge-test') ? styles.linkActive : {}),
+            }}>
+            <View style={styles.linkContent}>
+              <Text
+                style={[
+                  styles.linkText,
+                  isActive('/bridge-test') && styles.linkTextActive,
+                ]}>
+                Bridge
+              </Text>
+            </View>
+          </Link>
         </View>
       </View>
     </View>

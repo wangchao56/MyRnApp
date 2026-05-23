@@ -33,6 +33,25 @@ set APP_HOME=%DIRNAME%
 @rem Resolve any "." and ".." in APP_HOME to make it shorter.
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
+@rem React Native autolinking runs `node` during Gradle configuration (native_modules.gradle).
+@rem Prepend Node to PATH so the daemon can find it (Volta/nvm on Windows often missing from IDE PATH).
+if not defined NODE_BINARY (
+  if exist "%ProgramFiles%\Volta\node.exe" (
+    set "NODE_BINARY=%ProgramFiles%\Volta\node.exe"
+  ) else (
+    for /f "delims=" %%n in ('where node 2^>nul') do (
+      set "NODE_BINARY=%%n"
+      goto :rn_node_found
+    )
+  )
+)
+:rn_node_found
+if defined NODE_BINARY (
+  for %%F in ("%NODE_BINARY%") do set "PATH=%%~dpF;%PATH%"
+) else (
+  if exist "%LOCALAPPDATA%\Volta\bin" set "PATH=%LOCALAPPDATA%\Volta\bin;%PATH%"
+)
+
 @rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
 set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
 

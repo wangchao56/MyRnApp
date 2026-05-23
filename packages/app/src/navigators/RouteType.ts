@@ -33,4 +33,5 @@ export type RootStackParamList = {
   WebView: {uri: string; title?: string};
   MyModal: undefined;
   Modals: undefined;
+  BridgeTest: undefined;
 };

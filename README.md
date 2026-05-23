@@ -76,7 +76,14 @@ pnpm dev:all
 ```bash
 pnpm dev:app
 ```
+# 1. 清理缓存（如果需要）
+pnpm clean:cache
 
+# 2. 启动 Metro 服务器
+pnpm dev:app
+
+# 3. 在另一个终端构建 Android
+pnpm android
 ## 可用命令
 
 | 命令 | 说明 |

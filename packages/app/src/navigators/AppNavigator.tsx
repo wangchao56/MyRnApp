@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainerRef, NavigationContainer} from '@react-navigation/native';
 
 import {ModalScreen} from '../components/ModalScreen';
+import {BridgeTestScreen} from '../screens/BridgeTestScreen';
 import {RootStackParamList} from './RouteType';
 import {ModalStack, modalNavigationRef} from './ModalStack';
 import {MainTabs} from './MainTabNavigator';
@@ -32,6 +33,11 @@ export const AppNavigator: React.FC = () => {
       </RootStack.Screen>
       {/* <RootStack.Screen name="WebView" component={ModalScreen} /> */}
       <RootStack.Screen name="MyModal" component={ModalScreen} />
+      <RootStack.Screen
+        name="BridgeTest"
+        component={BridgeTestScreen}
+        options={{headerShown: true, title: 'Bridge 测试'}}
+      />
     </RootStack.Navigator>
   );
 };

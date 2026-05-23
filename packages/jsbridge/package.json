@@ -1,0 +1,37 @@
+{
+  "name": "@myapp/jsbridge",
+  "version": "1.0.0",
+  "description": "Multi-platform JSBridge library",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types && npm run build:umd",
+    "build:esm": "tsc --module es2020 --outDir dist/esm",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist/types",
+    "build:umd": "webpack --mode production --config webpack.config.js",
+    "dev": "webpack --mode development --config webpack.config.js --watch",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "jsbridge",
+    "webview",
+    "react-native"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.19.41",
+    "rimraf": "^5.0.0",
+    "ts-loader": "^9.0.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0"
+  }
+}

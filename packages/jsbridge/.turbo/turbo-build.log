@@ -1,0 +1,34 @@
+
+> @myapp/jsbridge@1.0.0 build E:\workspace\MyRnApp\packages\jsbridge
+> npm run clean && npm run build:esm && npm run build:cjs && npm run build:types && npm run build:umd
+
+
+> @myapp/jsbridge@1.0.0 clean
+> rimraf dist
+
+
+> @myapp/jsbridge@1.0.0 build:esm
+> tsc --module es2020 --outDir dist/esm
+
+
+> @myapp/jsbridge@1.0.0 build:cjs
+> tsc --module commonjs --outDir dist/cjs
+
+
+> @myapp/jsbridge@1.0.0 build:types
+> tsc --declaration --emitDeclarationOnly --outDir dist/types
+
+
+> @myapp/jsbridge@1.0.0 build:umd
+> webpack --mode production --config webpack.config.js
+
+asset jsbridge.min.js 6.94 KiB [emitted] [minimized] (name: main)
+asset ../JSBridge.d.ts 1.65 KiB [compared for emit]
+asset ../share-adapters.d.ts 1.12 KiB [compared for emit]
+asset ../types.d.ts 1.1 KiB [compared for emit]
+asset ../index.d.ts 290 bytes [compared for emit]
+asset ../env.d.ts 239 bytes [compared for emit]
+orphan modules 12.3 KiB [orphan] 4 modules
+runtime modules 670 bytes 3 modules
+./src/index.ts + 4 modules 12.6 KiB [built] [code generated]
+webpack 5.107.0 compiled successfully in 1579 ms

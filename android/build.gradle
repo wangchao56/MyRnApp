@@ -6,6 +6,10 @@ buildscript {
         targetSdkVersion = 34
         ndkVersion = "26.1.10909125"
         kotlinVersion = "1.9.22"
+        ReactNativeCameraRoll_compileSdkVersion = 34
+        ReactNativeCameraRoll_buildToolsVersion = "34.0.0"
+        ReactNativeCameraRoll_minSdkVersion = 24
+        ReactNativeCameraRoll_targetSdkVersion = 34
     }
     repositories {
         maven { url 'https://maven.aliyun.com/repository/google' }
@@ -16,6 +20,14 @@ buildscript {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
     }
 }
 

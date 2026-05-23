@@ -9,23 +9,26 @@
     "app": "pnpm --filter @myapp/app",
     "web": "pnpm --filter @myapp/web",
     "shared": "pnpm --filter @myapp/shared",
+    "jsbridge": "pnpm --filter @myapp/jsbridge",
     "dev": "turbo run dev --parallel --no-daemon",
-    "dev:app": "pnpm --filter @myapp/app dev",
+    "dev:app": "react-native start --no-interactive",
     "dev:web": "pnpm --filter @myapp/web dev",
     "dev:all": "pnpm dev",
-    "dev:android": "concurrently \"pnpm dev:app\" \"pnpm --filter @myapp/app android:no-packager\"",
+    "dev:android": "concurrently \"pnpm dev:app\" \"react-native run-android --no-packager\"",
     "build": "turbo run build --no-daemon",
+    "build:jsbridge": "pnpm --filter @myapp/jsbridge build",
     "build:web": "pnpm --filter @myapp/web build",
     "dev:app:web": "cross-env NODE_ENV=development rspack serve --config rspack.config.js",
     "build:app:web": "cross-env NODE_ENV=production rspack build --config rspack.config.js",
-    "build:app:android": "pnpm --filter @myapp/app build:android",
-    "build:app:ios": "pnpm --filter @myapp/app build:ios",
-    "android": "pnpm --filter @myapp/app android",
-    "ios": "pnpm --filter @myapp/app ios",
+    "build:app:android": "cd android && gradlew assembleRelease",
+    "build:app:ios": "cd ios && xcodebuild -workspace MyRnApp.xcworkspace -scheme MyRnApp -configuration Release",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "lint": "turbo run lint --no-daemon",
     "test": "turbo run test --no-daemon",
     "typecheck": "turbo run typecheck --no-daemon",
-    "clean": "turbo run clean --no-daemon"
+    "clean": "turbo run clean --no-daemon",
+    "clean:cache": "node -e \"const fs=require('fs'),p=require('path'),d=['android/.gradle','android/app/build','android/build','node_modules/@react-native-async-storage/async-storage/android/.cxx','node_modules/react-native-safe-area-context/android/.cxx','node_modules/react-native-screens/android/.cxx','node_modules/react-native-vector-icons/android/.cxx','.gradle'];d.forEach(dir=>{try{fs.rmSync(p.join(__dirname,dir),{recursive:true,force:true});console.log('✓ Cleared:',dir)}catch(e){console.log('⚠️  Failed to clear',dir,':',e.message)}});console.log('\\n✅ Cache cleaned successfully!')\""
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -71,22 +74,26 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.23.0",
-    "@react-native-camera-roll/camera-roll": "^7.10.2",
     "@react-native-vector-icons/material-icons": "^13.1.1",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
+    "html5-qrcode": "^2.3.8",
     "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "0.74.7",
     "react-native-safe-area-context": "^4.10.0",
-    "react-native-screens": "^3.30.0",
+    "react-native-screens": "^3.37.0",
     "react-native-swiper-flatlist": "^3.2.5",
     "react-native-web": "^0.19.0",
+    "react-native-webview": "^13.16.1",
     "react-router-dom": "^6.22.0"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@8.15.0"
+  "packageManager": "pnpm@8.15.0",
+  "volta": {
+    "node": "22.22.3"
+  }
 }

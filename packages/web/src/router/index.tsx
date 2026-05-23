@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { HomePage } from '../pages/HomePage';
 import { ProfilePage } from '../pages/ProfilePage';
 import { SettingsPage } from '../pages/SettingsPage';
+import { BridgeTestPage } from '../pages/BridgeTestPage';
 import { Navigation } from './Navigation';
 
 export const Router: React.FC = () => {
@@ -15,6 +16,7 @@ export const Router: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/bridge-test" element={<BridgeTestPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </View>
