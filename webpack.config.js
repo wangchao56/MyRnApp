@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const webBabelConfig = path.resolve(__dirname, 'packages/web/babel.config.js');
+const webBabelConfig = path.resolve(__dirname, 'apps/web/babel.config.js');
 const transpileModules = [
   'react-native',
   '@react-native',
@@ -12,7 +12,7 @@ const transpileModules = [
   'react-native-swiper-flatlist',
 ];
 
-const webDir = path.resolve(__dirname, 'packages/web');
+const webDir = path.resolve(__dirname, 'apps/web');
 
 const shouldTranspileModule = modulePath => {
   const normalizedPath = modulePath.replace(/\\/g, '/');

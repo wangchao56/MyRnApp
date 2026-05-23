@@ -1,0 +1,33 @@
+{
+  "name": "@myapp/app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/app/src",
+  "projectType": "application",
+  "tags": ["scope:app", "platform:mobile"],
+  "targets": {
+    "typecheck": {
+      "executor": "nx:run-script",
+      "options": { "script": "typecheck" }
+    },
+    "lint": {
+      "executor": "nx:run-script",
+      "options": { "script": "lint" }
+    },
+    "test": {
+      "executor": "nx:run-script",
+      "options": { "script": "test" }
+    },
+    "dev": {
+      "executor": "nx:run-script",
+      "options": { "script": "dev" }
+    },
+    "dev:web": {
+      "executor": "nx:run-script",
+      "options": { "script": "dev:web" }
+    },
+    "build:web": {
+      "executor": "nx:run-script",
+      "options": { "script": "build:web" }
+    }
+  }
+}

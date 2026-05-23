@@ -60,7 +60,7 @@ if (jsbridge.isInApp()) {
 App 端的 Bridge handler 在 `@myapp/app` 包内，不在 jsbridge 包中：
 
 ```typescript
-// packages/app/src/components/HybridWebView/index.tsx
+// apps/app/src/components/HybridWebView/index.tsx
 import { bridgeHandlers } from '../../bridge/bridgeHandlers';
 
 // 处理来自 WebView 的消息
@@ -74,7 +74,7 @@ const handleMessage = async (event: WebViewMessageEvent) => {
 };
 ```
 
-可用 actions 见 `packages/app/src/bridge/bridgeHandlers.ts`。
+可用 actions 见 `apps/app/src/bridge/bridgeHandlers.ts`。
 
 ## 构建
 

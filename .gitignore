@@ -81,3 +81,13 @@ yarn-error.log
 # Tool version lock (keep .tool-versions in git)
 # .tool-versions
 dist
+
+# Nx
+.nx
+.nx/cache
+
+# Turbo (legacy)
+.turbo
+
+# Local build scratch
+temp-build

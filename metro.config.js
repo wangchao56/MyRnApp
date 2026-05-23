@@ -2,7 +2,7 @@ const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const path = require('path');
 
 const projectRoot = __dirname;
-const appRoot = path.resolve(projectRoot, 'packages/app');
+const appRoot = path.resolve(projectRoot, 'apps/app');
 const sharedRoot = path.resolve(projectRoot, 'packages/shared');
 
 const config = {

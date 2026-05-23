@@ -2,8 +2,8 @@ const path = require('path');
 const rspack = require('@rspack/core');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const appDir = path.resolve(__dirname, 'packages/app');
-const webDir = path.resolve(__dirname, 'packages/web');
+const appDir = path.resolve(__dirname, 'apps/app');
+const webDir = path.resolve(__dirname, 'apps/web');
 
 const transpileModules = [
   '@react-navigation',
@@ -70,7 +70,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            configFile: path.resolve(__dirname, 'packages/web/babel.config.js'),
+            configFile: path.resolve(__dirname, 'apps/web/babel.config.js'),
             cacheDirectory: true,
           },
         },
