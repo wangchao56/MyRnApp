@@ -1,15 +1,20 @@
 # JS Bridge 进阶功能使用指南
 
+> 状态：⚠️ 部分实现（2026-05-24 同步）  
+> - H5 SDK：从 `@myapp/jsbridge` 导入  
+> - App handlers：在 `packages/app/src/bridge/bridgeHandlers.ts`  
+> - 默认超时：**15 秒**（非 10 秒）
+
 ## 一、超时处理
 
-H5 端的 JSBridge 已经内置了超时机制，默认超时时间为 10 秒（10000ms）。
+H5 端的 JSBridge 已经内置了超时机制，默认超时时间为 15 秒（15000ms）。
 
 ### 使用方法
 
 ```typescript
-import { jsbridge } from '@myapp/web';
+import { jsbridge } from '@myapp/jsbridge';
 
-// 使用默认超时（10秒）
+// 使用默认超时（15秒）
 const result = await jsbridge.invoke('getUserInfo');
 
 // 自定义超时（5秒）
@@ -71,7 +76,7 @@ export const bridgeHandlers = {
 ### H5 端接收事件
 
 ```typescript
-import { onAppEvent, offAppEvent } from '@myapp/web';
+import { onAppEvent, offAppEvent } from '@myapp/jsbridge';
 
 useEffect(() => {
   // 监听 App 推送的通知事件
@@ -123,7 +128,7 @@ results.forEach((result, index) => {
 
 ```typescript
 // H5 端
-import { jsbridge } from '@myapp/web';
+import { jsbridge } from '@myapp/jsbridge';
 
 // 监听所有 invoke 调用
 const originalInvoke = jsbridge.invoke.bind(jsbridge);

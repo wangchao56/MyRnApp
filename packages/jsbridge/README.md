@@ -57,20 +57,24 @@ if (jsbridge.isInApp()) {
 
 ### 在 React Native 项目中使用
 
+App 端的 Bridge handler 在 `@myapp/app` 包内，不在 jsbridge 包中：
+
 ```typescript
-import { bridgeHandlers, getHandler, getAvailableActions } from '@myapp/jsbridge';
+// packages/app/src/components/HybridWebView/index.tsx
+import { bridgeHandlers } from '../../bridge/bridgeHandlers';
 
 // 处理来自 WebView 的消息
-const handleMessage = (event: any) => {
+const handleMessage = async (event: WebViewMessageEvent) => {
   const { msgId, action, data } = JSON.parse(event.nativeEvent.data);
-  const handler = getHandler(action);
-  
+  const handler = bridgeHandlers[action];
+
   if (handler) {
     const result = await handler(data);
-    // 发送回 WebView
   }
 };
 ```
+
+可用 actions 见 `packages/app/src/bridge/bridgeHandlers.ts`。
 
 ## 构建
 

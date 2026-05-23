@@ -1,5 +1,8 @@
 # 主题化 StyleSheet 使用指南
 
+> 状态：✅ 已实现（2026-05-24 同步）  
+> 源码：`packages/shared/src/theme/StyleSheet.ts`
+
 ## 概述
 
 本项目提供了一个主题化的 StyleSheet 封装，支持自动响应浅色/深色主题切换，提供类型安全的样式定义。

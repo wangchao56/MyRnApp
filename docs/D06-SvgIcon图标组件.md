@@ -1,5 +1,8 @@
 # SvgIcon 图标组件
 
+> 状态：✅ 已实现（2026-05-24 同步）  
+> 注意：组件名为 SvgIcon，实际基于 **Material Icons 字体**，并非 SVG 文件渲染。
+
 基于 `@react-native-vector-icons/material-icons` 封装的多端图标组件，支持 iOS、Android 和 Web 端。
 
 ## 安装依赖

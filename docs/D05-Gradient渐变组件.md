@@ -1,12 +1,16 @@
 # Gradient 渐变组件
 
-多端适配的线性渐变组件，基于 `expo-linear-gradient` 实现，支持 iOS、Android 和 Web 端。
+> 状态：⚠️ 部分实现（2026-05-24 同步）  
+> Web 端使用 CSS `linear-gradient`；Native 端当前仅显示第一个颜色的纯色背景。
 
-## 安装依赖
+## 平台行为
 
-```bash
-pnpm add expo-linear-gradient
-```
+| 平台 | 状态 | 实现方式 |
+|------|------|----------|
+| Web | ✅ | CSS `backgroundImage: linear-gradient(...)` |
+| iOS / Android | ⚠️ | 纯色 fallback（`backgroundColor: colors[0]`） |
+
+> Native 真渐变可后续接入 `expo-linear-gradient` 或 `react-native-linear-gradient`，当前未安装。
 
 ## 基础用法
 
