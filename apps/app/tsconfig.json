@@ -5,7 +5,9 @@
     "baseUrl": ".",
     "paths": {
       "@myapp/shared": ["../../packages/shared/src"],
-      "@myapp/shared/*": ["../../packages/shared/src/*"]
+      "@myapp/shared/*": ["../../packages/shared/src/*"],
+      "@myapp/jsbridge": ["../../packages/jsbridge/src"],
+      "@myapp/jsbridge/*": ["../../packages/jsbridge/src/*"]
     },
     "experimentalDecorators": true,
     "useDefineForClassFields": true,

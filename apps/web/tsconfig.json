@@ -7,7 +7,14 @@
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "experimentalDecorators": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "paths": {
+      "@myapp/shared": ["../../packages/shared/src"],
+      "@myapp/shared/*": ["../../packages/shared/src/*"],
+      "@myapp/jsbridge": ["../../packages/jsbridge/src"],
+      "@myapp/jsbridge/*": ["../../packages/jsbridge/src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

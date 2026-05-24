@@ -1,14 +1,14 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Alert, Linking, Platform } from 'react-native';
 
-interface UseScannerOptions {
+export interface UseScannerOptions {
   onScanSuccess?: (data: string) => void;
   onScanError?: (error: string) => void;
   autoStop?: boolean;
   stopDelay?: number;
 }
 
-interface UseScannerReturn {
+export interface UseScannerReturn {
   scanResult: string | null;
   scanHistory: string[];
   isScanning: boolean;

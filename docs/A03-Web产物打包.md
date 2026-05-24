@@ -9,7 +9,7 @@
 | 项 | 值 |
 |----|-----|
 | 目录 | `apps/web` |
-| 配置 | 根目录 `webpack.config.js` |
+| 配置 | `apps/web/webpack.config.js` |
 | 入口 | `apps/web/src/index.tsx` |
 | 输出 | `apps/web/dist/` |
 | 开发 | `pnpm dev:web`（:3000） |

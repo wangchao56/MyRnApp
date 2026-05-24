@@ -2,6 +2,7 @@
 import React from 'react';
 import {NavigationContainer, DefaultTheme, DarkTheme, NavigationState} from '@react-navigation/native';
 import {useColorScheme} from 'react-native';
+import {RootStackParamList} from './RouteType';
 
 // 自定义主题
 export const MyLightTheme = {
@@ -68,7 +69,7 @@ function MainNavigationContainer({children}: NavigationProviderProps) {
   const {isDarkMode} = useTheme();
 
   return (
-    <NavigationContainer
+    <NavigationContainer<RootStackParamList>
       linking={linking}
       // fallback={<SplashScreen />} // Deep Link 加载时占位
       onReady={onReady}

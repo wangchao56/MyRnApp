@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, SafeAreaView, Alert } from 'react-native';
-import { Scanner } from '../components';
-import { useScanner } from '../hooks';
-import { Button, Card } from '../components';
+import { Button } from '../Button';
+import { Card } from '../Card';
+import Scanner from './Scanner.native';
 
 export default function ScannerScreen() {
   const [scanResult, setScanResult] = useState<string | null>(null);

@@ -4,7 +4,7 @@
 
 ## 技术栈
 
-- **React Native** 0.74.7
+- **React Native** 0.77.3（自 0.74.7 升级，见 [RN 0.77 迁移指南](./docs/A05-RN077迁移指南.md)）
 - **Nx** — Monorepo 任务编排（替代 Turborepo）
 - **React Navigation** — App 导航
 - **React Router** — 独立 H5 路由
@@ -53,5 +53,6 @@ pnpm install
 
 - [文档索引](./docs/README.md)
 - [项目架构](./docs/A01-项目架构.md)
+- [RN 0.77 迁移指南](./docs/A05-RN077迁移指南.md)
 - [Nx 使用指南](./docs/B04-Nx使用指南.md)
 - [JSBridge README](./packages/jsbridge/README.md)

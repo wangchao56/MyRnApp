@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainerRef} from '@react-navigation/native';
+import {NavigationContainerRef, CommonActions} from '@react-navigation/native';
 import {View, Pressable, ActivityIndicator, Text, StyleSheet} from 'react-native';
 
 // ============ 1. 定义所有 Modal 页面类型 ============
@@ -45,7 +45,12 @@ export const modalNavigationRef = React.createRef<NavigationContainerRef<ModalSt
 
 export const ModalService = {
   open: <T extends keyof ModalStackParamList>(name: T, params: ModalStackParamList[T]) => {
-    modalNavigationRef.current?.navigate(name as string, params as any);
+    modalNavigationRef.current?.dispatch(
+      CommonActions.navigate({
+        name,
+        params,
+      }),
+    );
   },
 
   close: () => {

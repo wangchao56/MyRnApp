@@ -14,7 +14,7 @@ import {
   BridgeResponse,
   BRIDGE_RESPONSE_CODE,
   JSBridgeConfig,
-} from '@myapp/shared';
+} from '@myapp/jsbridge';
 import { bridgeHandlers, getAvailableActions } from '../../bridge';
 
 export interface HybridWebViewRef {
@@ -22,7 +22,7 @@ export interface HybridWebViewRef {
   reload: () => void;
 }
 
-export interface HybridWebViewProps extends Omit<WebViewProps, 'source'> {
+export interface HybridWebViewProps extends Omit<WebViewProps, 'source' | 'renderError' | 'renderLoading'> {
   source: WebViewProps['source'];
   config?: JSBridgeConfig;
   whitelist?: string[];
@@ -141,16 +141,22 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
     [props]
   );
 
-  const handleLoadStart = useCallback(() => {
-    setIsLoading(true);
-    setError(null);
-    props.onLoadStart?.();
-  }, [props]);
+  const handleLoadStart = useCallback(
+    (event: Parameters<NonNullable<WebViewProps['onLoadStart']>>[0]) => {
+      setIsLoading(true);
+      setError(null);
+      props.onLoadStart?.(event);
+    },
+    [props]
+  );
 
-  const handleLoadEnd = useCallback(() => {
-    setIsLoading(false);
-    props.onLoadEnd?.();
-  }, [props]);
+  const handleLoadEnd = useCallback(
+    (event: Parameters<NonNullable<WebViewProps['onLoadEnd']>>[0]) => {
+      setIsLoading(false);
+      props.onLoadEnd?.(event);
+    },
+    [props]
+  );
 
   const injectInitialScript = useCallback(() => {
     const availableActions = getAvailableActions();

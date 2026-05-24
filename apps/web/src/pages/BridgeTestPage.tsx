@@ -17,7 +17,7 @@ export const BridgeTestPage: React.FC = () => {
   useEffect(() => {
     setInApp(isInApp());
 
-    onAppEvent('testPush', (data) => {
+    onAppEvent('testPush', (data: unknown) => {
       console.log('[BridgeTestPage] 收到 App 推送:', data);
       setResults((prev) => [
         ...prev,

@@ -1,4 +1,6 @@
+import {NavigatorScreenParams} from '@react-navigation/native';
 import {NavigationState} from '@react-navigation/native';
+import {MainTabParamList} from './MainTabNavigator';
 
 // 自定义 NavigationContainer 组件的 Props
 export interface AppNavigationContainerProps {
@@ -29,9 +31,9 @@ export interface AppNavigationContainerProps {
 }
 // 导航参数类型
 export type RootStackParamList = {
-  Main: undefined;
+  Main: NavigatorScreenParams<MainTabParamList>;
   WebView: {uri: string; title?: string};
-  MyModal: undefined;
+  MyModal: {data?: string} | undefined;
   Modals: undefined;
   BridgeTest: undefined;
 };

@@ -67,20 +67,21 @@ ruby --version
 
 ```
 MyRnApp/
+├── apps/
+│   └── app/                      # @myapp/app — React Native 代码
+│       ├── src/                  # 页面、导航、组件
+│       └── package.json
+├── ios/                          # iOS 原生代码（根目录）
+│   ├── MyRnApp/
+│   ├── MyRnApp.xcodeproj/
+│   ├── MyRnApp.xcworkspace/      # ⚠️ 使用这个打开项目
+│   ├── Podfile
+│   └── Pods/
+├── android/                      # Android 原生代码（根目录）
+├── metro.config.js
 └── packages/
-    └── app/                      # React Native App 项目
-        ├── src/                  # React Native 代码
-        │   ├── screens/          # 页面组件
-        │   ├── navigators/       # 导航配置
-        │   └── components/       # 共享组件
-        ├── ios/                  # iOS 原生代码
-        │   ├── MyRnApp/          # App 代码
-        │   ├── MyRnApp.xcodeproj/ # Xcode 项目
-        │   ├── MyRnApp.xcworkspace/ # ⚠️ 使用这个打开项目
-        │   ├── Podfile           # CocoaPods 配置
-        │   └── Pods/             # CocoaPods 依赖
-        ├── android/              # Android 原生代码
-        └── package.json
+    ├── shared/
+    └── jsbridge/
 ```
 
 > [!important] 关键文件
@@ -98,7 +99,7 @@ MyRnApp/
 pnpm install
 
 # 2. 安装 iOS 依赖
-cd packages/app/ios
+cd ios
 pod install
 
 # 3. 启动 Metro 开发服务器
@@ -116,10 +117,10 @@ pnpm ios
 pnpm install
 
 # 2. 安装 iOS 依赖
-cd packages/app/ios && pod install && cd ../..
+cd ios && pod install && cd ../..
 
 # 3. 打开 Xcode
-open packages/app/ios/MyRnApp.xcworkspace
+open ios/MyRnApp.xcworkspace
 
 # 4. 在 Xcode 中按 Cmd + R 运行
 ```
@@ -145,7 +146,7 @@ pnpm install
 
 ```bash
 # 进入 iOS 目录
-cd packages/app/ios
+cd ios
 
 # 安装 CocoaPods 依赖
 pod install
@@ -164,8 +165,7 @@ pod install --repo-update
 pnpm start
 
 # 或者
-cd packages/app
-pnpm start
+pnpm dev:app
 ```
 
 Metro 会在 `http://localhost:8081` 启动。
@@ -192,7 +192,7 @@ npx react-native run-ios --configuration Release
 
 #### 方式 B：使用 Xcode
 
-1. 打开 `packages/app/ios/MyRnApp.xcworkspace`
+1. 打开 `ios/MyRnApp.xcworkspace`
 2. 选择目标模拟器（如 iPhone 16 Pro）
 3. 按 `Cmd + R` 运行
 
@@ -211,7 +211,7 @@ npx react-native run-ios --configuration Release
 
 ```bash
 # 1. 清理构建缓存
-cd packages/app/ios
+cd ios
 rm -rf build
 rm -rf Pods
 rm -rf ~/Library/Developer/Xcode/DerivedData
@@ -356,7 +356,7 @@ curl http://localhost:8081
 # 1. 停止 Metro（Ctrl + C）
 
 # 2. 清理缓存
-cd packages/app/ios
+cd ios
 rm -rf build
 rm -rf ~/Library/Developer/Xcode/DerivedData
 
@@ -371,7 +371,7 @@ pnpm start --reset-cache
 确保 `metro.config.js` 配置正确：
 
 ```javascript
-// packages/app/metro.config.js
+// metro.config.js（根目录）
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
 const config = {};
@@ -398,10 +398,10 @@ module.exports = mergeConfig(getDefaultConfig(__dirname), config);
 # 清理所有缓存
 rm -rf node_modules
 rm -rf packages/*/node_modules
-rm -rf packages/app/ios/Pods
-rm -rf packages/app/ios/build
+rm -rf ios/Pods
+rm -rf ios/build
 pnpm install
-cd packages/app/ios && pod install
+cd ios && pod install
 ```
 
 ### 技巧 3：切换模拟器
@@ -437,7 +437,6 @@ pnpm start
 
 ```bash
 # iOS Release
-cd packages/app
 npx react-native build-ios --mode release
 
 # 或在 Xcode 中

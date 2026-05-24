@@ -256,8 +256,8 @@ pnpm android
 ## 相关文件
 
 - Hook 实现：`packages/shared/src/hooks/useSaveMedia.ts`
-- 测试页面：`packages/app/src/screens/MediaSaveTestScreen.tsx`
-- Web 测试页面：`packages/web/src/pages/HomePage.tsx`
+- 测试页面：`apps/app/src/screens/MediaSaveTestScreen.tsx`
+- Web 测试页面：`apps/web/src/pages/HomePage.tsx`
 - 权限配置：`android/app/src/main/AndroidManifest.xml`
 
 ## 注意事项

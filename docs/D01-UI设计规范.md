@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
 在 Web 端需要设置 HTML 根元素字体大小：
 
 ```html
-<!-- packages/web/public/index.html -->
+<!-- public/index.html -->
 <style>
   html {
     font-size: 16px;

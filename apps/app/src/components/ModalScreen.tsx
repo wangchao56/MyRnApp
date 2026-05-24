@@ -1,9 +1,12 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, View, Pressable, Button} from 'react-native';
 import {observer} from 'mobx-react-lite';
-import {View, Pressable, Button} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigators/RouteType';
 
-function CustomModalScreen({navigation}) {
+type ModalScreenProps = NativeStackScreenProps<RootStackParamList, 'MyModal'>;
+
+function CustomModalScreen({navigation}: ModalScreenProps) {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       {/* 半透明遮罩 */}

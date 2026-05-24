@@ -1,9 +1,11 @@
+import {LinkingOptions} from '@react-navigation/native';
+import {RootStackParamList} from './RouteType';
+
 // Deep Link 配置
-// 深度链接配置示例
-export const linking = {
+export const linking: LinkingOptions<RootStackParamList> = {
   prefixes: ['myapp://', 'https://myapp.com'],
   config: {
-    initialRouteName: 'Main' as const,
+    initialRouteName: 'Main',
     screens: {
       Main: {
         screens: {

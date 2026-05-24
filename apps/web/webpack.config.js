@@ -1,18 +1,16 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const rootDir = path.resolve(__dirname, '../..');
+const webDir = __dirname;
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const webBabelConfig = path.resolve(__dirname, 'apps/web/babel.config.js');
+const webBabelConfig = path.resolve(webDir, 'babel.config.js');
 const transpileModules = [
   'react-native',
   '@react-native',
-  'react-native-vector-icons',
   '@react-native-vector-icons',
   'react-native-swiper-flatlist',
 ];
-
-const webDir = path.resolve(__dirname, 'apps/web');
 
 const shouldTranspileModule = modulePath => {
   const normalizedPath = modulePath.replace(/\\/g, '/');
@@ -41,15 +39,9 @@ module.exports = {
     alias: {
       'react-native$': 'react-native-web',
       '@react-native-vector-icons/get-image': path.resolve(webDir, 'src/shims/ReactNativeVectorIconsGetImage.js'),
-      'react-native-vector-icons': path.resolve(
-        __dirname,
-        'node_modules/.pnpm/react-native-vector-icons@10.3.0/node_modules/react-native-vector-icons',
-      ),
-      'react-native-swiper-flatlist': path.resolve(
-        __dirname,
-        'node_modules/.pnpm/react-native-swiper-flatlist@3.2.5_react-native@0.74.7/node_modules/react-native-swiper-flatlist',
-      ),
-      '@myapp/shared': path.resolve(__dirname, 'packages/shared/src'),
+      'react-native-swiper-flatlist': path.resolve(rootDir, 'node_modules/react-native-swiper-flatlist'),
+      '@myapp/shared': path.resolve(rootDir, 'packages/shared/src'),
+      '@myapp/jsbridge': path.resolve(rootDir, 'packages/jsbridge/src'),
     },
   },
   module: {
@@ -79,14 +71,8 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.NormalModuleReplacementPlugin(/^\.\/NativeRNVectorIcons$/, resource => {
-      const context = resource.context.replace(/\\/g, '/');
-      if (context.endsWith('/react-native-vector-icons/lib')) {
-        resource.request = path.resolve(webDir, 'src/shims/NativeRNVectorIcons.js');
-      }
-    }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html'),
+      template: path.resolve(rootDir, 'public/index.html'),
       filename: 'index.html',
     }),
   ],

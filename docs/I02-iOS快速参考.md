@@ -21,7 +21,7 @@ status: completed
 | 操作 | 命令 |
 |------|------|
 | 安装依赖 | `pnpm install` |
-| 安装 iOS 依赖 | `cd packages/app/ios && pod install` |
+| 安装 iOS 依赖 | `cd ios && pod install` |
 | 启动 Metro | `pnpm start` |
 | 运行 iOS | `pnpm ios` |
 | 运行指定模拟器 | `npx react-native run-ios --simulator="iPhone 16 Pro"` |
@@ -37,7 +37,7 @@ status: completed
 ```bash
 # 启动开发（推荐顺序）
 pnpm install              # 1. 安装依赖
-cd packages/app/ios && pod install && cd ../..  # 2. 安装 iOS pods
+cd ios && pod install && cd ..  # 2. 安装 iOS pods
 pnpm start                # 3. 启动 Metro
 pnpm ios                  # 4. 运行 iOS 应用
 
@@ -77,11 +77,11 @@ npx react-native bundle --platform ios --dev false --entry-file index.js --bundl
 
 | 路径 | 说明 |
 |------|------|
-| `packages/app/` | React Native App 项目根目录 |
-| `packages/app/ios/` | iOS 原生代码目录 |
-| `packages/app/src/` | React Native 源代码 |
+| `apps/app/` | React Native App 源码（@myapp/app） |
+| `ios/` | iOS 原生代码目录（根目录） |
+| `apps/app/src/` | React Native 源代码 |
 | `packages/shared/` | 共享代码（状态管理、组件等） |
-| `packages/web/` | Web 项目 |
+| `apps/web/` | Web 项目（@myapp/web） |
 
 ---
 

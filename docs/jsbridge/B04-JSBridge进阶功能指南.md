@@ -2,7 +2,7 @@
 
 > 状态：⚠️ 部分实现（2026-05-24 同步）  
 > - H5 SDK：从 `@myapp/jsbridge` 导入  
-> - App handlers：在 `packages/app/src/bridge/bridgeHandlers.ts`  
+> - App handlers：在 `apps/app/src/bridge/bridgeHandlers.ts`  
 > - 默认超时：**15 秒**（非 10 秒）
 
 ## 一、超时处理

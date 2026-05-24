@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { HybridWebView, HybridWebViewRef } from '../components/HybridWebView';
-import { BridgeRequest } from '@myapp/shared';
+import { BridgeRequest } from '@myapp/jsbridge';
 
 
 export const BridgeTestScreen: React.FC = () => {

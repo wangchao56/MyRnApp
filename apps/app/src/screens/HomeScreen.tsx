@@ -16,6 +16,8 @@ import {observer} from 'mobx-react-lite';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigators/RouteType';
 
 const {width} = Dimensions.get('window');
 
@@ -29,7 +31,7 @@ export const HomeScreenCom: React.FC = () => {
   const {user, isLoggedIn, displayName, logout, login} = useAuth();
   const {isDarkMode} = useTheme();
   const [previewVisible, setPreviewVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [swiperWidth, setSwiperWidth] = useState(width - 32); // 初始宽度，考虑到Card的padding
 
