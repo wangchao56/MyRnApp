@@ -256,8 +256,8 @@ importers:
         specifier: ^4.0.0
         version: 4.1.1(mobx@6.15.3)(react-dom@18.3.1)(react-native@0.77.3)(react@18.3.1)
       mobx-state-tree:
-        specifier: ^5.4.0
-        version: 5.4.2(mobx@6.15.3)
+        specifier: ^7.0.0
+        version: 7.2.0(mobx@6.15.3)(typescript@5.0.4)
 
 packages:
 
@@ -7932,14 +7932,6 @@ packages:
       react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.5)(@react-native-community/cli@15.0.1)(@types/react@18.3.29)(react@18.3.1)
       use-sync-external-store: 1.6.0(react@18.3.1)
 
-  /mobx-state-tree@5.4.2(mobx@6.15.3):
-    resolution: {integrity: sha512-SGXAh2KCBQbWVcxeQbZEr5pchTgcfNZmGVRL2a2Me+pSMH98bZWXD6EOuuijbTGbc0hOoOsbab3JdwJyr+fW7Q==}
-    peerDependencies:
-      mobx: ^6.3.0
-    dependencies:
-      mobx: 6.15.3
-    dev: false
-
   /mobx-state-tree@7.2.0(mobx@6.15.3)(typescript@5.0.4):
     resolution: {integrity: sha512-o46IsMI/lHITYCmkbQgNOCDT8M9Hd2WAgOlHt42hCg+XUZP21obF5ui5Vv9epIsQV8Wpp/GWNHu1YFhTx6iq0g==}
     peerDependencies:
@@ -7949,7 +7941,6 @@ packages:
       ts-essentials: 9.4.2(typescript@5.0.4)
     transitivePeerDependencies:
       - typescript
-    dev: true
 
   /mobx@6.15.3:
     resolution: {integrity: sha512-6+ZSYDs5zgH5CdGfEU2q2Lsa5PztVryL1ys7kAImTU25n2A9LAMj/yneVsQpd03MfwMLDQF+7kakJR9Z+cQxSw==}
@@ -9888,7 +9879,6 @@ packages:
         optional: true
     dependencies:
       typescript: 5.0.4
-    dev: true
 
   /ts-loader@9.5.7(typescript@5.0.4)(webpack@5.107.0):
     resolution: {integrity: sha512-/ZNrKgA3K3PtpMYOC71EeMWIloGw3IYEa5/t1cyz2r5/PyUwTXGzYJvcD3kfUvmhlfpz1rhV8B2O6IVTQ0avsg==}

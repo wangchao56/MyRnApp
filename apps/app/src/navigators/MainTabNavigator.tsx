@@ -99,9 +99,7 @@ export const MainTabs = observer(MainTabsComponent);
 // 主导航（包含 Stack 页面）
 export default function MainNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="MainTabs" component={MainTabs} options={{headerShown: false}} />
-    </Stack.Navigator>
+      <Stack.Screen name="Main" component={MainTabs} options={{headerShown: false}} />
   );
 }
 

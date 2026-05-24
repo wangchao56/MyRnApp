@@ -14,5 +14,7 @@ export {
   share,
   onAppEvent,
   offAppEvent,
+  waitForBridgeReady,
+  isBridgeReady,
 } from './JSBridge';
 export { default } from './JSBridge';

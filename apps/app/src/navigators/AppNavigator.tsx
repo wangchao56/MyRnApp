@@ -1,12 +1,13 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainerRef, NavigationContainer} from '@react-navigation/native';
+import { Platform, StatusBar } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 
-import {ModalScreen} from '../components/ModalScreen';
-import {BridgeTestScreen} from '../screens/BridgeTestScreen';
-import {RootStackParamList} from './RouteType';
-import {ModalStack, modalNavigationRef} from './ModalStack';
-import {MainTabs} from './MainTabNavigator';
+import { ModalScreen } from '../components/ModalScreen';
+import { BridgeTestScreen } from '../screens/BridgeTestScreen';
+import { RootStackParamList } from './RouteType';
+import { ModalStack, modalNavigationRef } from './ModalStack';
+import MainNavigator, { MainTabs } from './MainTabNavigator';
 
 
 
@@ -21,8 +22,10 @@ export const setRootNavigation = (ref: NavigationContainerRef<RootStackParamList
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 export const AppNavigator: React.FC = () => {
   return (
-    <RootStack.Navigator screenOptions={{headerShown: false}}>
-      <RootStack.Screen name="Main" component={MainTabs} />
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      {/* <MainNavigator /> */}
+      {MainNavigator()}
+      {/* <RootStack.Screen name="Main" component={MainTabs} options={{headerShown: false}} /> */}
       {/* Modal 层（独立导航容器） */}
       <RootStack.Screen name="Modals">
         {() => (
@@ -36,7 +39,11 @@ export const AppNavigator: React.FC = () => {
       <RootStack.Screen
         name="BridgeTest"
         component={BridgeTestScreen}
-        options={{headerShown: true, title: 'Bridge 测试'}}
+        options={{
+          headerShown: true,
+          title: 'Bridge 测试',
+          statusBarTranslucent: false, // 只针对这个页面设置
+        }}
       />
     </RootStack.Navigator>
   );

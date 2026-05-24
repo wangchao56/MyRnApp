@@ -18,6 +18,7 @@ type PendingCallback = {
   resolve: (value: any) => void;
   reject: (error: Error) => void;
   timeoutId?: ReturnType<typeof setTimeout>;
+  createdAt: number;
 };
 
 type MockHandler = (action: string, data?: any) => any;
@@ -28,6 +29,9 @@ interface JSBridgeOptions {
   mockHandler?: MockHandler;
 }
 
+const MAX_MESSAGE_QUEUE_SIZE = 100;
+const MESSAGE_TTL = 30000;
+
 class JSBridge {
   private callbacks: Map<string, PendingCallback> = new Map();
   private idCounter = 0;
@@ -37,6 +41,12 @@ class JSBridge {
   private isInitialized = false;
   private platform: PlatformType | null = null;
   private shareAdapters: ShareAdapter[] = [];
+  private messageQueue: Array<{ data: string; timestamp: number }> = [];
+  private isReady = false;
+  private readyPromiseResolve?: () => void;
+  private readyPromise = new Promise<void>((resolve) => {
+    this.readyPromiseResolve = resolve;
+  });
 
   constructor(options: JSBridgeOptions = {}) {
     this.timeout = options.timeout ?? DEFAULT_TIMEOUT;
@@ -47,9 +57,43 @@ class JSBridge {
 
   private async init(): Promise<void> {
     this.setupGlobalReceiver();
+    this.setupReadyListener();
     this.platform = await EnvDetector.getPlatform();
     this.setupShareAdapters();
     this.isInitialized = true;
+    
+    this.cleanupExpiredCallbacks();
+  }
+
+  private setupReadyListener(): void {
+    if (typeof window === 'undefined') return;
+
+    const checkReady = () => {
+      if ((window as any).__HYBRID_WEBVIEW_READY__) {
+        this.setReady();
+      }
+    };
+
+    window.addEventListener('hybridWebViewReady', () => {
+      this.setReady();
+    });
+
+    setTimeout(checkReady, 100);
+  }
+
+  private setReady(): void {
+    if (!this.isReady) {
+      this.isReady = true;
+      this.flushMessageQueue();
+      this.readyPromiseResolve?.();
+    }
+  }
+
+  private waitForReady(): Promise<void> {
+    if (this.isReady) {
+      return Promise.resolve();
+    }
+    return this.readyPromise;
   }
 
   private generateMsgId(): string {
@@ -61,6 +105,15 @@ class JSBridge {
 
     (window as any).__RECEIVE_MESSAGE_FROM_APP__ = this.receiveMessage.bind(this);
     (window as any).__ON_APP_EVENT__ = this.handleAppEvent.bind(this);
+  }
+
+  private flushMessageQueue(): void {
+    while (this.messageQueue.length > 0) {
+      const item = this.messageQueue.shift();
+      if (item && Date.now() - item.timestamp < MESSAGE_TTL) {
+        window.ReactNativeWebView?.postMessage(item.data);
+      }
+    }
   }
 
   getPlatform(): PlatformType | null {
@@ -79,32 +132,50 @@ class JSBridge {
     return this.platform === 'wechat-h5' || this.platform === 'miniprogram';
   }
 
-  invoke<T = any, R = any>(action: string, data?: T): Promise<R> {
-    return new Promise((resolve, reject) => {
-      if (!this.isInApp()) {
-        if (this.enableMock) {
-          const mockResult = this.getMockResult(action, data);
-          if (mockResult !== undefined) {
-            resolve(mockResult as R);
-            return;
-          }
+  async invoke<T = any, R = any>(action: string, data?: T): Promise<R> {
+    if (!this.isInApp()) {
+      if (this.enableMock) {
+        const mockResult = this.getMockResult(action, data);
+        if (mockResult !== undefined) {
+          return Promise.resolve(mockResult as R);
         }
-        reject(new Error(`Action '${action}' 需要在 App 环境内执行，当前环境: ${this.platform}`));
-        return;
       }
+      return Promise.reject(new Error(`Action '${action}' 需要在 App 环境内执行，当前环境: ${this.platform}`));
+    }
 
+    await this.waitForReady();
+
+    return new Promise((resolve, reject) => {
       const msgId = this.generateMsgId();
+      const createdAt = Date.now();
 
       const timeoutId = setTimeout(() => {
         this.callbacks.delete(msgId);
         reject(new Error(`Action '${action}' 超时 (${this.timeout}ms)`));
       }, this.timeout);
 
-      this.callbacks.set(msgId, { resolve, reject, timeoutId });
+      this.callbacks.set(msgId, { resolve, reject, timeoutId, createdAt });
 
       const request: BridgeRequest<T> = { msgId, action, data };
-      window.ReactNativeWebView?.postMessage(JSON.stringify(request));
+      const messageData = JSON.stringify(request);
+
+      if (window.ReactNativeWebView) {
+        try {
+          window.ReactNativeWebView.postMessage(messageData);
+        } catch (e) {
+          this.queueMessage(messageData);
+        }
+      } else {
+        this.queueMessage(messageData);
+      }
     });
+  }
+
+  private queueMessage(data: string): void {
+    if (this.messageQueue.length >= MAX_MESSAGE_QUEUE_SIZE) {
+      this.messageQueue.shift();
+    }
+    this.messageQueue.push({ data, timestamp: Date.now() });
   }
 
   private receiveMessage(responseString: string): void {
@@ -160,7 +231,11 @@ class JSBridge {
     if (!this.platform) return;
 
     const sendRNMessage = (msg: string) => {
-      window.ReactNativeWebView?.postMessage(msg);
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(msg);
+      } else {
+        this.queueMessage(msg);
+      }
     };
 
     this.shareAdapters = getAdaptersForPlatform(this.platform, sendRNMessage);
@@ -191,6 +266,19 @@ class JSBridge {
     throw new Error('当前环境不支持分享功能');
   }
 
+  private cleanupExpiredCallbacks(): void {
+    const now = Date.now();
+    for (const [msgId, callback] of this.callbacks.entries()) {
+      if (now - callback.createdAt > this.timeout * 2) {
+        if (callback.timeoutId) {
+          clearTimeout(callback.timeoutId);
+        }
+        callback.reject(new Error('Callback expired'));
+        this.callbacks.delete(msgId);
+      }
+    }
+  }
+
   private getMockResult(action: string, data?: any): any {
     if (this.mockHandler) {
       const custom = this.mockHandler(action, data);
@@ -219,12 +307,17 @@ class JSBridge {
     return this.callbacks.size;
   }
 
+  get readyState(): boolean {
+    return this.isReady;
+  }
+
   destroy(): void {
     this.callbacks.forEach(({ timeoutId, reject }) => {
       if (timeoutId) clearTimeout(timeoutId);
       reject(new Error('JSBridge 已销毁'));
     });
     this.callbacks.clear();
+    this.messageQueue = [];
   }
 }
 
@@ -252,6 +345,14 @@ export const onAppEvent = (eventType: string, handler: (data: any) => void): (()
 
 export const offAppEvent = (eventType: string): void => {
   jsbridge.offAppEvent(eventType);
+};
+
+export const waitForBridgeReady = (): Promise<void> => {
+  return jsbridge.waitForReady();
+};
+
+export const isBridgeReady = (): boolean => {
+  return jsbridge.readyState;
 };
 
 export default jsbridge;

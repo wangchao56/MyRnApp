@@ -1,12 +1,13 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, ActivityIndicator, Alert, Platform, ScrollView} from 'react-native';
-import {useSaveMedia} from '@myapp/shared';
+import { View, Text, Button, StyleSheet, ActivityIndicator, Alert, Platform, ScrollView } from 'react-native';
+import { useSaveMedia } from '@myapp/shared';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TEST_IMAGE_URL = 'https://picsum.photos/800/600?random=100';
 const TEST_VIDEO_URL = 'https://www.w3schools.com/html/mov_bbb.mp4';
 
 export const MediaSaveTestScreen: React.FC = () => {
-  const {saveMedia, isLoading, error, success, reset} = useSaveMedia();
+  const { saveMedia, isLoading, error, success, reset } = useSaveMedia();
 
   const handleSaveImage = async () => {
     try {
@@ -38,84 +39,85 @@ export const MediaSaveTestScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>媒体保存测试</Text>
-      <Text style={styles.subtitle}>平台: {Platform.OS}</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>媒体保存测试</Text>
+        <Text style={styles.subtitle}>平台: {Platform.OS}</Text>
 
-      <View style={styles.statusContainer}>
-        {isLoading && (
-          <View style={styles.statusItem}>
-            <ActivityIndicator size="large" color="#007AFF" />
-            <Text style={styles.statusText}>正在保存...</Text>
-          </View>
-        )}
+        <View style={styles.statusContainer}>
+          {isLoading && (
+            <View style={styles.statusItem}>
+              <ActivityIndicator size="large" color="#007AFF" />
+              <Text style={styles.statusText}>正在保存...</Text>
+            </View>
+          )}
 
-        {success && !isLoading && (
-          <View style={[styles.statusItem, styles.successBox]}>
-            <Text style={styles.successText}>✅ 保存成功！</Text>
-          </View>
-        )}
+          {success && !isLoading && (
+            <View style={[styles.statusItem, styles.successBox]}>
+              <Text style={styles.successText}>✅ 保存成功！</Text>
+            </View>
+          )}
 
-        {error && !isLoading && (
-          <View style={[styles.statusItem, styles.errorBox]}>
-            <Text style={styles.errorText}>❌ 错误: {error}</Text>
-          </View>
-        )}
-      </View>
+          {error && !isLoading && (
+            <View style={[styles.statusItem, styles.errorBox]}>
+              <Text style={styles.errorText}>❌ 错误: {error}</Text>
+            </View>
+          )}
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title="📷 保存图片"
-          onPress={handleSaveImage}
-          disabled={isLoading}
-        />
-      </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="📷 保存图片"
+            onPress={handleSaveImage}
+            disabled={isLoading}
+          />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title="🎬 保存视频"
-          onPress={handleSaveVideo}
-          disabled={isLoading}
-        />
-      </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="🎬 保存视频"
+            onPress={handleSaveVideo}
+            disabled={isLoading}
+          />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title="🔄 重置状态"
-          onPress={handleReset}
-          color="#8E8E93"
-        />
-      </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="🔄 重置状态"
+            onPress={handleReset}
+            color="#8E8E93"
+          />
+        </View>
 
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoTitle}>测试信息</Text>
-        <Text style={styles.infoText}>
-          测试图片: {TEST_IMAGE_URL}
-        </Text>
-        <Text style={styles.infoText}>
-          测试视频: {TEST_VIDEO_URL}
-        </Text>
-        <Text style={styles.infoText}>
-          目标相册: MyRnApp Test
-        </Text>
-      </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoTitle}>测试信息</Text>
+          <Text style={styles.infoText}>
+            测试图片: {TEST_IMAGE_URL}
+          </Text>
+          <Text style={styles.infoText}>
+            测试视频: {TEST_VIDEO_URL}
+          </Text>
+          <Text style={styles.infoText}>
+            目标相册: MyRnApp Test
+          </Text>
+        </View>
 
-      <View style={styles.platformInfo}>
-        <Text style={styles.platformTitle}>平台信息</Text>
-        <Text style={styles.platformText}>OS: {Platform.OS}</Text>
-        <Text style={styles.platformText}>Version: {Platform.Version}</Text>
-        <Text style={styles.platformText}>
-          权限处理: {Platform.OS === 'android' ? '自动请求存储权限' : '无需权限'}
-        </Text>
-      </View>
-    </ScrollView>
+        <View style={styles.platformInfo}>
+          <Text style={styles.platformTitle}>平台信息</Text>
+          <Text style={styles.platformText}>OS: {Platform.OS}</Text>
+          <Text style={styles.platformText}>Version: {Platform.Version}</Text>
+          <Text style={styles.platformText}>
+            权限处理: {Platform.OS === 'android' ? '自动请求存储权限' : '无需权限'}
+          </Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    padding: 20,
+    flex: 1,
     backgroundColor: '#F2F2F7',
   },
   title: {

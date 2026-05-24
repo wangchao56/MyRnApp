@@ -5,13 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import { HybridWebView, HybridWebViewRef } from '../components/HybridWebView';
 import { BridgeRequest } from '@myapp/jsbridge';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const BridgeTestScreen: React.FC = () => {
   const webviewRef = useRef<HybridWebViewRef>(null);
@@ -43,29 +41,16 @@ export const BridgeTestScreen: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.webviewContainer}>
-        <HybridWebView
-          ref={webviewRef}
-          source={{ uri: "http://192.168.31.49:3000/bridge-test" }}
-          onBridgeMessage={handleBridgeMessage}
-          // renderLoading={renderLoading}
-          webviewDebuggingEnabled={true}  // Android 专用属性
-          renderError={renderError}
-          style={styles.webview}
-        />
-      </View>
-
-      <View style={styles.debugPanel}>
-        <Text style={styles.debugTitle}>调试信息</Text>
-        <ScrollView style={styles.debugContent}>
-          <Text style={styles.debugText}>
-            {lastMessage
-              ? JSON.stringify(lastMessage, null, 2)
-              : '暂无消息'}
-          </Text>
-        </ScrollView>
-      </View>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <HybridWebView
+        ref={webviewRef}
+        source={{ uri: "http://192.168.31.49:3000/bridge-test" }}
+        onBridgeMessage={handleBridgeMessage}
+        // renderLoading={renderLoading}
+        webviewDebuggingEnabled={true}  // Android 专用属性
+        renderError={renderError}
+        style={styles.webview}
+      />
     </SafeAreaView>
   );
 };
