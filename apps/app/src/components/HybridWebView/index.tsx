@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useImperativeHandle, forwardRef, useMemo } from 'react';
+import React, { useCallback, useRef, useImperativeHandle, forwardRef, useMemo, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -14,7 +14,7 @@ import {
   BridgeResponse,
   BRIDGE_RESPONSE_CODE,
 } from '@myapp/jsbridge';
-import { bridgeHandlers, getAvailableActions } from '../../bridge';
+import { bridgeHandlers, getAvailableActions, LoadingManager } from '../../bridge';
 
 export interface HybridWebViewRef {
   sendToH5: (response: BridgeResponse) => void;
@@ -34,9 +34,14 @@ export interface HybridWebViewProps extends Omit<WebViewProps, 'source' | 'rende
   renderError?: (error: { code: number; message: string; url?: string }) => React.ReactNode;
   enableDebug?: boolean;
   maxRetryCount?: number;
+  loadTimeout?: number;
+  hideLoadingOnSpaNavigation?: boolean;
+  onLoadingStateChange?: (isLoading: boolean, text?: string) => void;
+  enableNativeLoadingControl?: boolean;
 }
 
 const DEFAULT_MAX_RETRY = 3;
+const DEFAULT_LOAD_TIMEOUT = 15000;
 const CACHE_ENABLED = true;
 const THIRD_PARTY_COOKIES_ENABLED = Platform.OS === 'android';
 
@@ -55,18 +60,26 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
     onNavigationStateChange,
     enableDebug = __DEV__,
     maxRetryCount = DEFAULT_MAX_RETRY,
+    loadTimeout = DEFAULT_LOAD_TIMEOUT,
+    hideLoadingOnSpaNavigation = true,
+    onLoadingStateChange,
+    enableNativeLoadingControl = true,
     ...props
   },
   ref
 ) => {
     const webviewRef = useRef<WebView>(null);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [loadingText, setLoadingText] = React.useState('加载中...');
+    const [isControlledByH5, setIsControlledByH5] = React.useState(false);
     const [error, setError] = React.useState<{ code: number; message: string; url?: string } | null>(null);
     const [retryCount, setRetryCount] = React.useState(0);
     const [canGoBack, setCanGoBack] = React.useState(false);
     const currentUrlRef = useRef<string>('');
+    const currentHostRef = useRef<string>('');
     const messageQueueRef = useRef<BridgeResponse[]>([]);
     const isWebViewReadyRef = useRef(false);
+    const loadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const injectedJavaScriptBeforeContentLoaded = useMemo(() => {
       const availableActions = getAvailableActions();
@@ -189,6 +202,15 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
       [onBridgeMessage, sendResponseToH5, enableDebug]
     );
 
+    const parseHostFromUrl = useCallback((url: string): string => {
+      try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.host;
+      } catch (e) {
+        return '';
+      }
+    }, []);
+
     const checkUrlInWhitelist = useCallback((url: string): boolean => {
       if (whitelist.length === 0) return true;
       
@@ -199,6 +221,13 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
         return false;
       }
     }, [whitelist]);
+
+    const clearLoadTimeout = useCallback(() => {
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current);
+        loadTimeoutRef.current = null;
+      }
+    }, []);
 
     const handleShouldStartLoadWithRequest = useCallback(
       (request: any): boolean => {
@@ -236,6 +265,8 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
 
     const handleError = useCallback(
       (syntheticEvent: any) => {
+        clearLoadTimeout();
+        
         const { nativeEvent } = syntheticEvent;
         const errorCode = nativeEvent.code || -1;
         const errorMessage = nativeEvent.description || 'WebView Error';
@@ -243,6 +274,7 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
         
         console.error('[HybridWebView] WebView error:', { code: errorCode, message: errorMessage, url });
         
+        setIsLoading(false);
         setError({
           code: errorCode,
           message: errorMessage,
@@ -251,7 +283,7 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
         
         props.onError?.(syntheticEvent);
       },
-      [props]
+      [props, clearLoadTimeout]
     );
 
     const handleHttpError = useCallback(
@@ -277,22 +309,57 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
 
     const handleLoadStart = useCallback(
       (event: Parameters<NonNullable<WebViewProps['onLoadStart']>>[0]) => {
-        setIsLoading(true);
-        setError(null);
-        isWebViewReadyRef.current = false;
+        const newUrl = event.nativeEvent.url;
+        const newHost = parseHostFromUrl(newUrl);
         
-        if (enableDebug) {
-          console.log('[HybridWebView] 开始加载:', event.nativeEvent.url);
+        // 检查是否是同一 host 内部导航（SPA 路由）
+        const isSameHostNavigation = 
+          currentHostRef.current && 
+          currentHostRef.current === newHost;
+        
+        if (hideLoadingOnSpaNavigation && isSameHostNavigation) {
+          // 如果是 SPA 内部路由，不显示加载状态
+          if (enableDebug) {
+            console.log('[HybridWebView] 检测到 SPA 路由变更，跳过加载状态:', newUrl);
+          }
+        } else if (!isControlledByH5) {
+          // 真实页面加载，且没有被 H5 控制，显示加载状态
+          setIsLoading(true);
+          setError(null);
+          isWebViewReadyRef.current = false;
+          
+          // 设置加载超时
+          clearLoadTimeout();
+          loadTimeoutRef.current = setTimeout(() => {
+            if (enableDebug) {
+              console.warn('[HybridWebView] 加载超时，隐藏加载状态');
+            }
+            setIsLoading(false);
+          }, loadTimeout);
+          
+          if (enableDebug) {
+            console.log('[HybridWebView] 开始加载:', newUrl);
+          }
         }
+        
+        // 更新当前 host
+        currentHostRef.current = newHost;
+        currentUrlRef.current = newUrl;
         
         props.onLoadStart?.(event);
       },
-      [props, enableDebug]
+      [props, enableDebug, parseHostFromUrl, clearLoadTimeout, hideLoadingOnSpaNavigation, loadTimeout, isControlledByH5]
     );
 
     const handleLoadEnd = useCallback(
       (event: Parameters<NonNullable<WebViewProps['onLoadEnd']>>[0]) => {
-        setIsLoading(false);
+        // 清除超时定时器
+        clearLoadTimeout();
+        
+        if (!isControlledByH5) {
+          setIsLoading(false);
+        }
+        
         isWebViewReadyRef.current = true;
         setRetryCount(0);
         flushMessageQueue();
@@ -303,7 +370,7 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
         
         props.onLoadEnd?.(event);
       },
-      [props, enableDebug, flushMessageQueue]
+      [props, enableDebug, flushMessageQueue, clearLoadTimeout, isControlledByH5]
     );
 
     const handleLoadProgress = useCallback(
@@ -376,16 +443,49 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
     }, [canGoBack]);
 
     React.useEffect(() => {
+      // 初始化 host
+      if (source && 'uri' in source && typeof source.uri === 'string') {
+        currentHostRef.current = parseHostFromUrl(source.uri);
+        currentUrlRef.current = source.uri;
+      }
+    }, [source, parseHostFromUrl]);
+
+    React.useEffect(() => {
       return () => {
+        clearLoadTimeout();
         messageQueueRef.current = [];
         isWebViewReadyRef.current = false;
       };
-    }, []);
+    }, [clearLoadTimeout]);
+
+    // 监听 LoadingManager 状态变化
+    React.useEffect(() => {
+      if (!enableNativeLoadingControl) return;
+
+      const unsubscribe = LoadingManager.subscribe(({ isLoading, text }) => {
+        if (enableDebug) {
+          console.log('[HybridWebView] LoadingManager 状态变化:', isLoading, text);
+        }
+        
+        setIsLoading(isLoading);
+        if (text !== undefined) {
+          setLoadingText(text);
+        }
+        
+        // 如果是由 H5 触发的，设置受控状态
+        setIsControlledByH5(isLoading);
+        
+        // 通知外部状态变化
+        onLoadingStateChange?.(isLoading, text);
+      });
+
+      return unsubscribe;
+    }, [enableNativeLoadingControl, enableDebug, onLoadingStateChange]);
 
     const DefaultLoadingComponent = () => (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={styles.loadingText}>加载中...</Text>
+        <Text style={styles.loadingText}>{loadingText}</Text>
       </View>
     );
 

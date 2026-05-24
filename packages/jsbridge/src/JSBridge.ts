@@ -4,6 +4,7 @@ import {
   DEFAULT_TIMEOUT,
   ShareOptions,
   PlatformType,
+  ShowLoadingOptions,
 } from './types';
 
 declare var process: {
@@ -134,6 +135,14 @@ class JSBridge {
 
   isInWechat(): boolean {
     return this.platform === 'wechat-h5' || this.platform === 'miniprogram';
+  }
+
+  async showLoading(options?: ShowLoadingOptions): Promise<void> {
+    return this.invoke('showLoading', options);
+  }
+
+  async hideLoading(): Promise<void> {
+    return this.invoke('hideLoading');
   }
 
   async invoke<T = any, R = any>(action: string, data?: T): Promise<R> {
@@ -295,6 +304,8 @@ class JSBridge {
       getLocation: { latitude: 31.2304, longitude: 121.4737, city: '上海' },
       scanQRCode: { result: 'https://example.com', format: 'QR_CODE' },
       share: { success: true, mock: true },
+      showLoading: undefined,
+      hideLoading: undefined,
       getDeviceInfo: {
         platform: 'iOS',
         version: '16.0',
@@ -329,6 +340,14 @@ export const invoke = <T = any, R = any>(action: string, data?: T): Promise<R> =
 
 export const share = (options: ShareOptions): Promise<any> => {
   return jsbridge.share(options);
+};
+
+export const showLoading = (options?: ShowLoadingOptions): Promise<void> => {
+  return jsbridge.showLoading(options);
+};
+
+export const hideLoading = (): Promise<void> => {
+  return jsbridge.hideLoading();
 };
 
 export const isInApp = (): boolean => jsbridge.isInApp();

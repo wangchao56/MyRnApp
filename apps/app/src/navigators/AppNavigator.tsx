@@ -27,7 +27,7 @@ export const AppNavigator: React.FC = () => {
       {MainNavigator()}
       {/* <RootStack.Screen name="Main" component={MainTabs} options={{headerShown: false}} /> */}
       {/* Modal 层（独立导航容器） */}
-      <RootStack.Screen name="Modals">
+      <RootStack.Screen name="Modals" options={{ statusBarTranslucent: true }}>
         {() => (
           <NavigationContainer independent ref={modalNavigationRef}>
             <ModalStack />
@@ -42,7 +42,7 @@ export const AppNavigator: React.FC = () => {
         options={{
           headerShown: true,
           title: 'Bridge 测试',
-          statusBarTranslucent: false, // 只针对这个页面设置
+          statusBarTranslucent: false, // 只针对这个页面设置 不从状态栏左上角开始布局
         }}
       />
     </RootStack.Navigator>

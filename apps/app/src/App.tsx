@@ -36,8 +36,7 @@ function App() {
           <NavigationProvider>
             <StatusBar
               barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-              backgroundColor="transparent"
-              translucent={false}
+              translucent={true}
             />
             <AppNavigator />
           </NavigationProvider>

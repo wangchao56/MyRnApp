@@ -35,7 +35,7 @@ export const HomeScreenCom: React.FC = () => {
 
   const [swiperWidth, setSwiperWidth] = useState(width - 32); // 初始宽度，考虑到Card的padding
 
-  const backgroundColor = isDarkMode ? colors.darkGray : colors.background;
+  // const backgroundColor = isDarkMode ? colors.darkGray : colors.background;
 
   const handleLogin = async () => {
     try {
@@ -55,7 +55,7 @@ export const HomeScreenCom: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor}]}>
+    <SafeAreaView style={[styles.container]} edges={['top','bottom','left','right']}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Welcome to MyRnApp</Text>
         <Text style={styles.subtitle}>Native image component examples</Text>

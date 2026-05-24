@@ -12,6 +12,8 @@ export {
   isInWechat,
   getPlatform,
   share,
+  showLoading,
+  hideLoading,
   onAppEvent,
   offAppEvent,
   waitForBridgeReady,

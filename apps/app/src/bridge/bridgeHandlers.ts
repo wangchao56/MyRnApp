@@ -1,5 +1,42 @@
-import { ActionHandlers, ShareOptions as NewShareOptions } from '@myapp/jsbridge';
+import { ActionHandlers, ShareOptions as NewShareOptions, ShowLoadingOptions } from '@myapp/jsbridge';
 import { Alert, Platform, Share } from 'react-native';
+
+// 全局 loading 状态管理器
+interface LoadingState {
+  isLoading: boolean;
+  text: string;
+  listeners: Array<(state: { isLoading: boolean; text?: string }) => void>;
+}
+
+const loadingState: LoadingState = {
+  isLoading: false,
+  text: '加载中...',
+  listeners: [],
+};
+
+export const LoadingManager = {
+  getState: () => ({ isLoading: loadingState.isLoading, text: loadingState.text }),
+  
+  setState: (isLoading: boolean, text?: string) => {
+    loadingState.isLoading = isLoading;
+    if (text !== undefined) {
+      loadingState.text = text;
+    }
+    loadingState.listeners.forEach(listener => 
+      listener({ isLoading, text: loadingState.text })
+    );
+  },
+  
+  subscribe: (listener: (state: { isLoading: boolean; text?: string }) => void) => {
+    loadingState.listeners.push(listener);
+    return () => {
+      const index = loadingState.listeners.indexOf(listener);
+      if (index > -1) {
+        loadingState.listeners.splice(index, 1);
+      }
+    };
+  },
+};
 
 export interface UserInfo {
   userId: string;
@@ -119,6 +156,16 @@ export const bridgeHandlers: ActionHandlers = {
     console.log('[BridgeHandler] Toast:', message);
     Alert.alert('Toast', message || 'Toast');
     return { shown: true };
+  },
+
+  showLoading: async (options?: ShowLoadingOptions): Promise<void> => {
+    console.log('[BridgeHandler] showLoading:', options);
+    LoadingManager.setState(true, options?.text || '加载中...');
+  },
+
+  hideLoading: async (): Promise<void> => {
+    console.log('[BridgeHandler] hideLoading');
+    LoadingManager.setState(false);
   },
 };
 

@@ -50,3 +50,12 @@ export interface ShareOptions {
 }
 
 export type PlatformType = 'rn' | 'wechat-h5' | 'miniprogram' | 'browser';
+
+export interface ShowLoadingOptions {
+  text?: string;
+  mask?: boolean;
+}
+
+export interface AppEventTypes {
+  'loading-state': { isLoading: boolean; text?: string };
+}
