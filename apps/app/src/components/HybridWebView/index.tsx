@@ -343,14 +343,14 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
     }, []);
 
     const handleClearCache = useCallback(() => {
-      if (webviewRef.current) {
-        webviewRef.current.clearCache(true);
+      if (webviewRef.current && 'clearCache' in webviewRef.current) {
+        (webviewRef.current as any).clearCache(true);
       }
     }, []);
 
     const handleClearHistory = useCallback(() => {
-      if (webviewRef.current) {
-        webviewRef.current.clearHistory();
+      if (webviewRef.current && 'clearHistory' in webviewRef.current) {
+        (webviewRef.current as any).clearHistory();
       }
     }, []);
 
@@ -448,7 +448,7 @@ const HybridWebViewComponent: React.ForwardRefRenderFunction<
         
         {isLoading && !error && (
           <View style={styles.loadingOverlay}>
-            {renderLoading || <DefaultLoadingComponent />}
+            {renderLoading ? renderLoading() : <DefaultLoadingComponent />}
           </View>
         )}
       </View>

@@ -11,13 +11,13 @@ import MainNavigator, { MainTabs } from './MainTabNavigator';
 
 
 
-// 设置全局导航引用的回调
-let setNavigationRef: ((ref: NavigationContainerRef<RootStackParamList>) => void) | null = null;
+let rootNavigationRef: NavigationContainerRef<RootStackParamList> | null = null;
+
 export const setRootNavigation = (ref: NavigationContainerRef<RootStackParamList>) => {
-  if (setNavigationRef) {
-    setNavigationRef(ref);
-  }
+  rootNavigationRef = ref;
 };
+
+export const getRootNavigation = () => rootNavigationRef;
 // 创建导航器实例
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 export const AppNavigator: React.FC = () => {

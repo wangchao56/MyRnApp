@@ -89,11 +89,15 @@ class JSBridge {
     }
   }
 
-  private waitForReady(): Promise<void> {
+  waitForReady(): Promise<void> {
     if (this.isReady) {
       return Promise.resolve();
     }
     return this.readyPromise;
+  }
+
+  get readyState(): boolean {
+    return this.isReady;
   }
 
   private generateMsgId(): string {
@@ -305,10 +309,6 @@ class JSBridge {
 
   get pendingCount(): number {
     return this.callbacks.size;
-  }
-
-  get readyState(): boolean {
-    return this.isReady;
   }
 
   destroy(): void {
