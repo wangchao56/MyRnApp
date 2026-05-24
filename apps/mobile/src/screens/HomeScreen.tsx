@@ -79,6 +79,12 @@ export const HomeScreenCom: React.FC = () => {
             variant="primary"
             style={{marginTop: 8}}
           />
+          <Button
+            title="Clipboard Test"
+            onPress={() => navigation.navigate('ClipboardTest')}
+            variant="outline"
+            style={{marginTop: 8}}
+          />
         </Card>
 
         <Card style={styles.card}>

@@ -7,6 +7,7 @@ import {
   ImagePreview,
   OssImage,
   SaveMediaExample,
+  ClipboardExample,
   SmartImage,
   SvgIcon,
   colors,
@@ -145,6 +146,11 @@ export const HomeScreenCom: React.FC = () => {
       <Card style={styles.card}>
         <Text style={styles.cardTitle}>Save Media Test</Text>
         <SaveMediaExample />
+      </Card>
+
+      <Card style={styles.card}>
+        <Text style={styles.cardTitle}>Clipboard Test</Text>
+        <ClipboardExample />
       </Card>
       
       <Card

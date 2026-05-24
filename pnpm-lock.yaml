@@ -16,6 +16,9 @@ importers:
       '@react-native-async-storage/async-storage':
         specifier: ^1.23.0
         version: 1.24.0(react-native@0.77.3)
+      '@react-native-clipboard/clipboard':
+        specifier: ^1.16.3
+        version: 1.16.3(react-native@0.77.3)(react@18.3.1)
       '@react-native-vector-icons/material-icons':
         specifier: ^13.1.1
         version: 13.1.1(react-native@0.77.3)(react@18.3.1)
@@ -40,6 +43,9 @@ importers:
       react-native:
         specifier: 0.77.3
         version: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.5)(@react-native-community/cli@15.0.1)(@types/react@18.3.29)(react@18.3.1)
+      react-native-linear-gradient:
+        specifier: ^2.8.3
+        version: 2.8.3(react-native@0.77.3)(react@18.3.1)
       react-native-safe-area-context:
         specifier: ^5.8.0
         version: 5.8.0(react-native@0.77.3)(react@18.3.1)
@@ -180,7 +186,7 @@ importers:
         specifier: 5.2.4
         version: 5.2.4(tslib@2.8.1)(webpack-cli@5.1.4)(webpack@5.107.0)
 
-  apps/app:
+  apps/mobile:
     dependencies:
       '@myapp/jsbridge':
         specifier: workspace:*
@@ -1635,6 +1641,7 @@ packages:
 
   /@emnapi/wasi-threads@1.2.1:
     resolution: {integrity: sha512-uTII7OYF+/Mes/MrcIOYp5yOtSMLBWSIoLPpcgwipoiKbli6k322tcoFsxoIIxPDqW01SQGAgko4EzZi2BNv2w==}
+    requiresBuild: true
     dependencies:
       tslib: 2.8.1
     dev: true
@@ -2595,6 +2602,23 @@ packages:
       react-native: ^0.0.0-0 || >=0.60 <1.0
     dependencies:
       merge-options: 3.0.4
+      react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.5)(@react-native-community/cli@15.0.1)(@types/react@18.3.29)(react@18.3.1)
+    dev: false
+
+  /@react-native-clipboard/clipboard@1.16.3(react-native@0.77.3)(react@18.3.1):
+    resolution: {integrity: sha512-cMIcvoZKIrShzJHEaHbTAp458R9WOv0fB6UyC7Ek4Qk561Ow/DrzmmJmH/rAZg21Z6ixJ4YSdFDC14crqIBmCQ==}
+    peerDependencies:
+      react: '>= 16.9.0'
+      react-native: '>= 0.61.5'
+      react-native-macos: '>= 0.61.0'
+      react-native-windows: '>= 0.61.0'
+    peerDependenciesMeta:
+      react-native-macos:
+        optional: true
+      react-native-windows:
+        optional: true
+    dependencies:
+      react: 18.3.1
       react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.5)(@react-native-community/cli@15.0.1)(@types/react@18.3.29)(react@18.3.1)
     dev: false
 
@@ -8745,6 +8769,16 @@ packages:
   /react-is@19.2.6:
     resolution: {integrity: sha512-XjBR15BhXuylgWGuslhDKqlSayuqvqBX91BP8pauG8kd1zY8kotkNWbXksTCNRarse4kuGbe2kIY05ARtwNIvw==}
     dev: true
+
+  /react-native-linear-gradient@2.8.3(react-native@0.77.3)(react@18.3.1):
+    resolution: {integrity: sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 18.3.1
+      react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.5)(@react-native-community/cli@15.0.1)(@types/react@18.3.29)(react@18.3.1)
+    dev: false
 
   /react-native-safe-area-context@5.8.0(react-native@0.77.3)(react@18.3.1):
     resolution: {integrity: sha512-t+ZsAVzY/wWzzx34vqGbo3/as9EEESJdbyZNL7Yg5EYX+toYMtMqFoDDCvqZUi35eeGVsXc6pAaEk4edMwbuCQ==}

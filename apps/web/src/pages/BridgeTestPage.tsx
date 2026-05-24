@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { invoke, isInApp, onAppEvent, offAppEvent } from '@myapp/jsbridge';
+import { invoke, isInApp, onAppEvent, offAppEvent, showLoading, hideLoading ,share} from '@myapp/jsbridge';
 
 interface TestResult {
   action: string;
@@ -68,6 +68,10 @@ export const BridgeTestPage: React.FC = () => {
       console.error(`[${action}] 失败 (${duration}ms):`, error);
     }
   };
+  // 测试分享
+  const testShare = async () => {
+    await share({ title: '测试', desc: '来自 H5 的分享', link: 'https://www.bing.com',type:'link',imgUrl:"https://picsum.photos/600/400?random=11" });
+  };
 
   const getStatusColor = (status: TestResult['status']) => {
     switch (status) {
@@ -120,7 +124,7 @@ export const BridgeTestPage: React.FC = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.buttonSuccess]}
-            onPress={() => testAction('share', { title: '测试', text: '来自 H5 的分享' })}
+            onPress={() => testShare()}
           >
             <Text style={styles.buttonText}>分享</Text>
           </TouchableOpacity>

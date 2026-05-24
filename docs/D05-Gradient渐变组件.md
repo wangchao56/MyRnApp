@@ -1,16 +1,15 @@
 # Gradient 渐变组件
 
-> 状态：⚠️ 部分实现（2026-05-24 同步）  
-> Web 端使用 CSS `linear-gradient`；Native 端当前仅显示第一个颜色的纯色背景。
+> 状态：✅ 已实现（2026-05-25 同步）  
+> Web 端使用 CSS `linear-gradient`；Native 端使用 `react-native-linear-gradient`。  
+> 平台实现见 `index.web.tsx` / `index.tsx`，规范见 [D07-组件封装规范](./D07-组件封装规范.md)。
 
 ## 平台行为
 
 | 平台 | 状态 | 实现方式 |
 |------|------|----------|
-| Web | ✅ | CSS `backgroundImage: linear-gradient(...)` |
-| iOS / Android | ⚠️ | 纯色 fallback（`backgroundColor: colors[0]`） |
-
-> Native 真渐变可后续接入 `expo-linear-gradient` 或 `react-native-linear-gradient`，当前未安装。
+| Web | ✅ | CSS `backgroundImage: linear-gradient(...)`（`index.web.tsx`） |
+| iOS / Android | ✅ | `react-native-linear-gradient`（`index.tsx`） |
 
 ## 基础用法
 

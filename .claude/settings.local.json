@@ -3,7 +3,7 @@
     "allow": [
       "Bash(pnpm add:*)",
       "mcp__ide__getDiagnostics",
-      "Bash(pnpm build:app:web)",
+      "Bash(pnpm build:mobile:web)",
       "Bash(npx rspack:*)"
     ]
   }

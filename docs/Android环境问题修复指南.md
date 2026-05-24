@@ -1,11 +1,8 @@
 # Android 环境问题修复指南
 
-## 当前状态
-
-### 遇到的问题
-
-在尝试启动 Android 应用时遇到了以下问题：
-
+## 当前状�?
+### 遇到的问�?
+在尝试启�?Android 应用时遇到了以下问题�?
 1. **@react-native-camera-roll/camera-roll** - 已解决（已移除，改用 Web 端模拟）
 2. **react-native-vision-camera** - 缺少依赖 `react-native-nitro-modules`
 
@@ -18,42 +15,37 @@
 Project with path ':react-native-nitro-modules' could not be found in project ':react-native-vision-camera'.
 ```
 
-**原因**: `react-native-vision-camera` 需要 `react-native-nitro-modules` 作为依赖项。
-
+**原因**: `react-native-vision-camera` 需�?`react-native-nitro-modules` 作为依赖项�?
 ## 解决方案
 
 ### 方案一：安装缺失的依赖（推荐）
 
-安装 `react-native-nitro-modules`：
-
+安装 `react-native-nitro-modules`�?
 ```bash
 cd e:\workspace\MyRnApp
 pnpm add react-native-nitro-modules
 ```
 
-然后重新启动 Android：
-
+然后重新启动 Android�?
 ```bash
 pnpm android
 ```
 
 ### 方案二：移除 vision-camera（如果不需要）
 
-如果应用中不需要 vision-camera，可以暂时移除：
+如果应用中不需�?vision-camera，可以暂时移除：
 
 ```bash
 cd e:\workspace\MyRnApp
 pnpm remove react-native-vision-camera
 ```
 
-然后重新启动 Android：
-
+然后重新启动 Android�?
 ```bash
 pnpm android
 ```
 
-### 方案三：使用 Web 测试（无需配置）
-
+### 方案三：使用 Web 测试（无需配置�?
 由于 `useSaveMedia` hook 已简化为 Web 端实现，可以先在 Web 上测试：
 
 ```bash
@@ -66,8 +58,7 @@ pnpm dev:web
 
 ## 测试步骤
 
-### Web 端测试（立即可用）
-
+### Web 端测试（立即可用�?
 1. 启动 Web 服务器：
    ```bash
    cd e:\workspace\MyRnApp
@@ -78,18 +69,15 @@ pnpm dev:web
 
 3. 找到 "Save Media Test" 卡片
 
-4. 测试保存功能：
-   - 点击 "保存图片" - 文件会下载到本地
+4. 测试保存功能�?   - 点击 "保存图片" - 文件会下载到本地
    - 点击 "保存视频" - 文件会下载到本地
 
-### Android 端测试（需要先修复）
-
+### Android 端测试（需要先修复�?
 按照上述方案之一修复后：
 
-1. 启动 Metro Bundler：
-   ```bash
+1. 启动 Metro Bundler�?   ```bash
    cd e:\workspace\MyRnApp
-   pnpm dev:app
+   pnpm dev:mobile
    ```
 
 2. 启动 Android 应用（新终端）：
@@ -98,8 +86,7 @@ pnpm dev:web
    pnpm android
    ```
 
-3. 在应用中测试：
-   - 点击底部 "Media" 标签
+3. 在应用中测试�?   - 点击底部 "Media" 标签
    - 测试保存功能
 
 ## 完整代码实现
@@ -200,7 +187,7 @@ function MyComponent() {
       await saveMedia('https://example.com/image.jpg', {
         type: 'photo',
       });
-      console.log('保存成功！');
+      console.log('保存成功�?);
     } catch (err) {
       console.error('保存失败:', err);
     }
@@ -209,20 +196,17 @@ function MyComponent() {
   return (
     <View>
       <Button onPress={handleSave} disabled={isLoading} />
-      {success && <Text>保存成功！</Text>}
+      {success && <Text>保存成功�?/Text>}
       {error && <Text>错误: {error}</Text>}
     </View>
   );
 }
 ```
 
-## 修复 Android 环境的步骤
-
-### 快速修复
-
+## 修复 Android 环境的步�?
+### 快速修�?
 ```bash
-# 1. 安装缺失的依赖
-cd e:\workspace\MyRnApp
+# 1. 安装缺失的依�?cd e:\workspace\MyRnApp
 pnpm add react-native-nitro-modules
 
 # 2. 重新安装依赖
@@ -234,19 +218,15 @@ pnpm android
 
 ## 测试场景
 
-### 场景 1: Web 端保存图片
-
+### 场景 1: Web 端保存图�?
 1. 打开 http://localhost:3000/
-2. 滚动到 "Save Media Test" 卡片
+2. 滚动�?"Save Media Test" 卡片
 3. 点击 "📷 保存图片"
-4. 文件会自动下载
-
-### 场景 2: Web 端保存视频
-
+4. 文件会自动下�?
+### 场景 2: Web 端保存视�?
 1. 在同一页面
 2. 点击 "🎬 保存视频"
-3. 文件会自动下载
-
+3. 文件会自动下�?
 ### 场景 3: Android 端测试（修复后）
 
 1. 启动 Android 应用
@@ -256,27 +236,19 @@ pnpm android
 ## 相关文件
 
 - Hook 实现：`packages/shared/src/hooks/useSaveMedia.ts`
-- 测试页面：`apps/app/src/screens/MediaSaveTestScreen.tsx`
+- 测试页面：`apps/mobile/src/screens/MediaSaveTestScreen.tsx`
 - Web 测试页面：`apps/web/src/pages/HomePage.tsx`
 - 权限配置：`android/app/src/main/AndroidManifest.xml`
 
 ## 注意事项
 
-### Web 端限制
-- 只能下载文件到本地
-- 无法保存到相册
-
+### Web 端限�?- 只能下载文件到本�?- 无法保存到相�?
 ### Android 端（修复后）
-- 可以保存到相册
-- 需要正确配置原生依赖
-
-## 下一步
-
-1. 选择一个修复方案
-2. 修复 Android 环境
+- 可以保存到相�?- 需要正确配置原生依�?
+## 下一�?
+1. 选择一个修复方�?2. 修复 Android 环境
 3. 测试 Android 功能
-4. 如有问题，查看详细日志
-
+4. 如有问题，查看详细日�?
 ## 文档列表
 
 - [立即测试指南](./立即测试指南.md)

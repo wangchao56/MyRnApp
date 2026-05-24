@@ -20,6 +20,7 @@ export {OssImage} from './OssImage';
 export {AliOssImage, type AliOssImageProps} from './OssImage';
 export {ImagePreview, type ImagePreviewProps} from './ImagePreview';
 export {SaveMediaExample} from './SaveMediaExample';
+export {ClipboardExample} from './ClipboardExample';
 export {
   type OssResizeOptions,
   type ImageProcessOptions,
@@ -27,3 +28,4 @@ export {
   processImageUrlWithResizeOptions,
 } from '../utils/image';
 export {Scanner} from './Scanner';
+export {CopyButton} from './CopyButton';

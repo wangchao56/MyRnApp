@@ -1,9 +1,9 @@
 {
-  "name": "@myapp/app",
+  "name": "@myapp/mobile",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/app/src",
+  "sourceRoot": "apps/mobile/src",
   "projectType": "application",
-  "tags": ["scope:app", "platform:mobile"],
+  "tags": ["scope:mobile", "platform:mobile"],
   "targets": {
     "typecheck": {
       "executor": "nx:run-script",

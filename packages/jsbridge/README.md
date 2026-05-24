@@ -1,6 +1,6 @@
 # @myapp/jsbridge
 
-多平台 JSBridge 库，支持 React Native App、微信 H5、小程序和普通浏览器。
+多平�?JSBridge 库，支持 React Native App、微�?H5、小程序和普通浏览器�?
 
 ## 安装
 
@@ -8,9 +8,9 @@
 pnpm add @myapp/jsbridge
 ```
 
-## 快速使用
+## 快速使�?
 
-### 在 Web 项目中使用
+### �?Web 项目中使�?
 
 #### 方式一：ES Module 导入（推荐）
 
@@ -35,7 +35,7 @@ if (jsbridge.isInApp()) {
 }
 ```
 
-#### 方式二：使用独立打包的 UMD 版本
+#### 方式二：使用独立打包�?UMD 版本
 
 ```html
 <!-- 引入独立打包文件 -->
@@ -55,15 +55,15 @@ if (jsbridge.isInApp()) {
 </script>
 ```
 
-### 在 React Native 项目中使用
+### �?React Native 项目中使�?
 
-App 端的 Bridge handler 在 `@myapp/app` 包内，不在 jsbridge 包中：
+App 端的 Bridge handler �?`@myapp/mobile` 包内，不�?jsbridge 包中�?
 
 ```typescript
-// apps/app/src/components/HybridWebView/index.tsx
+// apps/mobile/src/components/HybridWebView/index.tsx
 import { bridgeHandlers } from '../../bridge/bridgeHandlers';
 
-// 处理来自 WebView 的消息
+// 处理来自 WebView 的消�?
 const handleMessage = async (event: WebViewMessageEvent) => {
   const { msgId, action, data } = JSON.parse(event.nativeEvent.data);
   const handler = bridgeHandlers[action];
@@ -74,15 +74,15 @@ const handleMessage = async (event: WebViewMessageEvent) => {
 };
 ```
 
-可用 actions 见 `apps/app/src/bridge/bridgeHandlers.ts`。
+可用 actions �?`apps/mobile/src/bridge/bridgeHandlers.ts`�?
 
 ## 构建
 
 ```bash
-# 构建所有版本
+# 构建所有版�?
 pnpm build
 
-# 构建过程包括：
+# 构建过程包括�?
 # - ESM 版本 (dist/esm/)
 # - CommonJS 版本 (dist/cjs/)
 # - 类型定义 (dist/types/)
@@ -91,7 +91,7 @@ pnpm build
 
 ## API 文档
 
-### 核心类
+### 核心�?
 
 - `jsbridge`: 全局单例实例
 
@@ -99,9 +99,9 @@ pnpm build
 
 - `invoke<T, R>(action: string, data?: T): Promise<R>`: 调用原生接口
 - `share(options: ShareOptions): Promise<any>`: 统一分享接口
-- `isInApp(): boolean`: 检查是否在 RN App 中
+- `isInApp(): boolean`: 检查是否在 RN App �?
 - `isInMiniProgram(): boolean`: 检查是否在小程序中
-- `isInWechat(): boolean`: 检查是否在微信中
+- `isInWechat(): boolean`: 检查是否在微信�?
 - `getPlatform(): PlatformType | null`: 获取当前平台类型
 - `onAppEvent(eventType: string, handler: (data: any) => void): () => void`: 订阅 App 事件
 - `offAppEvent(eventType: string): void`: 取消订阅 App 事件
@@ -120,17 +120,17 @@ pnpm build
 ```
 packages/jsbridge/
 ├── src/
-│   ├── index.ts          # 主入口
-│   ├── types.ts          # 类型定义
-│   ├── env.ts            # 环境检测
-│   ├── JSBridge.ts       # 核心类
-│   └── share-adapters.ts # 分享适配器
+�?  ├── index.ts          # 主入�?
+�?  ├── types.ts          # 类型定义
+�?  ├── env.ts            # 环境检�?
+�?  ├── JSBridge.ts       # 核心�?
+�?  └── share-adapters.ts # 分享适配�?
 ├── dist/
-│   ├── esm/              # ES Module 版本
-│   ├── cjs/              # CommonJS 版本
-│   ├── types/            # 类型定义
-│   └── umd/              # UMD 打包版本
-│       └── jsbridge.min.js
+�?  ├── esm/              # ES Module 版本
+�?  ├── cjs/              # CommonJS 版本
+�?  ├── types/            # 类型定义
+�?  └── umd/              # UMD 打包版本
+�?      └── jsbridge.min.js
 ├── package.json
 ├── tsconfig.json
 ├── webpack.config.js

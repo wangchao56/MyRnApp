@@ -2,7 +2,7 @@ const path = require('path');
 const rspack = require('@rspack/core');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const appDir = path.resolve(__dirname, 'apps/app');
+const appDir = path.resolve(__dirname, 'apps/mobile');
 const webDir = path.resolve(__dirname, 'apps/web');
 
 const transpileModules = [

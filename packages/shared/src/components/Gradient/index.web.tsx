@@ -1,7 +1,8 @@
 import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
+import {View} from 'react-native';
 
 import {
+  buildWebGradient,
   DIRECTION_TO_START_END,
   gradientStyles,
   GradientProps,
@@ -34,17 +35,8 @@ export const Gradient: React.FC<GradientProps> = ({
     finalEnd = finalEnd ?? directionMapping.end;
   }
 
-  return (
-    <LinearGradient
-      colors={colorArray}
-      start={finalStart}
-      end={finalEnd}
-      locations={finalLocations}
-      style={[gradientStyles.container, style]}
-    >
-      {children}
-    </LinearGradient>
-  );
+  const webGradientStyle = buildWebGradient(colorArray, direction, finalStart, finalEnd, finalLocations);
+  return <View style={[gradientStyles.container, webGradientStyle, style]}>{children}</View>;
 };
 
 export default Gradient;

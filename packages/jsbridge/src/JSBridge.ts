@@ -303,7 +303,6 @@ class JSBridge {
       getToken: 'mock_token_' + Date.now(),
       getLocation: { latitude: 31.2304, longitude: 121.4737, city: '上海' },
       scanQRCode: { result: 'https://example.com', format: 'QR_CODE' },
-      share: { success: true, mock: true },
       showLoading: undefined,
       hideLoading: undefined,
       getDeviceInfo: {

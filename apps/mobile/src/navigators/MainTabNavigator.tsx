@@ -8,6 +8,7 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { MediaSaveTestScreen } from '../screens/MediaSaveTestScreen';
+import { ClipboardTestScreen } from '../screens/ClipboardTestScreen';
 import { colors } from '@myapp/shared';
 import { useTheme } from '@react-navigation/native';
 import { View, Platform, StyleSheet, Text } from 'react-native';
@@ -18,6 +19,7 @@ export type MainTabParamList = {
   Profile: undefined;
   Settings: undefined;
   MediaTest: undefined;
+  ClipboardTest: undefined;
   MyModal: undefined;
 };
 
@@ -84,6 +86,14 @@ const MainTabsComponent: React.FC = () => {
         }}
       />
       <Tab.Screen
+        name="ClipboardTest"
+        component={ClipboardTestScreen}
+        options={{
+          tabBarLabel: 'Clipboard',
+          tabBarIcon: ({ focused }) => <TabIcon name="Clipboard" focused={focused} isDarkMode={isDarkMode} />,
+        }}
+      />
+      <Tab.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
@@ -99,7 +109,7 @@ export const MainTabs = observer(MainTabsComponent);
 // 主导航（包含 Stack 页面）
 export default function MainNavigator() {
   return (
-    <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false, statusBarTranslucent: true }} />
+    <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false, statusBarTranslucent: false }} />
   );
 }
 
