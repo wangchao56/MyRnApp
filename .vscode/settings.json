@@ -1,3 +1,7 @@
 {
-  "js/ts.tsdk.path": "node_modules/typescript/lib"
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "github-actions.workflows.pinned.workflows": [".github/workflows/docs.yml"],
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": [".github/workflows/*.yml"]
+  }
 }
