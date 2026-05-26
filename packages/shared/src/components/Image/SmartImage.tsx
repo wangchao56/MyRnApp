@@ -130,9 +130,9 @@ export const SmartImage: React.FC<SmartImageProps> = ({
   const mountedRef = useRef(true);
 
   const resolveSource = useCallback((src: any) => {
-    if (!src) return null;
-    if (typeof src === 'string') return { uri: src };
-    if (typeof src === 'object' && 'uri' in src) return src;
+    if (!src) {return null;}
+    if (typeof src === 'string') {return { uri: src };}
+    if (typeof src === 'object' && 'uri' in src) {return src;}
     return src;
   }, []);
 
@@ -140,7 +140,7 @@ export const SmartImage: React.FC<SmartImageProps> = ({
 
   useEffect(() => {
     mountedRef.current = true;
-    
+
     if (placeholder === 'skeleton') {
       const animation = Animated.loop(
         Animated.sequence([
@@ -157,13 +157,13 @@ export const SmartImage: React.FC<SmartImageProps> = ({
         ])
       );
       animation.start();
-      
+
       return () => {
         mountedRef.current = false;
         animation.stop();
       };
     }
-    
+
     return () => {
       mountedRef.current = false;
     };
@@ -179,8 +179,8 @@ export const SmartImage: React.FC<SmartImageProps> = ({
 
   const handleLoad = useCallback(
     (e: NativeSyntheticEvent<ImageLoadEventData>) => {
-      if (!mountedRef.current) return;
-      
+      if (!mountedRef.current) {return;}
+
       setIsLoading(false);
       onLoad?.();
 
@@ -197,8 +197,8 @@ export const SmartImage: React.FC<SmartImageProps> = ({
 
   const handleError = useCallback(
     (e: NativeSyntheticEvent<ImageErrorEventData>) => {
-      if (!mountedRef.current) return;
-      
+      if (!mountedRef.current) {return;}
+
       setIsLoading(false);
       setHasError(true);
       onError?.(e.nativeEvent.error);
@@ -232,7 +232,7 @@ export const SmartImage: React.FC<SmartImageProps> = ({
   };
 
   const renderLoadingPlaceholder = () => {
-    if (!isLoading) return null;
+    if (!isLoading) {return null;}
 
     if (placeholder === 'skeleton') {
       const backgroundColor = skeletonAnim.interpolate({
@@ -262,7 +262,7 @@ export const SmartImage: React.FC<SmartImageProps> = ({
   };
 
   const renderErrorPlaceholder = () => {
-    if (!hasError || isLoading) return null;
+    if (!hasError || isLoading) {return null;}
 
     return (
       <View style={styles.errorContainer}>
@@ -293,7 +293,7 @@ export const SmartImage: React.FC<SmartImageProps> = ({
           fadeDuration={fadeIn ? 250 : 0}
         />
       )}
-      
+
       {renderLoadingPlaceholder()}
       {renderErrorPlaceholder()}
     </>

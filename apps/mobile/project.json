@@ -7,7 +7,8 @@
   "targets": {
     "typecheck": {
       "executor": "nx:run-script",
-      "options": { "script": "typecheck" }
+      "options": { "script": "typecheck" },
+      "dependsOn": ["^build"]
     },
     "lint": {
       "executor": "nx:run-script",
@@ -19,15 +20,18 @@
     },
     "dev": {
       "executor": "nx:run-script",
-      "options": { "script": "dev" }
+      "options": { "script": "dev" },
+      "dependsOn": ["^build"]
     },
     "dev:web": {
       "executor": "nx:run-script",
-      "options": { "script": "dev:web" }
+      "options": { "script": "dev:web" },
+      "dependsOn": ["^build"]
     },
     "build:web": {
       "executor": "nx:run-script",
-      "options": { "script": "build:web" }
+      "options": { "script": "build:web" },
+      "dependsOn": ["^build"]
     }
   }
 }

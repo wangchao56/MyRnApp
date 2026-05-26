@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@myapp/shared": "workspace:*",
-    "@myapp/jsbridge": "workspace:*"
+    "@myapp/jsbridge": "workspace:*",
+    "@myapp/shared": "workspace:*"
   }
 }

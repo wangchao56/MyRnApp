@@ -111,7 +111,7 @@ export const AliOssImage: React.FC<AliOssImageProps> = ({
 
   useEffect(() => {
     mountedRef.current = true;
-    
+
     if (placeholder === 'skeleton') {
       const animation = Animated.loop(
         Animated.sequence([
@@ -128,13 +128,13 @@ export const AliOssImage: React.FC<AliOssImageProps> = ({
         ])
       );
       animation.start();
-      
+
       return () => {
         mountedRef.current = false;
         animation.stop();
       };
     }
-    
+
     return () => {
       mountedRef.current = false;
     };
@@ -150,8 +150,8 @@ export const AliOssImage: React.FC<AliOssImageProps> = ({
 
   const handleLoad = useCallback(
     (e: any) => {
-      if (!mountedRef.current) return;
-      
+      if (!mountedRef.current) {return;}
+
       setIsLoading(false);
       onLoad?.();
 
@@ -168,8 +168,8 @@ export const AliOssImage: React.FC<AliOssImageProps> = ({
 
   const handleError = useCallback(
     (e: any) => {
-      if (!mountedRef.current) return;
-      
+      if (!mountedRef.current) {return;}
+
       setIsLoading(false);
       setHasError(true);
       onError?.(e);
@@ -186,7 +186,7 @@ export const AliOssImage: React.FC<AliOssImageProps> = ({
   );
 
   const renderLoadingPlaceholder = () => {
-    if (!isLoading) return null;
+    if (!isLoading) {return null;}
 
     if (placeholder === 'skeleton') {
       const backgroundColor = skeletonAnim.interpolate({
@@ -211,7 +211,7 @@ export const AliOssImage: React.FC<AliOssImageProps> = ({
   };
 
   const renderErrorPlaceholder = () => {
-    if (!hasError || isLoading) return null;
+    if (!hasError || isLoading) {return null;}
 
     if (fallbackSource) {
       const fallbackResolved = processSource(fallbackSource, width, height, isPreview, {
@@ -269,7 +269,7 @@ export const AliOssImage: React.FC<AliOssImageProps> = ({
           onError={handleError}
           fadeDuration={fadeIn ? fadeInDuration : 0}
         />
-        
+
         {isLoading && placeholder !== 'none' && renderLoadingPlaceholder()}
         {hasError && renderErrorPlaceholder()}
       </>

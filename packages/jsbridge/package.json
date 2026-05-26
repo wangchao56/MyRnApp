@@ -2,22 +2,33 @@
   "name": "@myapp/jsbridge",
   "version": "1.0.0",
   "description": "Multi-platform JSBridge library",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
     "README.md"
   ],
+  "sideEffects": false,
   "scripts": {
-    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types && npm run build:umd",
-    "build:esm": "tsc --module es2020 --outDir dist/esm",
-    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist/types",
-    "build:umd": "webpack --mode production --config webpack.config.js",
-    "dev": "webpack --mode development --config webpack.config.js --watch",
-    "clean": "rimraf dist",
-    "typecheck": "tsc --noEmit"
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:esm": "tsc --module ES2020 --outDir dist/esm --declaration false",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs --declaration false",
+    "build:umd": "pnpm exec webpack --mode production --config webpack.config.js",
+    "build": "pnpm run clean && pnpm run build:types && pnpm run build:esm && pnpm run build:cjs && pnpm run build:umd",
+    "dev": "pnpm exec webpack --mode development --config webpack.config.js --watch",
+    "typecheck": "tsc --noEmit",
+    "prepare": "pnpm run build"
   },
   "keywords": [
     "jsbridge",
@@ -25,13 +36,5 @@
     "react-native"
   ],
   "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.19.41",
-    "rimraf": "^5.0.0",
-    "ts-loader": "9.5.7",
-    "typescript": "^5.0.0",
-    "webpack": "5.107.0",
-    "webpack-cli": "5.1.4"
-  }
+  "license": "MIT"
 }

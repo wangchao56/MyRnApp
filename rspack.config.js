@@ -47,6 +47,7 @@ module.exports = {
       '@react-native/assets-registry/registry': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native/assets-registry/path-support': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native-vector-icons/get-image': path.resolve(webDir, 'src/shims/ReactNativeVectorIconsGetImage.js'),
+      'expo-font': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native-clipboard/clipboard': path.resolve(webDir, 'src/shims/react-native-clipboard.js'),
       'react-native-swiper-flatlist': path.resolve(
         __dirname,

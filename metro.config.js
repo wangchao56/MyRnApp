@@ -16,7 +16,6 @@ const config = {
     ],
     extraNodeModules: {
       '@myapp/shared': path.resolve(sharedRoot, 'src'),
-      '@myapp/jsbridge': path.resolve(jsbridgeRoot, 'src'),
     },
     sourceExts: ['js', 'jsx', 'json', 'ts', 'tsx'],
   },

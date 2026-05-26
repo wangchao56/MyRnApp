@@ -1,23 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Modal,
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image as RNImage,
-  Animated,
-  ScrollView,
-  Platform,
-} from 'react-native';
-import { useStyles, createStyleSheet } from '../../theme';
+import React, {useState, useRef, useEffect} from 'react';
+import {Modal, View, TouchableOpacity, Text, Dimensions, Image as RNImage, ScrollView, Platform} from 'react-native';
+import {useStyles, createStyleSheet} from '../../theme';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 export interface ImagePreviewProps {
   visible: boolean;
-  images: Array<string | { uri: string } | number>;
+  images: Array<string | {uri: string} | number>;
   initialIndex?: number;
   onClose: () => void;
   backgroundColor?: string;
@@ -26,7 +15,7 @@ export interface ImagePreviewProps {
   showIndicator?: boolean;
 }
 
-const defaultPreviewStyles = createStyleSheet((theme) => ({
+const defaultPreviewStyles = createStyleSheet(theme => ({
   container: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.95)',
@@ -136,10 +125,16 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     }
   }, [visible, initialIndex]);
 
-  const resolveSource = (source: string | { uri: string } | number) => {
-    if (!source) return null;
-    if (typeof source === 'string') return { uri: source };
-    if (typeof source === 'number') return source;
+  const resolveSource = (source: string | {uri: string} | number) => {
+    if (!source) {
+      return null;
+    }
+    if (typeof source === 'string') {
+      return {uri: source};
+    }
+    if (typeof source === 'number') {
+      return source;
+    }
     return source;
   };
 
@@ -178,14 +173,8 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
   };
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={onClose}
-      statusBarTranslucent
-    >
-      <View style={[styles.container, backgroundColor ? { backgroundColor } : undefined]}>
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose} statusBarTranslucent>
+      <View style={[styles.container, backgroundColor ? {backgroundColor} : undefined]}>
         <TouchableOpacity style={[styles.closeButton, closeButtonStyle]} onPress={handleClose}>
           <Text style={[styles.closeButtonText, closeButtonTextStyle]}>×</Text>
         </TouchableOpacity>
@@ -211,14 +200,10 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={handleScroll}
-        >
+          onMomentumScrollEnd={handleScroll}>
           {images.map((image, index) => (
             <View key={index} style={styles.imageContainer}>
-              <RNImage
-                source={resolveSource(image) || undefined}
-                style={styles.image}
-              />
+              <RNImage source={resolveSource(image) || undefined} style={styles.image} />
             </View>
           ))}
         </ScrollView>

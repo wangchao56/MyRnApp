@@ -7,7 +7,8 @@
   "targets": {
     "dev": {
       "executor": "nx:run-script",
-      "options": { "script": "dev" }
+      "options": { "script": "dev" },
+      "dependsOn": [{ "projects": "@myapp/jsbridge", "target": "build" }]
     },
     "build": {
       "executor": "nx:run-script",
@@ -24,7 +25,8 @@
     },
     "typecheck": {
       "executor": "nx:run-script",
-      "options": { "script": "typecheck" }
+      "options": { "script": "typecheck" },
+      "dependsOn": ["^build"]
     },
     "clean": {
       "executor": "nx:run-script",

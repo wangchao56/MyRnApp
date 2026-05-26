@@ -104,12 +104,12 @@ export function useScannerWithPermission(
         setHasPermission(true);
         return true;
       }
-      
+
       // For native platforms without vision camera package installed
       // Mock permission request
-      const granted = true; 
+      const granted = true;
       setHasPermission(granted);
-      
+
       if (!granted) {
         Alert.alert(
           options.permissionTitle || 'Camera Permission Required',
@@ -129,7 +129,7 @@ export function useScannerWithPermission(
           ]
         );
       }
-      
+
       return granted;
     } catch (err) {
       console.error('Failed to request camera permission:', err);

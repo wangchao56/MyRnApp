@@ -1,19 +1,5 @@
-import {
-  StyleSheet as RNStyleSheet,
-  ViewStyle,
-  TextStyle,
-  ImageStyle,
-  DimensionValue,
-} from 'react-native';
-import {
-  getThemedColors,
-  SPACING,
-  FONT_SIZES,
-  FONT_WEIGHTS,
-  BORDER_RADIUS,
-  SHADOWS,
-  type ThemedColors,
-} from './tokens';
+import {StyleSheet as RNStyleSheet, ViewStyle, TextStyle, ImageStyle} from 'react-native';
+import {getThemedColors, SPACING, FONT_SIZES, FONT_WEIGHTS, BORDER_RADIUS, SHADOWS, type ThemedColors} from './tokens';
 import {useTheme} from '../hooks';
 import {useMemo} from 'react';
 import {fitSize} from '../utils/responsive';
@@ -31,9 +17,7 @@ export interface ThemeContext {
   fz: typeof fitSize;
 }
 
-export type StyleSheetCreator<T extends NamedStyles<T>> = (
-  theme: ThemeContext,
-) => T;
+export type StyleSheetCreator<T extends NamedStyles<T>> = (theme: ThemeContext) => T;
 
 // 需要响应式处理的样式属性
 const RESPONSIVE_KEYS = new Set([
@@ -73,9 +57,7 @@ const RESPONSIVE_KEYS = new Set([
 ]);
 
 // 递归处理样式对象
-function processStyle<T extends ViewStyle | TextStyle | ImageStyle>(
-  style: T,
-): T {
+function processStyle<T extends ViewStyle | TextStyle | ImageStyle>(style: T): T {
   if (!style || typeof style !== 'object') {
     return style;
   }
@@ -88,11 +70,7 @@ function processStyle<T extends ViewStyle | TextStyle | ImageStyle>(
     if (typeof value === 'number' && RESPONSIVE_KEYS.has(key)) {
       // 数值类型且是需要适配的属性，自动应用 fitSize
       result[key] = fitSize(value);
-    } else if (
-      typeof value === 'object' &&
-      value !== null &&
-      !Array.isArray(value)
-    ) {
+    } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       // 嵌套对象（如 shadowOffset）递归处理
       result[key] = processStyle(value);
     } else {
@@ -103,9 +81,7 @@ function processStyle<T extends ViewStyle | TextStyle | ImageStyle>(
   return result as T;
 }
 
-export function createStyleSheet<T extends NamedStyles<T>>(
-  styles: StyleSheetCreator<T> | T,
-) {
+export function createStyleSheet<T extends NamedStyles<T>>(styles: StyleSheetCreator<T> | T) {
   // 静态样式：自动处理数值属性
   if (typeof styles === 'object' && !Array.isArray(styles)) {
     const processed: Partial<T> = {};
@@ -117,9 +93,7 @@ export function createStyleSheet<T extends NamedStyles<T>>(
   return styles;
 }
 
-export function useStyles<T extends NamedStyles<T>>(
-  styleCreator: StyleSheetCreator<T> | T,
-) {
+export function useStyles<T extends NamedStyles<T>>(styleCreator: StyleSheetCreator<T> | T) {
   const {isDarkMode} = useTheme();
 
   return useMemo(() => {
@@ -134,8 +108,7 @@ export function useStyles<T extends NamedStyles<T>>(
       fz: fitSize,
     };
 
-    const styles =
-      typeof styleCreator === 'function' ? styleCreator(theme) : styleCreator;
+    const styles = typeof styleCreator === 'function' ? styleCreator(theme) : styleCreator;
 
     return RNStyleSheet.create(styles);
   }, [isDarkMode]);

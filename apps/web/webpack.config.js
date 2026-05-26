@@ -1,9 +1,37 @@
+const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const rootDir = path.resolve(__dirname, '../..');
 const webDir = __dirname;
+const jsbridgeUmdDir = path.resolve(rootDir, 'packages/jsbridge/dist/umd');
+const jsbridgeUmdPath = path.resolve(jsbridgeUmdDir, 'jsbridge.min.js');
 const isDevelopment = process.env.NODE_ENV !== 'production';
+
+class EmitJsbridgeUmdPlugin {
+  apply(compiler) {
+    const {WebpackError, sources} = compiler.webpack;
+    compiler.hooks.thisCompilation.tap('EmitJsbridgeUmdPlugin', compilation => {
+      compilation.hooks.processAssets.tap(
+        {
+          name: 'EmitJsbridgeUmdPlugin',
+          stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
+        },
+        () => {
+          if (!fs.existsSync(jsbridgeUmdPath)) {
+            compilation.errors.push(
+              new WebpackError(
+                `jsbridge UMD not found at ${jsbridgeUmdPath}. Run "pnpm build:jsbridge" first.`,
+              ),
+            );
+            return;
+          }
+          compilation.emitAsset('jsbridge.min.js', new sources.RawSource(fs.readFileSync(jsbridgeUmdPath)));
+        },
+      );
+    });
+  }
+}
 const webBabelConfig = path.resolve(webDir, 'babel.config.js');
 const transpileModules = [
   'react-native',
@@ -39,10 +67,10 @@ module.exports = {
     alias: {
       'react-native$': 'react-native-web',
       '@react-native-vector-icons/get-image': path.resolve(webDir, 'src/shims/ReactNativeVectorIconsGetImage.js'),
+      'expo-font': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native-clipboard/clipboard': path.resolve(webDir, 'src/shims/react-native-clipboard.js'),
       'react-native-swiper-flatlist': path.resolve(rootDir, 'node_modules/react-native-swiper-flatlist'),
       '@myapp/shared': path.resolve(rootDir, 'packages/shared/src'),
-      '@myapp/jsbridge': path.resolve(rootDir, 'packages/jsbridge/src'),
     },
   },
   module: {
@@ -72,9 +100,11 @@ module.exports = {
     ],
   },
   plugins: [
+    new EmitJsbridgeUmdPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(rootDir, 'public/index.html'),
       filename: 'index.html',
+      inject: 'body',
     }),
   ],
   devServer: {
@@ -82,9 +112,16 @@ module.exports = {
     host: '0.0.0.0',
     hot: true,
     historyApiFallback: true,
-    static: {
-      directory: path.resolve(webDir, 'public'),
-    },
+    static: [
+      {
+        directory: path.resolve(webDir, 'public'),
+      },
+      {
+        directory: jsbridgeUmdDir,
+        publicPath: '/',
+        watch: true,
+      },
+    ],
     headers: {
       'Access-Control-Allow-Origin': '*',
     },

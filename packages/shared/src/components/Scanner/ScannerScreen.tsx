@@ -13,7 +13,7 @@ export default function ScannerScreen() {
     console.log('Scan Success:', data);
     setScanResult(data);
     setScanHistory((prev) => [data, ...prev.slice(0, 49)]);
-    
+
     Alert.alert(
       'Scan Success',
       `Scanned data: ${data}`,

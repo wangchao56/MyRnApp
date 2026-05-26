@@ -7,7 +7,7 @@ export const formatCurrency = (amount: number, currency: string = 'USD'): string
 
 export const formatDate = (date: Date | string, format: 'short' | 'long' = 'short'): string => {
   const d = typeof date === 'string' ? new Date(date) : date;
-  
+
   if (format === 'long') {
     return d.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -15,7 +15,7 @@ export const formatDate = (date: Date | string, format: 'short' | 'long' = 'shor
       day: 'numeric',
     });
   }
-  
+
   return d.toLocaleDateString('en-US', {
     year: 'numeric',
     month: '2-digit',
@@ -40,9 +40,9 @@ export const formatRelativeTime = (date: Date | string): string => {
   const diffHours = Math.floor(diffMins / 60);
   const diffDays = Math.floor(diffHours / 24);
 
-  if (diffSecs < 60) return 'just now';
-  if (diffMins < 60) return `${diffMins}m ago`;
-  if (diffHours < 24) return `${diffHours}h ago`;
-  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffSecs < 60) {return 'just now';}
+  if (diffMins < 60) {return `${diffMins}m ago`;}
+  if (diffHours < 24) {return `${diffHours}h ago`;}
+  if (diffDays < 7) {return `${diffDays}d ago`;}
   return formatDate(d, 'short');
 };

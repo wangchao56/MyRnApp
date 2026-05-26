@@ -54,7 +54,9 @@ const getPixelRatio = () => {
 };
 
 export const isGifImage = (uri: string): boolean => {
-  if (!uri) return false;
+  if (!uri) {
+    return false;
+  }
   const lowerUri = uri.toLowerCase();
   return lowerUri.endsWith('.gif') || lowerUri.includes('.gif?');
 };
@@ -78,9 +80,15 @@ export const processImageUrl = (
 ): string => {
   const {skipSize = false, notChangeSource = false, customSuffix, resizeOptions} = options;
 
-  if (!uri) return uri;
-  if (notChangeSource) return uri;
-  if (isGifImage(uri)) return uri;
+  if (!uri) {
+    return uri;
+  }
+  if (notChangeSource) {
+    return uri;
+  }
+  if (isGifImage(uri)) {
+    return uri;
+  }
 
   if (resizeOptions) {
     return processImageUrlWithResizeOptions(uri, resizeOptions);
@@ -134,7 +142,9 @@ export const processSource = (
   isPreview: boolean = false,
   options: ImageProcessOptions = {},
 ): ImageSource => {
-  if (!source) return source;
+  if (!source) {
+    return source;
+  }
 
   if (typeof source === 'number') {
     return source;
@@ -165,7 +175,9 @@ export const extractSizeFromStyle = (style: ImageStyle | ImageStyle[]): {width?:
 };
 
 export const isOssImage = (uri: string): boolean => {
-  if (!uri) return false;
+  if (!uri) {
+    return false;
+  }
   const ossDomains = ['aliyuncs.com', 'aliclouddn.com', 'taobaocdn.com', 'tbcdn.com'];
 
   try {
@@ -208,11 +220,17 @@ export const buildOssResizeParams = (options: OssResizeOptions): string => {
 };
 
 export const processImageUrlWithResizeOptions = (uri: string, resizeOptions: OssResizeOptions): string => {
-  if (!uri) return uri;
-  if (isGifImage(uri)) return uri;
+  if (!uri) {
+    return uri;
+  }
+  if (isGifImage(uri)) {
+    return uri;
+  }
 
   const processParams = buildOssResizeParams(resizeOptions);
-  if (!processParams) return uri;
+  if (!processParams) {
+    return uri;
+  }
 
   if (uri.includes('?')) {
     if (uri.includes('x-oss-process=')) {

@@ -119,17 +119,17 @@ export const Image: React.FC<ImageProps> = ({
   const mountedRef = useRef(true);
 
   const resolveSource = useCallback((src: ImageSource): any => {
-    if (!src) return null;
-    if (typeof src === 'string') return { uri: src };
-    if (typeof src === 'object' && 'uri' in src) return src;
+    if (!src) {return null;}
+    if (typeof src === 'string') {return { uri: src };}
+    if (typeof src === 'object' && 'uri' in src) {return src;}
     return src;
   }, []);
 
   const resolvedSource = resolveSource(source);
 
   const handleLoad = useCallback(() => {
-    if (!mountedRef.current) return;
-    
+    if (!mountedRef.current) {return;}
+
     setIsLoading(false);
     setHasError(false);
     onLoad?.();
@@ -145,7 +145,7 @@ export const Image: React.FC<ImageProps> = ({
 
   const handleError = useCallback(
     (error: any) => {
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) {return;}
 
       if (retryCount < maxRetryCount) {
         const timer = setTimeout(() => {
@@ -188,7 +188,7 @@ export const Image: React.FC<ImageProps> = ({
   }, [source, fadeIn, fadeAnim]);
 
   const renderPlaceholder = () => {
-    if (placeholderType === 'none' || !isLoading) return null;
+    if (placeholderType === 'none' || !isLoading) {return null;}
 
     if (placeholder) {
       return (
@@ -229,7 +229,7 @@ export const Image: React.FC<ImageProps> = ({
   };
 
   const renderError = () => {
-    if (!hasError || isLoading) return null;
+    if (!hasError || isLoading) {return null;}
 
     if (fallbackSource) {
       return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, ActivityIndicator, Alert, Platform } from 'react-native';
+import { View, Text, Button, StyleSheet, Alert, Platform } from 'react-native';
 import { useClipboard } from '../../hooks';
 import { CopyButton } from '../CopyButton';
 

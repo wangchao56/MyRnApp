@@ -82,7 +82,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   const [isCopied, setIsCopied] = useState(false);
 
   const handlePress = async () => {
-    if (disabled) return;
+    if (disabled) {return;}
 
     try {
       await setString(text);

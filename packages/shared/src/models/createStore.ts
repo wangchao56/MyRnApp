@@ -4,9 +4,9 @@ import { Storage } from '../utils/storage';
 let store: RootStoreType | null = null;
 
 export const createRootStore = async (): Promise<RootStoreType> => {
-  if (store) return store;
+  if (store) {return store;}
 
-  let initialSnapshot: any = undefined;
+  let initialSnapshot: any;
   try {
     initialSnapshot = await Storage.getJSON('rootStore');
     if (!initialSnapshot || typeof initialSnapshot !== 'object' || Array.isArray(initialSnapshot)) {

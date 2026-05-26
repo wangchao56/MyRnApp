@@ -1,10 +1,12 @@
 ---
-title: iOS 开发指�?date: 2024-01-15
+title: iOS ????
+date: 2024-01-15
 tags:
   - ios
   - react-native
-  - 开发指�?aliases:
-  - iOS开发流�?  - iOS Setup Guide
+aliases:
+  - iOS????
+  - iOS Setup Guide
 status: completed
 ---
 

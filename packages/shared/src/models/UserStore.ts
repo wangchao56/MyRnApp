@@ -59,7 +59,7 @@ export const UserStore = types
     }),
 
     updateUser: flow(function* (userData: Partial<Instance<typeof UserModel>>) {
-      if (!self.user) return;
+      if (!self.user) {return;}
       Object.assign(self.user, userData);
       yield Storage.setItem('user', { ...self.user });
     }),

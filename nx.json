@@ -29,6 +29,7 @@
       "inputs": ["default", "^default"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false
     },
     "clean": {
