@@ -6,9 +6,10 @@ const appDir = path.resolve(__dirname, 'apps/mobile');
 const webDir = path.resolve(__dirname, 'apps/web');
 
 const transpileModules = [
+  'react-native',
+  '@react-native',
   '@react-navigation',
   'react-native-screens',
-  'react-native-safe-area-context',
   'react-native-vector-icons',
   '@react-native-vector-icons',
   'react-native-swiper-flatlist',
@@ -39,21 +40,14 @@ module.exports = {
     extensions: ['.web.tsx', '.web.ts', '.tsx', '.ts', '.jsx', '.js', '.json'],
     alias: {
       'react-native$': 'react-native-web',
+      'react-native-safe-area-context': path.resolve(webDir, 'src/shims/react-native-safe-area-context.js'),
       'react-native-screens': path.resolve(webDir, 'src/shims/empty.js'),
-      'react-native-safe-area-context': path.resolve(
-        __dirname,
-        'node_modules/.pnpm/react-native-safe-area-context@4.14.1_react-native@0.74.7_react@18.2.0/node_modules/react-native-safe-area-context/src/index.tsx',
-      ),
-      'react-native/Libraries/Utilities/codegenNativeComponent': path.resolve(webDir, 'src/shims/empty.js'),
-      'react-native/Libraries/Utilities/codegenNativeCommands': path.resolve(webDir, 'src/shims/empty.js'),
+      'react-native-vector-icons': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native/assets-registry': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native/assets-registry/registry': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native/assets-registry/path-support': path.resolve(webDir, 'src/shims/empty.js'),
       '@react-native-vector-icons/get-image': path.resolve(webDir, 'src/shims/ReactNativeVectorIconsGetImage.js'),
-      'react-native-vector-icons': path.resolve(
-        __dirname,
-        'node_modules/.pnpm/react-native-vector-icons@10.3.0/node_modules/react-native-vector-icons',
-      ),
+      '@react-native-clipboard/clipboard': path.resolve(webDir, 'src/shims/react-native-clipboard.js'),
       'react-native-swiper-flatlist': path.resolve(
         __dirname,
         'node_modules/.pnpm/react-native-swiper-flatlist@3.2.5_react-native@0.74.7/node_modules/react-native-swiper-flatlist',
@@ -98,10 +92,6 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|webp)$/,
         type: 'asset/resource',
         generator: {filename: 'assets/images/[name][ext]'},
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(ttf|otf|woff2?)$/,

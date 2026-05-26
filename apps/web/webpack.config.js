@@ -39,6 +39,7 @@ module.exports = {
     alias: {
       'react-native$': 'react-native-web',
       '@react-native-vector-icons/get-image': path.resolve(webDir, 'src/shims/ReactNativeVectorIconsGetImage.js'),
+      '@react-native-clipboard/clipboard': path.resolve(webDir, 'src/shims/react-native-clipboard.js'),
       'react-native-swiper-flatlist': path.resolve(rootDir, 'node_modules/react-native-swiper-flatlist'),
       '@myapp/shared': path.resolve(rootDir, 'packages/shared/src'),
       '@myapp/jsbridge': path.resolve(rootDir, 'packages/jsbridge/src'),

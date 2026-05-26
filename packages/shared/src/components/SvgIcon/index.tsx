@@ -44,7 +44,11 @@ export const SvgIcon: React.FC<SvgIconProps> = ({name, size = 'md', color, style
       name={name as MaterialIconName}
       size={iconSize}
       color={iconColor}
-      style={[isDisabled && styles.disabled, style] as any}
+      style={[
+        isDisabled && styles.disabled,
+        Platform.OS === 'web' && {lineHeight: iconSize},
+        style,
+      ] as any}
     />
   );
 
