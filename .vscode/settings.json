@@ -1,7 +1,9 @@
 {
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "github-actions.workflows.pinned.workflows": [".github/workflows/docs.yml"],
+  "github-actions.use-enterprise": false,
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": [".github/workflows/*.yml"]
-  }
+  },
+  "yaml.validate": true
 }
