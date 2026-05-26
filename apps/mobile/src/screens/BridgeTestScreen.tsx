@@ -44,7 +44,7 @@ export const BridgeTestScreen: React.FC = () => {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <HybridWebView
         ref={webviewRef}
-        source={{ uri: "http://192.168.31.49:3000/bridge-test" }}
+        source={{ uri: "http://192.168.1.167:3000/bridge-test" }}
         onBridgeMessage={handleBridgeMessage}
         // renderLoading={renderLoading}
         webviewDebuggingEnabled={true}  // Android 专用属性

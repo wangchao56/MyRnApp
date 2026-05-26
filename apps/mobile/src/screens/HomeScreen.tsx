@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Dimensions, ImageBackground, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {ImageBackground, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {
   Button,
   Card,
@@ -19,7 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigators/RouteType';
 
-const {width} = Dimensions.get('window');
+const SWIPER_HEIGHT = 200;
 
 const IMAGE_ONE = 'https://picsum.photos/600/400?random=11';
 const IMAGE_TWO = 'https://picsum.photos/600/400?random=12';
@@ -33,7 +33,22 @@ export const HomeScreenCom: React.FC = () => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const [swiperWidth, setSwiperWidth] = useState(width - 32); // 初始宽度，考虑到Card的padding
+  const [swiperWidth, setSwiperWidth] = useState(0);
+
+  const handleSwiperLayout = useCallback((layoutWidth: number) => {
+    if (layoutWidth > 0) {
+      setSwiperWidth(prev => (prev === layoutWidth ? prev : layoutWidth));
+    }
+  }, []);
+
+  const swiperItemLayout = useCallback(
+    (_: unknown, index: number) => ({
+      length: swiperWidth,
+      offset: swiperWidth * index,
+      index,
+    }),
+    [swiperWidth],
+  );
 
   // const backgroundColor = isDarkMode ? colors.darkGray : colors.background;
 
@@ -55,8 +70,8 @@ export const HomeScreenCom: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container]} edges={['top','bottom','left','right']}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <SafeAreaView style={[styles.container]} edges={['top', 'left', 'right']}>
+      <ScrollView contentContainerStyle={styles.content} nestedScrollEnabled showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Welcome to MyRnApp</Text>
         <Text style={styles.subtitle}>Native image component examples</Text>
 
@@ -81,7 +96,7 @@ export const HomeScreenCom: React.FC = () => {
           />
           <Button
             title="Clipboard Test"
-            onPress={() => navigation.navigate('ClipboardTest')}
+            onPress={() => navigation.navigate('BridgeTest')}
             variant="outline"
             style={{marginTop: 8}}
           />
@@ -151,26 +166,30 @@ export const HomeScreenCom: React.FC = () => {
           images={[IMAGE_ONE, IMAGE_TWO, IMAGE_THREE]}
           onClose={() => setPreviewVisible(false)}
         />
-        <Card
-          style={styles.card}
-          onLayout={e => {
-            const {width: layoutWidth} = e.nativeEvent.layout;
-            console.log(layoutWidth);
-
-            setSwiperWidth(layoutWidth);
-          }}>
-          <SwiperFlatList
-            index={0} // 初始索引
-            showPagination // 显示底部小圆点
-            paginationDefaultColor="rgba(255,255,255,0.5)"
-            paginationActiveColor="white"
-            data={colorsItem}
-            renderItem={({item}) => (
-              <View style={[styles.child, {backgroundColor: item, width: swiperWidth - 32}]}>
-                <Text style={styles.text}>{item}</Text>
-              </View>
+        <Card style={styles.card}>
+          <Text style={styles.cardTitle}>Swiper</Text>
+          <View
+            style={styles.swiperContainer}
+            onLayout={e => handleSwiperLayout(e.nativeEvent.layout.width)}>
+            {swiperWidth > 0 ? (
+              <SwiperFlatList
+                key={swiperWidth}
+                index={0}
+                showPagination
+                paginationDefaultColor="rgba(255,255,255,0.5)"
+                paginationActiveColor="white"
+                data={colorsItem}
+                getItemLayout={swiperItemLayout}
+                renderItem={({item}) => (
+                  <View style={[styles.swiperSlide, {backgroundColor: item, width: swiperWidth}]}>
+                    <Text style={styles.text}>{item}</Text>
+                  </View>
+                )}
+              />
+            ) : (
+              <View style={styles.swiperPlaceholder} />
             )}
-          />
+          </View>
         </Card>
       </ScrollView>
     </SafeAreaView>
@@ -248,7 +267,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 20,
   },
-  child: {width: '100%', height: 200, justifyContent: 'center', alignItems: 'center'},
+  swiperContainer: {
+    width: '100%',
+    height: SWIPER_HEIGHT,
+    overflow: 'hidden',
+    borderRadius: 8,
+  },
+  swiperPlaceholder: {
+    flex: 1,
+    backgroundColor: colors.lightGray,
+    borderRadius: 8,
+  },
+  swiperSlide: {
+    height: SWIPER_HEIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {fontSize: 30, textAlign: 'center', color: 'white', fontWeight: 'bold'},
 });
 

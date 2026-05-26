@@ -12,6 +12,7 @@ import { ClipboardTestScreen } from '../screens/ClipboardTestScreen';
 import { colors } from '@myapp/shared';
 import { useTheme } from '@react-navigation/native';
 import { View, Platform, StyleSheet, Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { observer } from 'mobx-react-lite';
 
 export type MainTabParamList = {
@@ -44,8 +45,12 @@ const TabIcon: React.FC<TabIconProps> = ({ name, focused, isDarkMode }) => (
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const TAB_BAR_CONTENT_HEIGHT = 56;
+
 const MainTabsComponent: React.FC = () => {
   const { dark: isDarkMode } = useTheme();
+  const insets = useSafeAreaInsets();
+  const bottomInset = Platform.OS === 'ios' ? insets.bottom : 0;
 
   return (
     <Tab.Navigator
@@ -55,11 +60,18 @@ const MainTabsComponent: React.FC = () => {
         tabBarStyle: {
           backgroundColor: isDarkMode ? colors.darkGray : colors.white,
           borderTopColor: isDarkMode ? colors.gray : colors.lightGray,
-          position: Platform.OS === 'web' ? 'absolute' : undefined,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 60,
+          paddingBottom: bottomInset,
+          height: TAB_BAR_CONTENT_HEIGHT + bottomInset,
+          ...(Platform.OS === 'web'
+            ? {
+                position: 'absolute' as const,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 60,
+                paddingBottom: 0,
+              }
+            : null),
         },
         headerShown: false,
       }}>

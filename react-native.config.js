@@ -6,5 +6,6 @@ module.exports = {
     ios: {
       sourceDir: 'ios',
     },
-  }
+  },
+  assets: ['./node_modules/@react-native-vector-icons/material-icons/fonts/'],
 };

@@ -17,7 +17,6 @@ const config = {
     extraNodeModules: {
       '@myapp/shared': path.resolve(sharedRoot, 'src'),
       '@myapp/jsbridge': path.resolve(jsbridgeRoot, 'src'),
-      '@react-native-vector-icons/material-icons': path.resolve(projectRoot, 'node_modules/@react-native-vector-icons/material-icons'),
     },
     sourceExts: ['js', 'jsx', 'json', 'ts', 'tsx'],
   },
