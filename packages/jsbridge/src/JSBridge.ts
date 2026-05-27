@@ -13,7 +13,7 @@ declare var process: {
   };
 };
 import { EnvDetector } from './env';
-import { ShareAdapter, getAdaptersForPlatform, ClipboardAdapter } from './share-adapters';
+import { ShareAdapter, getAdaptersForPlatform, WebShareAdapter } from './share-adapters';
 
 type PendingCallback = {
   resolve: (value: any) => void;
@@ -271,7 +271,7 @@ class JSBridge {
       }
     }
 
-    const fallbackAdapter = new ClipboardAdapter();
+    const fallbackAdapter = new WebShareAdapter();
     if (await fallbackAdapter.isAvailable()) {
       return fallbackAdapter.share(options);
     }

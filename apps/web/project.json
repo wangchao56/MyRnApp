@@ -8,7 +8,10 @@
     "dev": {
       "executor": "nx:run-script",
       "options": { "script": "dev" },
-      "dependsOn": [{ "projects": "@myapp/jsbridge", "target": "build" }]
+      "dependsOn": [
+        { "projects": "@myapp/jsbridge", "target": "build" },
+        { "projects": "@myapp/nativeshare", "target": "build" }
+      ]
     },
     "build": {
       "executor": "nx:run-script",

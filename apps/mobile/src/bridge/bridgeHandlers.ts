@@ -1,5 +1,7 @@
 import { ActionHandlers, ShareOptions as NewShareOptions, ShowLoadingOptions } from '@myapp/jsbridge';
-import { Alert, Platform, Share } from 'react-native';
+import { shareNative, shareOptionsToShareData } from '@myapp/share';
+import type { ShareData } from '@myapp/share';
+import { Alert, Platform } from 'react-native';
 
 // 全局 loading 状态管理器
 interface LoadingState {
@@ -96,38 +98,30 @@ export const bridgeHandlers: ActionHandlers = {
     console.log('[BridgeHandler] share called with options:', options);
 
     try {
-      let shareTitle: string | undefined;
-      let shareMessage: string;
-      let shareUrl: string | undefined;
+      let shareData: ShareData;
 
-      if ('link' in (options || {})) {
-        const newOptions = options as NewShareOptions;
-        shareTitle = newOptions.title;
-        shareMessage = newOptions.desc || '';
-        shareUrl = newOptions.link;
+      if (options && 'link' in options) {
+        shareData = shareOptionsToShareData(options as NewShareOptions);
       } else {
-        const legacyOptions = options as LegacyShareOptions;
-        shareTitle = legacyOptions.title;
-        shareMessage =
-          Platform.OS === 'ios'
-            ? legacyOptions?.text ?? ''
-            : [legacyOptions?.text, legacyOptions?.url].filter(Boolean).join('\n') ||
-              legacyOptions?.title ||
-              '';
-        shareUrl = legacyOptions?.url;
+        const legacyOptions = (options || {}) as LegacyShareOptions;
+        shareData = {
+          title: legacyOptions.title ?? '',
+          message:
+            Platform.OS === 'ios'
+              ? legacyOptions.text ?? ''
+              : [legacyOptions.text, legacyOptions.url].filter(Boolean).join('\n') ||
+                legacyOptions.title ||
+                '',
+          url: legacyOptions.url ?? '',
+        };
       }
 
-      const result = await Share.share({
-        title: shareTitle,
-        message: shareMessage,
-        url: shareUrl,
-      });
+      const result = await shareNative(shareData);
 
-      if (result.action === Share.dismissedAction) {
-        return { success: false, error: 'User dismissed' };
-      }
-
-      return { success: true };
+      return {
+        success: result.success,
+        error: result.error,
+      };
     } catch (error) {
       return {
         success: false,

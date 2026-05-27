@@ -1,0 +1,28 @@
+{
+  "name": "@myapp/share",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/share/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:lib"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-script",
+      "options": { "script": "build" },
+      "dependsOn": ["@myapp/nativeshare:build"],
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "typecheck": {
+      "executor": "nx:run-script",
+      "options": { "script": "typecheck" },
+      "dependsOn": ["@myapp/nativeshare:build"]
+    },
+    "lint": {
+      "executor": "nx:run-script",
+      "options": { "script": "lint" }
+    },
+    "clean": {
+      "executor": "nx:run-script",
+      "options": { "script": "clean" }
+    }
+  }
+}

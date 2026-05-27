@@ -71,6 +71,10 @@ module.exports = {
       '@react-native-clipboard/clipboard': path.resolve(webDir, 'src/shims/react-native-clipboard.js'),
       'react-native-swiper-flatlist': path.resolve(rootDir, 'node_modules/react-native-swiper-flatlist'),
       '@myapp/shared': path.resolve(rootDir, 'packages/shared/src'),
+      '@myapp/share': path.resolve(rootDir, 'packages/share/src'),
+      '@myapp/nativeshare': path.resolve(rootDir, 'packages/nativeshare/dist/index.js'),
+      '@react-native-oh-library/react-native-share': path.resolve(webDir, 'src/shims/empty.js'),
+      'react-native-share': path.resolve(webDir, 'src/shims/empty.js'),
     },
   },
   module: {

@@ -9,6 +9,7 @@ import { ProfileScreen } from '../screens/ProfileScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { MediaSaveTestScreen } from '../screens/MediaSaveTestScreen';
 import { ClipboardTestScreen } from '../screens/ClipboardTestScreen';
+import { ShareTestScreen } from '../screens/ShareTestScreen';
 import { colors } from '@myapp/shared';
 import { useTheme } from '@react-navigation/native';
 import { View, Platform, StyleSheet, Text } from 'react-native';
@@ -21,6 +22,7 @@ export type MainTabParamList = {
   Settings: undefined;
   MediaTest: undefined;
   ClipboardTest: undefined;
+  ShareTest: undefined;
   MyModal: undefined;
 };
 
@@ -103,6 +105,14 @@ const MainTabsComponent: React.FC = () => {
         options={{
           tabBarLabel: 'Clipboard',
           tabBarIcon: ({ focused }) => <TabIcon name="Clipboard" focused={focused} isDarkMode={isDarkMode} />,
+        }}
+      />
+      <Tab.Screen
+        name="ShareTest"
+        component={ShareTestScreen}
+        options={{
+          tabBarLabel: 'Share',
+          tabBarIcon: ({ focused }) => <TabIcon name="Share" focused={focused} isDarkMode={isDarkMode} />,
         }}
       />
       <Tab.Screen

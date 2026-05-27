@@ -43,7 +43,6 @@ export default defineConfig({
           { text: '打包构建', link: '/A02-打包构建' },
           { text: 'Web 产物打包', link: '/A03-Web产物打包' },
           { text: '各大版本之间的区别', link: '/A04-各大版本之间的区别' },
-          { text: 'RN 0.77 迁移指南', link: '/A05-RN077迁移指南' },
           { text: '全平台主动分享方案', link: '/A06-全平台主动分享方案' },
           { text: '全平台 Toast 组件', link: '/A07-全平台 Toast 组件设计与开发方案' },
           { text: 'Nx 使用指南', link: '/B04-Nx使用指南' },

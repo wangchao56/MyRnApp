@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@myapp/jsbridge": "workspace:*",
-    "@myapp/shared": "workspace:*"
+    "@myapp/shared": "workspace:*",
+    "@myapp/share": "workspace:*"
   }
 }

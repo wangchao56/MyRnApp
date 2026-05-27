@@ -5,7 +5,10 @@
     "baseUrl": ".",
     "paths": {
       "@myapp/shared": ["../../packages/shared/src"],
-      "@myapp/shared/*": ["../../packages/shared/src/*"]
+      "@myapp/shared/*": ["../../packages/shared/src/*"],
+      "@myapp/share": ["../../packages/share/src"],
+      "@myapp/share/*": ["../../packages/share/src/*"],
+      "@myapp/nativeshare": ["../../packages/nativeshare/dist/index.d.ts"]
     },
     "experimentalDecorators": true,
     "useDefineForClassFields": true,

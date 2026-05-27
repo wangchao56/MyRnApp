@@ -1,0 +1,31 @@
+{
+  "name": "@myapp/nativeshare",
+  "version": "1.0.0-fork.1",
+  "description": "Forked from fa-ge/NativeShare - Unified mobile browser sharing (TypeScript ESM)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "fa-ge (original), MyRnApp (maintainer)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fa-ge/NativeShare.git"
+  },
+  "keywords": ["share", "NativeShare", "browser"],
+  "scripts": {
+    "build": "tsc",
+    "build:umd": "webpack --mode production --config webpack.config.js",
+    "typecheck": "tsc --noEmit",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  }
+}

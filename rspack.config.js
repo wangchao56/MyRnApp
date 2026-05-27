@@ -54,6 +54,10 @@ module.exports = {
         'node_modules/.pnpm/react-native-swiper-flatlist@3.2.5_react-native@0.74.7/node_modules/react-native-swiper-flatlist',
       ),
       '@myapp/shared': path.resolve(__dirname, 'packages/shared/src'),
+      '@myapp/share': path.resolve(__dirname, 'packages/share/src'),
+      '@myapp/nativeshare': path.resolve(__dirname, 'packages/nativeshare/dist/index.js'),
+      '@react-native-oh-library/react-native-share': path.resolve(webDir, 'src/shims/empty.js'),
+      'react-native-share': path.resolve(webDir, 'src/shims/empty.js'),
     },
   },
   module: {

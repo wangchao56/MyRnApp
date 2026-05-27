@@ -8,6 +8,7 @@
     "build": {
       "executor": "nx:run-script",
       "options": { "script": "build" },
+      "dependsOn": ["@myapp/share:build", "@myapp/nativeshare:build"],
       "outputs": ["{projectRoot}/dist"]
     },
     "dev": {

@@ -3,6 +3,7 @@ import {Platform, StatusBar, StyleSheet, View, useColorScheme} from 'react-nativ
 import {NavigationContainerRef} from '@react-navigation/native';
 import {SafeAreaProvider, initialWindowMetrics} from 'react-native-safe-area-context';
 import {StoreProvider} from '@myapp/shared';
+import {setupDefaultShare} from '@myapp/share';
 import {AppNavigator, setRootNavigation, RootStackParamList} from './navigators';
 import {NavigationProvider} from './navigators/NavigationProvider';
 
@@ -24,9 +25,17 @@ function App() {
   const navigationRef = useRef<NavigationContainerRef<RootStackParamList>>(null);
   const isDarkMode = useColorScheme() === 'dark';
 
-  // 设置全局导航引用
   useEffect(() => {
     setRootNavigation(navigationRef.current!);
+    if (Platform.OS === 'web') {
+      setupDefaultShare({
+        onNotify: (message) => {
+          if (typeof window !== 'undefined') {
+            window.alert(message);
+          }
+        },
+      });
+    }
   }, []);
 
   return (

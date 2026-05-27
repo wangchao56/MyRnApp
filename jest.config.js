@@ -3,6 +3,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '^@myapp/shared(.*)$': '<rootDir>/packages/shared/src$1',
+    '^@myapp/share(.*)$': '<rootDir>/packages/share/src$1',
+    '^@myapp/nativeshare$': '<rootDir>/packages/nativeshare/dist/index.js',
     '^@myapp/jsbridge(.*)$': '<rootDir>/packages/jsbridge/dist/cjs$1',
     'react-native$': 'react-native-web',
   },

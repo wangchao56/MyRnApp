@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["DOM", "ES2020"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "rootDir": "..",
+    "baseUrl": ".",
+    "paths": {
+      "@myapp/nativeshare": ["../nativeshare/dist/index.js"]
+    }
+  },
+  "include": ["src/**/*", "../share/src/**/*.ts"]
+}
